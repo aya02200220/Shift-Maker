@@ -1,5 +1,5 @@
-// import { connectMongoDB } from "@/lib/mongodb";
-// import User from "@/models/user";
+import { connectMongoDB } from "@/lib/mongodb";
+import User from "@/models/user";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -14,6 +14,7 @@ const authOptions = {
     async signIn({ user, account }) {
       if (account.provider === "google") {
         const { name, email } = user;
+        // console.log(name, email);
         try {
           await connectMongoDB();
           const userExists = await User.findOne({ email });
@@ -32,10 +33,12 @@ const authOptions = {
 
             if (res.ok) {
               return user;
+              console.log("確認");
             }
           }
         } catch (error) {
           console.log(error);
+          console.log("確認２");
         }
       }
 
