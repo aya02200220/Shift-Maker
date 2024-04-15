@@ -9,22 +9,34 @@ export default function Main() {
 
   if (status === "authenticated") {
     return (
-      <div className="shadow-xl p-8 rounded-md flex flex-col gap-3 bg-yellow-200">
-        <Image
-          className="rounded-full"
-          src={session?.user?.image}
-          width={60}
-          height={60}
-        />
+      <div className="flex flex-col mt-4">
         <div>
-          Name: <span className="font-bold">{session?.user?.name}</span>
+          <div>hello</div>
         </div>
-        <div>
-          Email: <span className="font-bold">{session?.user?.email}</span>
+
+        <div className="mt-2 shadow-xl p-8 rounded-md flex flex-col gap-3 bg-yellow-200">
+          <Image
+            className="rounded-full"
+            src={session?.user?.image}
+            width={60}
+            height={60}
+          />
+          <div>
+            Name: <span className="font-bold">{session?.user?.name}</span>
+          </div>
+          <div>
+            Email: <span className="font-bold">{session?.user?.email}</span>
+          </div>
         </div>
       </div>
     );
   } else {
-    return <SignInBtn />;
+    return (
+      <>
+        <div className="text-[30px] font-semibold  text-stone-400">
+          Login to Get to Work!!
+        </div>
+      </>
+    );
   }
 }

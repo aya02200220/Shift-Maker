@@ -14,7 +14,6 @@ const authOptions = {
     async signIn({ user, account }) {
       if (account.provider === "google") {
         const { name, email } = user;
-        // console.log(name, email);
         try {
           await connectMongoDB();
           const userExists = await User.findOne({ email });
@@ -33,12 +32,10 @@ const authOptions = {
 
             if (res.ok) {
               return user;
-              console.log("確認");
             }
           }
         } catch (error) {
           console.log(error);
-          console.log("確認２");
         }
       }
 
