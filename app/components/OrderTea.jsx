@@ -1,27 +1,19 @@
-"use client";
-// OrderTea.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const OrderTea = () => {
-  // フォーム入力値の状態を管理するためのステート
   const [teaOrder, setTeaOrder] = useState({
-    name: "",
-    unopened: 0,
-    opened: 0,
-    tin: 0,
-    order: 0,
+    orderDetails: [],
   });
 
-  // データを取得して表示するためのステート
   const [previousOrder, setPreviousOrder] = useState(null);
 
-  // コンポーネントがマウントされたときに前回のオーダーを取得
   useEffect(() => {
     async function fetchPreviousOrder() {
       try {
         const response = await axios.get("/api/latest-teaOrder");
         setPreviousOrder(response.data);
+        console.log("Previous order:", response.data); // ここでコンソールに出力
       } catch (error) {
         console.error("Error fetching previous order:", error);
       }
@@ -30,26 +22,17 @@ const OrderTea = () => {
     fetchPreviousOrder();
   }, []);
 
-  // フォームの入力値が変更されたときのハンドラー
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setTeaOrder({ ...teaOrder, [name]: value });
   };
 
-  // オーダーボタンがクリックされたときのハンドラー
   const handleOrderButtonClick = async () => {
     try {
-      // APIを呼び出してデータを保存
       await axios.post("/api/teaOrder", teaOrder);
-      // 保存後にフォームをクリア
       setTeaOrder({
-        name: "",
-        unopened: 0,
-        opened: 0,
-        tin: 0,
-        order: 0,
+        orderDetails: [],
       });
-      // 保存後に最新のオーダーを再取得して更新
       const response = await axios.get("/api/latest-teaOrder");
       setPreviousOrder(response.data);
     } catch (error) {
@@ -60,62 +43,33 @@ const OrderTea = () => {
   return (
     <div>
       <h2>Tea Order</h2>
-      {previousOrder && (
+      {previousOrder && previousOrder.latestTeaOrder.orderDetails && (
         <div>
           <h3>Previous Order</h3>
-          <p>Name: {previousOrder.name}</p>
-          <p>Unopened: {previousOrder.unopened}</p>
-          <p>Opened: {previousOrder.opened}</p>
-          <p>Tin: {previousOrder.tin}</p>
-          <p>Order: {previousOrder.order}</p>
+          <ul>
+            {previousOrder.latestTeaOrder.orderDetails.map((detail, index) => (
+              <li key={index}>
+                <p>Name: {detail.teaName}</p>
+                <p>Unopened: {detail.unopened}</p>
+                <p>Opened: {detail.opened}</p>
+                <p>Tin: {detail.tin}</p>
+                <p>Order: {detail.order}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       <form>
         <label>
-          Name:
+          Tea Name:
           <input
             type="text"
-            name="name"
-            value={teaOrder.name}
+            name="teaName"
+            value={teaOrder.teaName || ""}
             onChange={handleInputChange}
           />
         </label>
-        <label>
-          Unopened:
-          <input
-            type="number"
-            name="unopened"
-            value={teaOrder.unopened}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Opened:
-          <input
-            type="number"
-            name="opened"
-            value={teaOrder.opened}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Tin:
-          <input
-            type="number"
-            name="tin"
-            value={teaOrder.tin}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Order:
-          <input
-            type="number"
-            name="order"
-            value={teaOrder.order}
-            onChange={handleInputChange}
-          />
-        </label>
+        {/* Additional inputs for 'unopened', 'opened', 'tin', 'order' */}
         <button
           className="bg-blue-400 rounded-sm p-4"
           type="button"
