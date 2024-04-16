@@ -20,44 +20,47 @@ export default function Main() {
 
   if (status === "authenticated") {
     return (
-      <div className="flex flex-col mt-4 ">
-        <ToggleButtonGroup
-          value={alignment}
-          exclusive
-          onChange={handleAlignment}
-          aria-label="text alignment"
-        >
-          <ToggleButton
-            className="w-[100px] h-[30px] "
-            value="left"
-            aria-label="left aligned"
-            size="small"
+      <>
+        {/* <OrderTea /> */}
+        <div className="flex flex-col mt-4 ">
+          <ToggleButtonGroup
+            value={alignment}
+            exclusive
+            onChange={handleAlignment}
+            aria-label="text alignment"
           >
-            Tea
-          </ToggleButton>
-          <ToggleButton
-            className="w-[100px] h-[30px]"
-            value="center"
-            aria-label="centered"
-            size="small"
-          >
-            Tierney's
-          </ToggleButton>
-          <ToggleButton
-            className="w-[100px] h-[30px]"
-            value="right"
-            aria-label="right aligned"
-            size="small"
-          >
-            Schedule
-          </ToggleButton>
-        </ToggleButtonGroup>
-        <div className="mt-8">
-          {alignment === "left" && <OrderTea />}
-          {alignment === "center" && <OderTierneys />}
-          {alignment === "right" && <Schedule />}
+            <ToggleButton
+              className="w-[100px] h-[30px] "
+              value="left"
+              aria-label="left aligned"
+              size="small"
+            >
+              Tea
+            </ToggleButton>
+            <ToggleButton
+              className="w-[100px] h-[30px]"
+              value="center"
+              aria-label="centered"
+              size="small"
+            >
+              Tierney's
+            </ToggleButton>
+            <ToggleButton
+              className="w-[100px] h-[30px]"
+              value="right"
+              aria-label="right aligned"
+              size="small"
+            >
+              Schedule
+            </ToggleButton>
+          </ToggleButtonGroup>
+          <div className="mt-8">
+            {alignment === "left" && <OrderTea />}
+            {alignment === "center" && <OderTierneys />}
+            {alignment === "right" && <Schedule />}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return (

@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
 const OrderTea = () => {
   const [teaOrder, setTeaOrder] = useState({
     orderDetails: [],
@@ -42,21 +50,53 @@ const OrderTea = () => {
 
   return (
     <div>
-      <h2>Tea Order</h2>
+      <h3 className="text-xl">Previous Order</h3>
+
       {previousOrder && previousOrder.latestTeaOrder.orderDetails && (
         <div>
-          <h3>Previous Order</h3>
-          <ul>
-            {previousOrder.latestTeaOrder.orderDetails.map((detail, index) => (
-              <li key={index}>
-                <p>Name: {detail.teaName}</p>
-                <p>Unopened: {detail.unopened}</p>
-                <p>Opened: {detail.opened}</p>
-                <p>Tin: {detail.tin}</p>
-                <p>Order: {detail.order}</p>
-              </li>
-            ))}
-          </ul>
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell className="w-[100px]" align="right">
+                    Unopend
+                  </TableCell>
+                  <TableCell className="w-[100px]" align="right">
+                    Opened&nbsp;(%)
+                  </TableCell>
+                  <TableCell className="w-[100px]" align="right">
+                    Tin&nbsp;(%)
+                  </TableCell>
+                  <TableCell className="w-[100px]" align="right">
+                    Order
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {previousOrder.latestTeaOrder.orderDetails.map(
+                  (detail, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {detail.teaName}
+                      </TableCell>
+                      <TableCell align="right">{detail.unopened}</TableCell>
+                      <TableCell align="right">{detail.opened}</TableCell>
+                      <TableCell align="right">{detail.tin}</TableCell>
+                      <TableCell align="right">{detail.order}</TableCell>
+                    </TableRow>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       )}
       <form>
