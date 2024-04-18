@@ -10,7 +10,6 @@ export async function GET(request) {
 
     // 最新の teaOrder を取得
     const latestTeaOrder = await TeaOrder.findOne().sort({ createdAt: -1 });
-
     if (!latestTeaOrder) {
       // 最新の teaOrder が見つからない場合はエラーレスポンスを返す
       return NextResponse.json(

@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { format } from "date-fns";
 
 const OrderTea = () => {
-  const [teaOrder, setTeaOrder] = useState({
-    orderDetails: [],
-  });
-
   const [previousOrder, setPreviousOrder] = useState(null);
+  const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
+
+  const formattedDate = previousOrderDate
+    ? format(previousOrderDate, "MMMM d (h:mm a)")
+    : "";
 
   useEffect(() => {
     async function fetchPreviousOrder() {
       try {
         const response = await axios.get("/api/latest-teaOrder");
-        setPreviousOrder(response.data);
+        // setPreviousOrder(response.data);
+        setPreviousOrderDate(response.data.latestTeaOrder.orderDate);
+        setPreviousOrder(response.data.latestTeaOrder.orderDetails);
+
         const initialTodaysOrder =
           response.data.latestTeaOrder.orderDetails.map((detail) => ({
             ...detail,
-            unopened: "", // 新しいオーダーのための初期値を設定する
+            unopened: "",
             opened: "",
             tin: "",
             order: "",
@@ -41,25 +46,34 @@ const OrderTea = () => {
   };
 
   const handleOrderButtonClick = async () => {
-    console.log("todaysOrder Update:", todaysOrder);
-    // try {
-    //   await axios.post("/api/order-tea", {
-    //     latestTeaOrder: {
-    //       orderDetails: todaysOrder,
-    //     },
-    //   });
-    //   const response = await axios.get("/api/latest-teaOrder");
-    //   setPreviousOrder(response.data);
-    // } catch (error) {
-    //   console.error("Error ordering tea:", error);
-    // }
+    const orderDetails = todaysOrder.map((detail) => ({
+      index: detail.index,
+      teaName: detail.teaName,
+      unopened: detail.unopened || 0,
+      opened: detail.opened || 0,
+      tin: detail.tin || 0,
+      order: detail.order || 0,
+    }));
+
+    try {
+      const response = await axios.post("/api/order-tea", {
+        orderDate: new Date().toISOString(),
+        orderDetails,
+      });
+      console.log("Order success:", response.data);
+
+      setPreviousOrderDate(response.data.newTeaOrder.orderDate);
+      setPreviousOrder(response.data.newTeaOrder.orderDetails);
+    } catch (error) {
+      console.error("Error ordering tea:", error);
+    }
   };
 
   return (
     <div>
-      <h3 className="text-xl">Previous Order</h3>
+      <h3 className="text-xl">Previous Order : {formattedDate}</h3>
 
-      {previousOrder && previousOrder.latestTeaOrder.orderDetails && (
+      {previousOrder && (
         <div className="border border-red-400">
           <ul className="flex text-[14px] ">
             <li className="w-[110px] "></li>
@@ -69,7 +83,7 @@ const OrderTea = () => {
             <li className="w-[70px] text-center">Order</li>
           </ul>
           <ul>
-            {previousOrder.latestTeaOrder.orderDetails.map((detail, index) => (
+            {previousOrder.map((detail, index) => (
               <li
                 className="flex border-b-2 h-[30px] text-[14.5px] items-center"
                 key={index}
