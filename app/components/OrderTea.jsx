@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
+import ConfirmationPopup from "./ConfirmationPopup";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleCheck = () => {
+    setShowPopup(true);
+  };
+
+  const handleConfirm = () => {
+    setShowPopup(false);
+    handleOrderButtonClick();
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
@@ -141,10 +156,17 @@ const OrderTea = () => {
       <button
         className="bg-blue-400 rounded-sm p-4"
         type="button"
-        onClick={handleOrderButtonClick}
+        onClick={handleCheck}
       >
         Order
       </button>
+      {showPopup && (
+        <ConfirmationPopup
+          message="Do you want to print this order sheet?"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 };
