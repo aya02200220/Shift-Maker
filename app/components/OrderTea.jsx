@@ -5,60 +5,46 @@ import { format } from "date-fns";
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
-  const [orderData, setOrderData] = useState({});
+  const [todaysOrder, setTodaysOrder] = useState([]);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
     : "";
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchPreviousOrder() {
       try {
         const response = await axios.get("/api/latest-teaOrder");
-        const { latestTeaOrder } = response.data;
-        setPreviousOrderDate(latestTeaOrder.orderDate);
-        setPreviousOrder(latestTeaOrder.orderDetails);
+        // setPreviousOrder(response.data);
+        setPreviousOrderDate(response.data.latestTeaOrder.orderDate);
+        setPreviousOrder(response.data.latestTeaOrder.orderDetails);
 
-        const initialTodaysOrder = latestTeaOrder.orderDetails.map(
-          (detail) => ({
+        const initialTodaysOrder =
+          response.data.latestTeaOrder.orderDetails.map((detail) => ({
             ...detail,
             unopened: "",
             opened: "",
             tin: "",
             order: "",
-          })
-        );
-        setOrderData(initialTodaysOrder);
+          }));
+        setTodaysOrder(initialTodaysOrder);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching previous order:", error);
       }
     }
 
-    fetchData();
-
-    // 初回レンダリング時のみローカルストレージからデータを読み込む
-    const savedOrderData = JSON.parse(localStorage.getItem("orderData"));
-    if (savedOrderData) {
-      setOrderData(savedOrderData);
-    }
+    fetchPreviousOrder();
   }, []);
-
-  useEffect(() => {
-    // ローカルストレージにデータを保存
-    localStorage.setItem("orderData", JSON.stringify(orderData));
-  }, [orderData]); // orderData ステートが変更されるたびに実行されるようにする
 
   const handleInputChange = (e, index, field) => {
     const value = e.target.value;
-    setOrderData((prevData) => {
-      const updatedData = { ...prevData };
-      updatedData[index] = {
-        ...updatedData[index],
-        [field]: value,
-      };
-      return updatedData;
+    setTodaysOrder((prevOrder) => {
+      const updatedOrder = [...prevOrder];
+      updatedOrder[index][field] = value;
+      return updatedOrder;
     });
   };
+
   const handleOrderButtonClick = async () => {
     const orderDetails = todaysOrder.map((detail) => ({
       index: detail.index,
@@ -78,10 +64,6 @@ const OrderTea = () => {
 
       setPreviousOrderDate(response.data.newTeaOrder.orderDate);
       setPreviousOrder(response.data.newTeaOrder.orderDetails);
-
-      // ローカルストレージからデータを削除
-      localStorage.removeItem("orderData");
-      setOrderData({});
     } catch (error) {
       console.error("Error ordering tea:", error);
     }
@@ -114,7 +96,9 @@ const OrderTea = () => {
                 <input
                   className="w-[50px] shadow-sm border text-right"
                   type="number"
-                  value={(orderData[index] && orderData[index].unopened) || ""}
+                  value={
+                    (todaysOrder[index] && todaysOrder[index].unopened) || ""
+                  }
                   onChange={(e) => handleInputChange(e, index, "unopened")}
                 />
 
@@ -124,7 +108,9 @@ const OrderTea = () => {
                 <input
                   className="w-[50px] shadow-sm border text-right"
                   type="number"
-                  value={(orderData[index] && orderData[index].opened) || ""}
+                  value={
+                    (todaysOrder[index] && todaysOrder[index].opened) || ""
+                  }
                   onChange={(e) => handleInputChange(e, index, "opened")}
                 />
 
@@ -134,7 +120,7 @@ const OrderTea = () => {
                 <input
                   className="w-[50px] shadow-sm border text-right"
                   type="number"
-                  value={(orderData[index] && orderData[index].tin) || ""}
+                  value={(todaysOrder[index] && todaysOrder[index].tin) || ""}
                   onChange={(e) => handleInputChange(e, index, "tin")}
                 />
 
@@ -144,7 +130,7 @@ const OrderTea = () => {
                 <input
                   className="w-[50px] shadow-sm border text-right"
                   type="number"
-                  value={(orderData[index] && orderData[index].order) || ""}
+                  value={(todaysOrder[index] && todaysOrder[index].order) || ""}
                   onChange={(e) => handleInputChange(e, index, "order")}
                 />
               </li>
