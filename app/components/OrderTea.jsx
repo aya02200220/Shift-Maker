@@ -153,16 +153,25 @@ const OrderTea = () => {
           </ul>
         </div>
       )}
-      <button
-        className="bg-blue-400 rounded-sm p-4"
-        type="button"
-        onClick={handleCheck}
-      >
-        Order
-      </button>
+      <div className="flex gap-2">
+        <button
+          className="bg-blue-400 rounded-sm p-4"
+          type="button"
+          onClick={handleCheck}
+        >
+          Register Order
+        </button>
+        <button
+          className="bg-green-400 rounded-sm p-4"
+          type="button"
+          onClick={handlePrint}
+        >
+          Print PDF
+        </button>
+      </div>
       {showPopup && (
         <ConfirmationPopup
-          message="Do you want to print this order sheet?"
+          message="Do you want to resister this order?"
           onConfirm={handleConfirm}
           onCancel={handleCancel}
         />
