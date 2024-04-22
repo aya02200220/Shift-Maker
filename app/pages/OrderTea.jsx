@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
+import ConfirmationPopup from "../components/ConfirmationPopup";
+
+import SendEmail from "../components/mails/SendEmail";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
     : "";
+
+  const handleCheck = () => {
+    setShowPopup(true);
+  };
+
+  const handleConfirm = () => {
+    setShowPopup(false);
+    handleOrderButtonClick();
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  const handlePrint = () => {
+    // setShowPopup(false);
+  };
 
   useEffect(() => {
     async function fetchPreviousOrder() {
@@ -138,13 +159,29 @@ const OrderTea = () => {
           </ul>
         </div>
       )}
-      <button
-        className="bg-blue-400 rounded-sm p-4"
-        type="button"
-        onClick={handleOrderButtonClick}
-      >
-        Order
-      </button>
+      <div className="flex gap-2">
+        <button
+          className="bg-blue-400 rounded-sm p-4"
+          type="button"
+          onClick={handleCheck}
+        >
+          Register Order
+        </button>
+        <button
+          className="bg-green-400 rounded-sm p-4"
+          type="button"
+          onClick={handlePrint}
+        >
+          Print PDF
+        </button>
+      </div>
+      {showPopup && (
+        <ConfirmationPopup
+          message="Do you want to resister this order?"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 };
