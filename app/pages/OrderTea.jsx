@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import ConfirmationPopup from "../components/ConfirmationPopup";
+import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import SendEmail from "../components/mails/SendEmail";
+import { ToysOutlined } from "@mui/icons-material";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -110,13 +113,16 @@ const OrderTea = () => {
                 key={index}
               >
                 <p className="w-[110px] leading-3">{detail.teaName}</p>
+                <button>Copy</button>
                 <p className="w-[70px] text-right text-[#999]">
                   ( {detail.unopened} )
                 </p>
 
                 <input
-                  className="w-[50px] shadow-sm border text-right"
+                  className="w-[50px] shadow-sm border text-right ml-2"
                   type="number"
+                  min="0"
+                  max="100"
                   value={
                     (todaysOrder[index] && todaysOrder[index].unopened) || ""
                   }
@@ -127,8 +133,10 @@ const OrderTea = () => {
                   ( {detail.opened} )
                 </p>
                 <input
-                  className="w-[50px] shadow-sm border text-right"
+                  className="w-[50px] shadow-sm border text-right ml-2"
                   type="number"
+                  min="0"
+                  max="100"
                   value={
                     (todaysOrder[index] && todaysOrder[index].opened) || ""
                   }
@@ -139,8 +147,10 @@ const OrderTea = () => {
                   ( {detail.tin} )
                 </p>
                 <input
-                  className="w-[50px] shadow-sm border text-right"
+                  className="w-[50px] shadow-sm border text-right ml-2"
                   type="number"
+                  min="0"
+                  max="100"
                   value={(todaysOrder[index] && todaysOrder[index].tin) || ""}
                   onChange={(e) => handleInputChange(e, index, "tin")}
                 />
@@ -149,8 +159,10 @@ const OrderTea = () => {
                   ( {detail.order} )
                 </p>
                 <input
-                  className="w-[50px] shadow-sm border text-right"
+                  className="w-[40px] shadow-sm border text-right ml-2 "
                   type="number"
+                  min="0"
+                  max="5"
                   value={(todaysOrder[index] && todaysOrder[index].order) || ""}
                   onChange={(e) => handleInputChange(e, index, "order")}
                 />
@@ -159,21 +171,21 @@ const OrderTea = () => {
           </ul>
         </div>
       )}
-      <div className="flex gap-2">
-        <button
-          className="bg-blue-400 rounded-sm p-4"
-          type="button"
-          onClick={handleCheck}
-        >
-          Register Order
-        </button>
-        <button
-          className="bg-green-400 rounded-sm p-4"
-          type="button"
-          onClick={handlePrint}
-        >
-          Print PDF
-        </button>
+      <div className="flex gap-2 mt-4">
+        <Button variant="contained" onClick={handleCheck}>
+          <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center ">
+            Register
+            <br />
+            Order
+          </Typography>
+        </Button>
+        <Button variant="contained" color="success" onClick={handlePrint}>
+          <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center">
+            Download
+            <br />
+            Order Sheet
+          </Typography>
+        </Button>
       </div>
       {showPopup && (
         <ConfirmationPopup
@@ -187,6 +199,14 @@ const OrderTea = () => {
 };
 
 export default OrderTea;
+
+export const PrintList = () => {
+  return (
+    <>
+      <div></div>
+    </>
+  );
+};
 
 // <div className="border border-red-400">
 //   <ul className="flex text-[14px] ">
