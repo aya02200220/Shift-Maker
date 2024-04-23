@@ -74,12 +74,11 @@ export default function Main() {
             Schedule
           </ToggleButton>
         </ToggleButtonGroup>
-        <div className="mt-8">
-          <div className="mt-8">
-            {alignment === "OrderTea" && <OrderTea />}
-            {alignment === "OderTierneys" && <OderTierneys />}
-            {alignment === "Schedule" && <Schedule />}
-          </div>
+
+        <div className="mt-5">
+          {alignment === "OrderTea" && <OrderTea />}
+          {alignment === "OderTierneys" && <OderTierneys />}
+          {alignment === "Schedule" && <Schedule />}
         </div>
       </div>
 
