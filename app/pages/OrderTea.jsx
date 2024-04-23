@@ -8,6 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -34,6 +35,21 @@ const OrderTea = () => {
 
   const handlePrint = () => {
     // setShowPopup(false);
+  };
+
+  const handleCopy = (index) => {
+    const prevDetail = previousOrder[index];
+    setTodaysOrder((prevOrder) => {
+      const updatedOrder = [...prevOrder];
+      updatedOrder[index] = {
+        ...updatedOrder[index],
+        unopened: prevDetail.unopened || "",
+        opened: prevDetail.opened || "",
+        tin: prevDetail.tin || "",
+        order: prevDetail.order || "",
+      };
+      return updatedOrder;
+    });
   };
 
   useEffect(() => {
@@ -116,8 +132,11 @@ const OrderTea = () => {
                 <p className="w-[110px] leading-3 text-[#333] text-[13px]">
                   {detail.teaName}
                 </p>
-                <button className="h-[20px] w-[40px] text-[10px] text-[#656565] border rounded-md ml-2 hover:bg-blue-100 bg-slate-100 ">
-                  Copy
+                <button
+                  onClick={() => handleCopy(index)}
+                  className="h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded ml-2 hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
+                >
+                  <ContentCopyIcon className="text-[13px]" />
                 </button>
                 <p className="w-[70px] text-right text-[#999]">
                   ( {detail.unopened} )
