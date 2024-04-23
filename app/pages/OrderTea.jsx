@@ -4,11 +4,10 @@ import { format } from "date-fns";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast, ToastContainer } from "react-toastify";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -103,8 +102,28 @@ const OrderTea = () => {
       });
       console.log("Order success:", response.data);
 
+      toast.success("Order Registered!", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
       setPreviousOrderDate(response.data.newTeaOrder.orderDate);
       setPreviousOrder(response.data.newTeaOrder.orderDetails);
+
+      const initialTodaysOrder = previousOrder.map((detail) => ({
+        ...detail,
+        unopened: "",
+        opened: "",
+        tin: "",
+        order: "",
+      }));
+      setTodaysOrder(initialTodaysOrder);
     } catch (error) {
       console.error("Error ordering tea:", error);
     }
@@ -163,7 +182,7 @@ const OrderTea = () => {
                   </p>
 
                   <input
-                    className="w-[40px] shadow-sm border text-right px-1"
+                    className="w-[40px] md:w-[50px]  shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -179,7 +198,7 @@ const OrderTea = () => {
                     {detail.opened}
                   </p>
                   <input
-                    className="w-[40px] shadow-sm border text-right px-1"
+                    className="w-[40px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -195,7 +214,7 @@ const OrderTea = () => {
                     {detail.tin}
                   </p>
                   <input
-                    className="w-[40px] shadow-sm border text-right px-1"
+                    className="w-[40px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -209,7 +228,7 @@ const OrderTea = () => {
                     {detail.order}
                   </p>
                   <input
-                    className="w-[40px] shadow-sm border text-right px-1"
+                    className="w-[40px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="5"
@@ -248,6 +267,7 @@ const OrderTea = () => {
             Order Sheet
           </Typography>
         </Button>
+        <ToastContainer />
       </div>
       {showPopup && (
         <ConfirmationPopup
