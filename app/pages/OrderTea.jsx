@@ -4,9 +4,10 @@ import { format } from "date-fns";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-
-import SendEmail from "../components/mails/SendEmail";
-import { ToysOutlined } from "@mui/icons-material";
+import SendIcon from "@mui/icons-material/Send";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -98,7 +99,7 @@ const OrderTea = () => {
       <h3 className="text-xl">Previous Order : {formattedDate}</h3>
 
       {previousOrder && (
-        <div className="border border-red-400">
+        <div className="border border-red-400 px-3 py-1">
           <ul className="flex text-[14px] ">
             <li className="w-[110px] "></li>
             <li className="w-[70px] text-center">Unopened</li>
@@ -112,8 +113,12 @@ const OrderTea = () => {
                 className="flex border-b-2 h-[30px] text-[14.5px] items-center"
                 key={index}
               >
-                <p className="w-[110px] leading-3">{detail.teaName}</p>
-                <button>Copy</button>
+                <p className="w-[110px] leading-3 text-[#333] text-[13px]">
+                  {detail.teaName}
+                </p>
+                <button className="h-[20px] w-[40px] text-[10px] text-[#656565] border rounded-md ml-2 hover:bg-blue-100 bg-slate-100 ">
+                  Copy
+                </button>
                 <p className="w-[70px] text-right text-[#999]">
                   ( {detail.unopened} )
                 </p>
@@ -172,14 +177,25 @@ const OrderTea = () => {
         </div>
       )}
       <div className="flex gap-2 mt-4">
-        <Button variant="contained" onClick={handleCheck}>
+        <Button
+          // startIcon={<PublishIcon />}
+          startIcon={<CloudUploadIcon />}
+          variant="contained"
+          onClick={handleCheck}
+        >
           <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center ">
             Register
             <br />
             Order
           </Typography>
         </Button>
-        <Button variant="contained" color="success" onClick={handlePrint}>
+        <Button
+          // endIcon={<DownloadForOfflineIcon />}
+          endIcon={<FileDownloadIcon />}
+          variant="contained"
+          color="success"
+          onClick={handlePrint}
+        >
           <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center">
             Download
             <br />
