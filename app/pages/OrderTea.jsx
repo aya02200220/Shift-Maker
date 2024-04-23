@@ -46,7 +46,7 @@ const OrderTea = () => {
         unopened: prevDetail.unopened || "0",
         opened: prevDetail.opened || "0",
         tin: prevDetail.tin || "0",
-        order: "0",
+        order: "",
       };
       return updatedOrder;
     });
@@ -112,8 +112,7 @@ const OrderTea = () => {
 
   // 空白かどうかをチェックする
   const getRowStyle = (detail) => {
-    const isEmpty =
-      !detail.unopened || !detail.opened || !detail.tin || !detail.order;
+    const isEmpty = !detail.unopened || !detail.opened || !detail.tin;
     return isEmpty ? "bg-red-100" : "";
   };
   // オーダーがあるかどうかをチェックする
@@ -123,97 +122,110 @@ const OrderTea = () => {
   };
 
   return (
-    <div>
-      <h3 className="text-xl">Previous Order : {formattedDate}</h3>
+    // <div className="flex flex-col items-center">
+    <div className="w-[320px] md:w-[630px] max-w-[630px]">
+      <h3 className="text-[16px] md:text-xl font-medium">
+        Previous Order :
+        <span className=" font-semibold">【{formattedDate}】</span>
+      </h3>
 
       {previousOrder && (
-        <div className="border border-red-400 px-3 py-1">
-          <ul className="flex text-[14px] ">
-            <li className="w-[110px] "></li>
-            <li className="w-[70px] text-center">Unopened</li>
-            <li className="w-[70px] text-center">Opened&nbsp;(%)</li>
-            <li className="w-[70px] text-center">Tin&nbsp;(%)</li>
-            <li className="w-[70px] text-center">Order</li>
+        <div className="border border-red-400 px-3 py-1 ">
+          <ul className="flex text-[14px] text-[#333] font-medium">
+            <li className="w-[250px]"></li>
+            <li className="w-[110px] text-center">Unopened</li>
+            <li className="w-[110px] text-center">Opened&nbsp;(%)</li>
+            <li className="w-[110px] text-center">Tin&nbsp;(%)</li>
+            <li className="w-[110px] text-center">Order</li>
           </ul>
           <ul>
             {previousOrder.map((detail, index) => (
               <li
-                // className="flex border-b-2 h-[30px] text-[14.5px] items-center"
-                className={`flex border-b-2 h-[30px] text-[14.5px] items-center 
+                className={`flex border-b-2  h-[50px] md:h-[30px] text-[14.5px] items-center px-2
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <p className="w-[110px] leading-3 text-[#333] text-[13px]">
+                <p className="w-[80px] md:w-[165px] mr-2 leading-3 text-[#333] text-[11px] md:text-[13px]">
                   {detail.teaName}
                 </p>
                 <button
                   onClick={() => handleCopy(index)}
-                  className="h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded ml-2 hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
+                  className="mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
                 >
                   <ContentCopyIcon className="text-[13px]" />
                 </button>
-                <p className="w-[70px] text-right text-[#999]">
-                  ( {detail.unopened} )
-                </p>
 
-                <input
-                  className="w-[50px] shadow-sm border text-right ml-2"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={
-                    (todaysOrder[index] && todaysOrder[index].unopened) || ""
-                  }
-                  onChange={(e) => handleInputChange(e, index, "unopened")}
-                />
+                <div className="flex flex-col md:flex-row justify-center items-center">
+                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                    {detail.unopened}
+                  </p>
 
-                <p className="w-[70px] text-right text-[#999]">
-                  ( {detail.opened} )
-                </p>
-                <input
-                  className="w-[50px] shadow-sm border text-right ml-2"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={
-                    (todaysOrder[index] && todaysOrder[index].opened) || ""
-                  }
-                  onChange={(e) => handleInputChange(e, index, "opened")}
-                />
+                  <input
+                    className="w-[40px] shadow-sm border text-right px-1"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={
+                      (todaysOrder[index] && todaysOrder[index].unopened) || ""
+                    }
+                    onChange={(e) => handleInputChange(e, index, "unopened")}
+                  />
+                </div>
 
-                <p className="w-[70px] text-right text-[#999]">
-                  ( {detail.tin} )
-                </p>
-                <input
-                  className="w-[50px] shadow-sm border text-right ml-2"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={(todaysOrder[index] && todaysOrder[index].tin) || ""}
-                  onChange={(e) => handleInputChange(e, index, "tin")}
-                />
+                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
+                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                    {detail.opened}
+                  </p>
+                  <input
+                    className="w-[40px] shadow-sm border text-right px-1"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={
+                      (todaysOrder[index] && todaysOrder[index].opened) || ""
+                    }
+                    onChange={(e) => handleInputChange(e, index, "opened")}
+                  />
+                </div>
 
-                <p className="w-[70px] text-right text-[#999]">
-                  ( {detail.order} )
-                </p>
-                <input
-                  className="w-[40px] shadow-sm border text-right ml-2 "
-                  type="number"
-                  min="0"
-                  max="5"
-                  value={(todaysOrder[index] && todaysOrder[index].order) || ""}
-                  onChange={(e) => handleInputChange(e, index, "order")}
-                />
+                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
+                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                    {detail.tin}
+                  </p>
+                  <input
+                    className="w-[40px] shadow-sm border text-right px-1"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={(todaysOrder[index] && todaysOrder[index].tin) || ""}
+                    onChange={(e) => handleInputChange(e, index, "tin")}
+                  />
+                </div>
+
+                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
+                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                    {detail.order}
+                  </p>
+                  <input
+                    className="w-[40px] shadow-sm border text-right px-1"
+                    type="number"
+                    min="0"
+                    max="5"
+                    value={
+                      (todaysOrder[index] && todaysOrder[index].order) || ""
+                    }
+                    onChange={(e) => handleInputChange(e, index, "order")}
+                  />
+                </div>
               </li>
             ))}
           </ul>
         </div>
       )}
-      <div className="flex gap-2 mt-4">
+      <div className="flex gap-2 my-4 items-center justify-center">
         <Button
-          // startIcon={<PublishIcon />}
           startIcon={<CloudUploadIcon />}
           variant="contained"
           onClick={handleCheck}
@@ -225,7 +237,6 @@ const OrderTea = () => {
           </Typography>
         </Button>
         <Button
-          // endIcon={<DownloadForOfflineIcon />}
           endIcon={<FileDownloadIcon />}
           variant="contained"
           color="success"
