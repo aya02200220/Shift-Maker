@@ -43,10 +43,10 @@ const OrderTea = () => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index] = {
         ...updatedOrder[index],
-        unopened: prevDetail.unopened || "",
-        opened: prevDetail.opened || "",
-        tin: prevDetail.tin || "",
-        order: prevDetail.order || "",
+        unopened: prevDetail.unopened || "0",
+        opened: prevDetail.opened || "0",
+        tin: prevDetail.tin || "0",
+        order: "0",
       };
       return updatedOrder;
     });
@@ -110,6 +110,18 @@ const OrderTea = () => {
     }
   };
 
+  // 空白かどうかをチェックする
+  const getRowStyle = (detail) => {
+    const isEmpty =
+      !detail.unopened || !detail.opened || !detail.tin || !detail.order;
+    return isEmpty ? "bg-red-100" : "";
+  };
+  // オーダーがあるかどうかをチェックする
+  const getOrderStyle = (detail) => {
+    const isOrder = detail.order > 0;
+    return isOrder ? "bg-green-100" : "";
+  };
+
   return (
     <div>
       <h3 className="text-xl">Previous Order : {formattedDate}</h3>
@@ -126,7 +138,11 @@ const OrderTea = () => {
           <ul>
             {previousOrder.map((detail, index) => (
               <li
-                className="flex border-b-2 h-[30px] text-[14.5px] items-center"
+                // className="flex border-b-2 h-[30px] text-[14.5px] items-center"
+                className={`flex border-b-2 h-[30px] text-[14.5px] items-center 
+                ${getOrderStyle(todaysOrder[index])}
+                ${getRowStyle(todaysOrder[index])}
+                `}
                 key={index}
               >
                 <p className="w-[110px] leading-3 text-[#333] text-[13px]">
