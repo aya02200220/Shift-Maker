@@ -8,12 +8,15 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
+import Preview from "../components/Preview";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  const [openPreview, setOpenPreview] = useState(false);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
@@ -34,6 +37,7 @@ const OrderTea = () => {
 
   const handlePrint = () => {
     // setShowPopup(false);
+    <Preview />;
   };
 
   const handleCopy = (index) => {
@@ -143,13 +147,13 @@ const OrderTea = () => {
   return (
     // <div className="flex flex-col items-center">
     <div className="w-[320px] md:w-[630px] max-w-[630px]">
-      <h3 className="text-[16px] md:text-xl font-medium">
+      <h3 className="text-[16px] md:text-xl font-medium text-center md:text-left">
         Previous Order :
         <span className=" font-semibold">【{formattedDate}】</span>
       </h3>
 
       {previousOrder && (
-        <div className="border border-red-400 px-3 py-1 ">
+        <div className="shadow-md  px-3 py-3 ">
           <ul className="flex text-[14px] text-[#333] font-medium">
             <li className="w-[250px]"></li>
             <li className="w-[110px] text-center">Unopened</li>
@@ -267,6 +271,7 @@ const OrderTea = () => {
             Order Sheet
           </Typography>
         </Button>
+        {openPreview && <Preview onClose={() => setOpenPreview(false)} />}
         <ToastContainer />
       </div>
       {showPopup && (
