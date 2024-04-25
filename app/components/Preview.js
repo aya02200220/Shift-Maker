@@ -30,13 +30,20 @@ export default function Preview({ previousOrder, previousOrderDate }) {
     ? format(previousOrderDate, "MMMM d, yyyy")
     : "";
 
+  const formattedDateForDl = previousOrderDate
+    ? format(previousOrderDate, "MMdd")
+    : "";
+
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
     type: "image/jpeg",
     quality: 1.0,
   });
 
-  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+  const download = (
+    image,
+    { name = `TeaOrder-${formattedDateForDl}`, extension = "jpg" } = {}
+  ) => {
     const a = document.createElement("a");
     a.href = image;
     a.download = createFileName(extension, name);
