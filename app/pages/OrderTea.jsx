@@ -139,7 +139,7 @@ const OrderTea = () => {
 
   return (
     // <div className="flex flex-col items-center">
-    <div className="w-[360px] md:w-[630px] max-w-[630px]">
+    <div className="w-[360px] md:w-[680px] max-w-[680px]">
       <h3 className="text-[16px] md:text-xl font-medium text-center md:text-left">
         Previous Order :
         <span className=" font-semibold">【{formattedDate}】</span>
@@ -165,13 +165,13 @@ const OrderTea = () => {
           <ul>
             {previousOrder.map((detail, index) => (
               <li
-                className={`flex border-b-2  h-[60px] md:h-[30px] text-[14.5px] items-center px-2
+                className={`flex border-b-2  h-[60px] md:h-[34px] text-[14.5px] items-center px-2
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <p className="w-[80px] md:w-[165px] mr-2 leading-3 text-[#333] text-[12px] md:text-[13px]">
+                <p className="w-[80px] md:w-[190px] mr-2 leading-3 text-[#333] text-[12px] md:text-[14px]">
                   {detail.teaName}
                 </p>
                 <button
@@ -187,7 +187,7 @@ const OrderTea = () => {
                   </p>
 
                   <input
-                    className="w-[43px] h-[26px] md:w-[50px]  shadow-sm border text-right px-1"
+                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px]  shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -203,7 +203,7 @@ const OrderTea = () => {
                     {detail.opened}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -219,7 +219,7 @@ const OrderTea = () => {
                     {detail.tin}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="100"
@@ -233,7 +233,7 @@ const OrderTea = () => {
                     {detail.order}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
                     type="number"
                     min="0"
                     max="5"
