@@ -13,6 +13,7 @@ export default function Navbar() {
   return (
     <div className="px-4 py-2 flex justify-between items-center shadow-md">
       <Link className="font-bold text-lg text-blue-600" href={"/"}>
+
         <Image
           className="rounded-full mr-2"
           src="/P7-logo.png"
