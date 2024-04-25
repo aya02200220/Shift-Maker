@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from "react";
+import React, { useState, useRef, createRef, useEffect } from "react";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 
 import { format } from "date-fns";
@@ -13,6 +13,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Divider } from "@mui/material";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -25,14 +30,27 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function Preview({ previousOrder, previousOrderDate }) {
   const [open, setOpen] = useState(false);
+  const [orderDetail, setOrderDetail] = useState("");
+  const [orderDate, setOrderDate] = useState("");
 
-  const formattedDate = previousOrderDate
-    ? format(previousOrderDate, "MMMM d, yyyy")
-    : "";
+  const [dateToDisplay, setDateToDisplay] = useState("");
 
-  const formattedDateForDl = previousOrderDate
-    ? format(previousOrderDate, "MMdd")
-    : "";
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
+  const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
+
+  useEffect(() => {
+    setOrderDetail(previousOrder);
+  }, [previousOrder]);
+
+  useEffect(() => {
+    setOrderDate(previousOrderDate);
+  }, [previousOrderDate]);
+
+  useEffect(() => {}, []);
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -72,17 +90,31 @@ export default function Preview({ previousOrder, previousOrderDate }) {
           Order Sheet
         </Typography>
       </Button>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button> */}
+
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle>
+        <div className="w-[180px] m-2 bg-[#a964a1] rounded-md">
+          <FormControl fullWidth>
+            <InputLabel id="date-to-display-label">
+              Display other date
+            </InputLabel>
+            <Select
+              labelId="date-to-display-label"
+              id="date-to-display"
+              value={dateToDisplay}
+              label="Date"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -109,7 +141,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                 </h3>
                 <Divider />
                 <div>
-                  {previousOrder && (
+                  {orderDetail && (
                     <div>
                       <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 md:gap-2 mb-0 md:mb-2 leading-3 mt-1 md:mt-2">
                         <li className="w-[90px] md:w-[210px]"></li>
@@ -127,7 +159,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                         </li>
                       </ul>
                       <ul>
-                        {previousOrder.map((detail, index) => (
+                        {orderDetail.map((detail, index) => (
                           <li
                             className="flex justify-between border-b-2 h-[30px] text-[14.5px] items-center px-2  pb-1"
                             key={index}
