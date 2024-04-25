@@ -36,8 +36,8 @@ const OrderTea = () => {
   };
 
   const handlePrint = () => {
-    // setShowPopup(false);
-    <Preview />;
+    console.log("Print clicked");
+    setOpenPreview(true);
   };
 
   const handleCopy = (index) => {
@@ -259,7 +259,7 @@ const OrderTea = () => {
             Order
           </Typography>
         </Button>
-        <Button
+        {/* <Button
           endIcon={<FileDownloadIcon />}
           variant="contained"
           color="success"
@@ -270,8 +270,9 @@ const OrderTea = () => {
             <br />
             Order Sheet
           </Typography>
-        </Button>
-        {openPreview && <Preview onClose={() => setOpenPreview(false)} />}
+        </Button> */}
+        <Preview open={openPreview} />
+
         <ToastContainer />
       </div>
       {showPopup && (

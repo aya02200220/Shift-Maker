@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -8,6 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -30,9 +32,21 @@ export default function Preview({}) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
+      <Button
+        endIcon={<FileDownloadIcon />}
+        variant="contained"
+        color="success"
+        onClick={handleClickOpen}
+      >
+        <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center">
+          Download
+          <br />
+          Order Sheet
+        </Typography>
       </Button>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open dialog
+      </Button> */}
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
