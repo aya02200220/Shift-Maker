@@ -1,5 +1,5 @@
 import React, { useState, useRef, createRef } from "react";
-import { useScreenshot } from "use-react-screenshot";
+import { useScreenshot, createFileName } from "use-react-screenshot";
 
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -25,10 +25,18 @@ export default function Preview({}) {
   const [open, setOpen] = useState(false);
 
   const ref = createRef(null);
-  const [width, setWidth] = useState(300);
-  const [image, takeScreenShot] = useScreenshot();
+  const [image, takeScreenShot] = useScreenshot({
+    type: "image/jpeg",
+    quality: 1.0,
+  });
 
-  const getImage = () => takeScreenShot(ref.current);
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,27 +83,9 @@ export default function Preview({}) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {/* <img width={width} src={image} alt={"Screenshot"} /> */}
           <div ref={ref}></div>
 
           <div>
-            <div>
-              {/* <Button
-                variant="contained"
-                style={{ marginBottom: "10px" }}
-                onClick={getImage}
-              >
-                Take screenshot
-              </Button> */}
-              <label style={{ display: "block", margin: "10px 0" }}>
-                Width:
-                <input
-                  value={width}
-                  onChange={(e) => setWidth(e.target.value)}
-                />
-              </label>
-            </div>
-            <img width={width} src={image} alt={"ScreenShot"} />
             <div
               ref={ref}
               style={{
@@ -170,10 +160,17 @@ export default function Preview({}) {
           <Button
             variant="contained"
             style={{ marginBottom: "10px" }}
+            onClick={downloadScreenshot}
+          >
+            Download the image
+          </Button>
+          {/* <Button
+            variant="contained"
+            style={{ marginBottom: "10px" }}
             onClick={getImage}
           >
             Take screenshot
-          </Button>
+          </Button> */}
         </DialogActions>
       </BootstrapDialog>
     </>
