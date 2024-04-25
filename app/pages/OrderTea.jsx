@@ -8,6 +8,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
+import Preview from "../components/Preview";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -30,10 +31,6 @@ const OrderTea = () => {
 
   const handleCancel = () => {
     setShowPopup(false);
-  };
-
-  const handlePrint = () => {
-    // setShowPopup(false);
   };
 
   const handleCopy = (index) => {
@@ -143,19 +140,27 @@ const OrderTea = () => {
   return (
     // <div className="flex flex-col items-center">
     <div className="w-[320px] md:w-[630px] max-w-[630px]">
-      <h3 className="text-[16px] md:text-xl font-medium">
+      <h3 className="text-[16px] md:text-xl font-medium text-center md:text-left">
         Previous Order :
         <span className=" font-semibold">【{formattedDate}】</span>
       </h3>
 
       {previousOrder && (
-        <div className="border border-red-400 px-3 py-1 ">
-          <ul className="flex text-[14px] text-[#333] font-medium">
-            <li className="w-[250px]"></li>
-            <li className="w-[110px] text-center">Unopened</li>
-            <li className="w-[110px] text-center">Opened&nbsp;(%)</li>
-            <li className="w-[110px] text-center">Tin&nbsp;(%)</li>
-            <li className="w-[110px] text-center">Order</li>
+        <div className="shadow-md  px-3 py-3 ">
+          <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 mb-0 md:mb-2">
+            <li className="w-[90px] md:w-[200px]"></li>
+            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
+              Unopened
+            </li>
+            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
+              Opened&nbsp;(%)
+            </li>
+            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
+              Tin&nbsp;(%)
+            </li>
+            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
+              Order
+            </li>
           </ul>
           <ul>
             {previousOrder.map((detail, index) => (
@@ -255,18 +260,12 @@ const OrderTea = () => {
             Order
           </Typography>
         </Button>
-        <Button
-          endIcon={<FileDownloadIcon />}
-          variant="contained"
-          color="success"
-          onClick={handlePrint}
-        >
-          <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center">
-            Download
-            <br />
-            Order Sheet
-          </Typography>
-        </Button>
+
+        <Preview
+          previousOrder={previousOrder}
+          previousOrderDate={previousOrderDate}
+        />
+
         <ToastContainer />
       </div>
       {showPopup && (
@@ -281,142 +280,3 @@ const OrderTea = () => {
 };
 
 export default OrderTea;
-
-export const PrintList = () => {
-  return (
-    <>
-      <div></div>
-    </>
-  );
-};
-
-// <div className="border border-red-400">
-//   <ul className="flex text-[14px] ">
-//     <li className="w-[110px] "></li>
-//     <li className="w-[70px] text-center">Unopend</li>
-//     <li className="w-[70px] text-center">Opened&nbsp;(%)</li>
-//     <li className="w-[70px] text-center">Tin&nbsp;(%)</li>
-//     <li className="w-[70px] text-center">Order</li>
-//   </ul>
-//   <ul>
-//     {previousOrder.latestTeaOrder.orderDetails.map((detail, index) => (
-//       <li
-//         className="flex border-b-2 h-[30px] text-[14.5px] items-center"
-//         key={index}
-//       >
-//         <p className="w-[110px] leading-3">{detail.teaName}</p>
-//         <p className="w-[70px] text-right">{detail.unopened}</p>
-//         <p className="w-[70px] text-right">{detail.opened}</p>
-//         <p className="w-[70px] text-right">{detail.tin}</p>
-//         <p className="w-[70px] text-right">{detail.order}</p>
-//       </li>
-//     ))}
-//   </ul>
-// </div>
-
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-// <div className="flex justify-center">
-//   <TableContainer
-//     sx={{ minWidth: 550, maxWidth: 550 }}
-//     component={Paper}
-//   >
-//     {/* <TableContainer sx={{ maxHeight: "100vh" }}> */}{" "}
-//     <Table size="small" stickyHeader aria-label="sticky table">
-//       <TableHead>
-//         <TableRow>
-//           <TableCell className="w-[10px]"></TableCell>
-//           <TableCell className="w-[60px]" align="right">
-//             Unopend
-//           </TableCell>
-//           <TableCell></TableCell>
-//           <TableCell className="w-[60px]" align="right">
-//             Opened&nbsp;(%)
-//           </TableCell>
-//           <TableCell></TableCell>
-//           <TableCell className="w-[60px]" align="right">
-//             Tin&nbsp;(%)
-//           </TableCell>
-//           <TableCell></TableCell>
-//           <TableCell className="w-[60px]" align="right">
-//             Order
-//           </TableCell>
-//           <TableCell></TableCell>
-//         </TableRow>
-//       </TableHead>
-//       <TableBody>
-//         {previousOrder.latestTeaOrder.orderDetails.map(
-//           (detail, index) => (
-//             <TableRow
-//               key={index}
-//               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-//             >
-//               <TableCell component="th" scope="row">
-//                 {detail.teaName}
-//               </TableCell>
-
-//               <TableCell sx={{ color: "#999" }} align="right">
-//                 ( {detail.unopened} )
-//               </TableCell>
-//               <TableCell align="right">
-//                 <input
-//                   className="w-[50px]"
-//                   type="number"
-//                   value={detail.unopened}
-//                   onChange={(e) =>
-//                     handleInputChange(e, index, "unopened")
-//                   }
-//                 />
-//               </TableCell>
-
-//               <TableCell sx={{ color: "#999" }} align="right">
-//                 ( {detail.opened} )
-//               </TableCell>
-//               <TableCell align="right">
-//                 <input
-//                   className="w-[50px]"
-//                   type="number"
-//                   value={detail.opened}
-//                   onChange={(e) =>
-//                     handleInputChange(e, index, "unopened")
-//                   }
-//                 />
-//               </TableCell>
-//               <TableCell sx={{ color: "#999" }} align="right">
-//                 ( {detail.tin} )
-//               </TableCell>
-//               <TableCell align="right">
-//                 <input
-//                   className="w-[50px]"
-//                   type="number"
-//                   value={detail.tin}
-//                   onChange={(e) =>
-//                     handleInputChange(e, index, "unopened")
-//                   }
-//                 />
-//               </TableCell>
-//               <TableCell sx={{ color: "#999" }} align="right">
-//                 ( {detail.order} )
-//               </TableCell>
-//               <TableCell align="right">
-//                 <input
-//                   className="w-[50px]"
-//                   type="number"
-//                   value={detail.order}
-//                   onChange={(e) =>
-//                     handleInputChange(e, index, "unopened")
-//                   }
-//                 />
-//               </TableCell>
-//             </TableRow>
-//           )
-//         )}
-//       </TableBody>
-//     </Table>
-//   </TableContainer>
-// </div>
