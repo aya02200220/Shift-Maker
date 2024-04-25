@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from "react";
+import React, { useState, useRef, createRef, useEffect } from "react";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 
 import { format } from "date-fns";
@@ -25,14 +25,19 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function Preview({ previousOrder, previousOrderDate }) {
   const [open, setOpen] = useState(false);
+  const [orderDetail, setOrderDetail] = useState(previousOrder);
+  const [orderDate, setOrderDate] = useState(previousOrderDate);
 
-  const formattedDate = previousOrderDate
-    ? format(previousOrderDate, "MMMM d, yyyy")
-    : "";
+  const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
+  const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
 
-  const formattedDateForDl = previousOrderDate
-    ? format(previousOrderDate, "MMdd")
-    : "";
+  useEffect(() => {
+    setOrderDetail(previousOrder);
+  }, [previousOrder]);
+
+  useEffect(() => {
+    setOrderDate(previousOrderDate);
+  }, [previousOrderDate]);
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -72,9 +77,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
           Order Sheet
         </Typography>
       </Button>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button> */}
+
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -109,7 +112,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                 </h3>
                 <Divider />
                 <div>
-                  {previousOrder && (
+                  {orderDetail && (
                     <div>
                       <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 md:gap-2 mb-0 md:mb-2 leading-3 mt-1 md:mt-2">
                         <li className="w-[90px] md:w-[210px]"></li>
@@ -127,7 +130,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                         </li>
                       </ul>
                       <ul>
-                        {previousOrder.map((detail, index) => (
+                        {orderDetail.map((detail, index) => (
                           <li
                             className="flex justify-between border-b-2 h-[30px] text-[14.5px] items-center px-2  pb-1"
                             key={index}
