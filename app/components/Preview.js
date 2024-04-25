@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { Divider } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -59,7 +60,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
         onClick={handleClickOpen}
       >
         <Typography className="leading-3 text-[12px] font-medium w-[80px] h-[30px] flex justify-center items-center">
-          Download
+          DL / View
           <br />
           Order Sheet
         </Typography>
@@ -93,67 +94,62 @@ export default function Preview({ previousOrder, previousOrderDate }) {
           <div>
             <div
               ref={ref}
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                marginTop: "20px",
-              }}
+              className="p-2 mt-2 border rounded-md shadow-md max-w-[450px]"
             >
               <div>
-                <h3 className="text-[16px] md:text-md font-semibold text-center md:text-left">
+                <h3 className="text-[16px] md:text-md font-semibold text-center md:text-left mb-2">
                   Order Date: {formattedDate}
                 </h3>
-                <p className="text-[10px]">
+                <Divider />
+                <div>
                   {previousOrder && (
-                    <div className="shadow-md  px-3 py-3 ">
-                      <ul className="flex text-[14px] text-[#333] font-medium">
-                        <li className="w-[250px]"></li>
-                        <li className="w-[110px] text-center">Unopened</li>
-                        <li className="w-[110px] text-center">
+                    <div>
+                      <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 md:gap-2 mb-0 md:mb-2 leading-3 mt-1 md:mt-2">
+                        <li className="w-[90px] md:w-[210px]"></li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Unopened
+                        </li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
                           Opened&nbsp;(%)
                         </li>
-                        <li className="w-[110px] text-center">Tin&nbsp;(%)</li>
-                        <li className="w-[110px] text-center">Order</li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Tin&nbsp;(%)
+                        </li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Order
+                        </li>
                       </ul>
                       <ul>
                         {previousOrder.map((detail, index) => (
                           <li
-                            className="flex border-b-2  h-[50px] md:h-[30px] text-[14.5px] items-center px-2"
+                            className="flex justify-between border-b-2 h-[30px] text-[14.5px] items-center px-2  pb-1"
                             key={index}
                           >
-                            <p className="w-[80px] md:w-[165px] mr-2 leading-3 text-[#333] text-[11px] md:text-[13px]">
+                            <p className="w-[98px] md:w-[165px] mr-2 leading-[9px] text-[#333] text-[11px] md:text-[13px]">
                               {detail.teaName}
                             </p>
 
-                            <div className="flex flex-col md:flex-row justify-center items-center">
-                              <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
-                                {detail.unopened}
-                              </p>
-                            </div>
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.unopened}
+                            </p>
 
-                            <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                              <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
-                                {detail.opened}
-                              </p>
-                            </div>
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.opened}
+                            </p>
 
-                            <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                              <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
-                                {detail.tin}
-                              </p>
-                            </div>
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.tin}
+                            </p>
 
-                            <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                              <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
-                                {detail.order}
-                              </p>
-                            </div>
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.order}
+                            </p>
                           </li>
                         ))}
                       </ul>
                     </div>
                   )}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -163,11 +159,12 @@ export default function Preview({ previousOrder, previousOrderDate }) {
             Save changes
           </Button> */}
           <Button
+            endIcon={<FileDownloadIcon />}
             variant="contained"
-            style={{ marginBottom: "10px" }}
+            style={{ marginBottom: "10px", fontSize: "12px" }}
             onClick={downloadScreenshot}
           >
-            Download the image
+            Download
           </Button>
           {/* <Button
             variant="contained"
