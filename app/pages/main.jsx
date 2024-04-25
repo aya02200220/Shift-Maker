@@ -62,7 +62,7 @@ export default function Main() {
             aria-label="centered"
             size="small"
           >
-            Tierney's
+            Tierney&apos;s
           </ToggleButton>
           <ToggleButton
             className="w-[100px] h-[30px]"
