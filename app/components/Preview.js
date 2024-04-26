@@ -176,13 +176,13 @@ export default function Preview({ previousOrder, previousOrderDate }) {
           >
             Download
           </Button>
-          {/* <Button
+          <Button
             variant="contained"
             style={{ marginBottom: "10px" }}
             onClick={getImage}
           >
             Take screenshot
-          </Button> */}
+          </Button>
         </DialogActions>
       </BootstrapDialog>
     </>
