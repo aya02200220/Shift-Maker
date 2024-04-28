@@ -1,3 +1,4 @@
+//PreviewFullScreen.js
 import React, { useState, useRef, createRef, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
+import DatePickers from "./DatePickers";
 
 import { format } from "date-fns";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -97,7 +99,7 @@ export default function PreviewFullScreen({
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              Preview
             </Typography>
 
             <Button
@@ -111,9 +113,7 @@ export default function PreviewFullScreen({
           </Toolbar>
         </AppBar>
         <div>
-          <ListItemButton>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItemButton>
+          <DatePickers orderDate={orderDate} />
           <Divider />
           <div ref={ref}></div>
 

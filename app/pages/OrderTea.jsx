@@ -262,10 +262,10 @@ const OrderTea = () => {
           </Typography>
         </Button>
 
-        <Preview
+        {/* <Preview
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}
-        />
+        /> */}
         <PreviewFullScreen
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}
