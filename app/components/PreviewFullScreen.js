@@ -1,5 +1,7 @@
 //PreviewFullScreen.js
 import React, { useState, useRef, createRef, useEffect } from "react";
+import dayjs from "dayjs";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
@@ -29,10 +31,14 @@ export default function PreviewFullScreen({
   const [open, setOpen] = useState(false);
 
   const [orderDetail, setOrderDetail] = useState(previousOrder);
-  const [orderDate, setOrderDate] = useState(previousOrderDate);
+  const [orderDate, setOrderDate] = useState(null);
 
-  const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
-  const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
+  // const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
+  // const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
+  const formattedDate = orderDate ? orderDate : "";
+  const formattedDateForDl = orderDate ? orderDate : "";
+
+  console.log("orderDate", orderDate);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,8 +53,22 @@ export default function PreviewFullScreen({
   }, [previousOrder]);
 
   useEffect(() => {
-    setOrderDate(previousOrderDate);
+    if (previousOrderDate) {
+      const parsedDate = dayjs(previousOrderDate);
+      if (parsedDate.isValid()) {
+        setOrderDate(parsedDate);
+      } else {
+        console.error("Invalid date format:", previousOrderDate);
+      }
+    } else {
+      console.error("Empty date:", previousOrderDate);
+    }
   }, [previousOrderDate]);
+
+  const handleDateChange = (date) => {
+    console.log("Selected date:", date);
+    setOrderDate(date);
+  };
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -113,7 +133,7 @@ export default function PreviewFullScreen({
           </Toolbar>
         </AppBar>
         <div>
-          <DatePickers orderDate={orderDate} />
+          <DatePickers orderDate={orderDate} onDateChange={handleDateChange} />
           <Divider />
           <div ref={ref}></div>
 
