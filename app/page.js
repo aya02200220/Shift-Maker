@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex justify-center">
       <Main />
     </div>
   );

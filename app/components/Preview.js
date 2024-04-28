@@ -186,6 +186,49 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                           </li>
                         ))}
                       </ul>
+                      {/* <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 md:gap-2 mb-0 md:mb-2 leading-3 mt-1 md:mt-2">
+                        <li className="w-[90px] md:w-[210px]"></li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Unopened
+                        </li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Opened&nbsp;(%)
+                        </li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Tin&nbsp;(%)
+                        </li>
+                        <li className="text-[10px] md:text-[11px] w-[42px] md:w-[68px] text-center break-words">
+                          Order
+                        </li>
+                      </ul>
+                      <ul>
+                        {orderDetail.map((detail, index) => (
+                          <li
+                            className="flex justify-between border-b-2 h-[30px] text-[14.5px] items-center px-2  pb-1"
+                            key={index}
+                          >
+                            <p className="w-[98px] md:w-[165px] mr-2 leading-[9px] text-[#333] text-[11px] md:text-[13px]">
+                              {detail.teaName}
+                            </p>
+
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.unopened}
+                            </p>
+
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.opened}
+                            </p>
+
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.tin}
+                            </p>
+
+                            <p className="w-[43px] text-center  text-[#999] text-[11px] md:ml-3">
+                              {detail.order}
+                            </p>
+                          </li>
+                        ))}
+                      </ul> */}
                     </div>
                   )}
                 </div>
