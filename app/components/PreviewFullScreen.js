@@ -35,8 +35,12 @@ export default function PreviewFullScreen({
 
   // const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
   // const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
-  const formattedDate = orderDate ? orderDate : "";
-  const formattedDateForDl = orderDate ? orderDate : "";
+  const formattedDate = orderDate
+    ? format(orderDate.toDate(), "MMMM d, yyyy")
+    : "";
+  const formattedDateForDl = orderDate
+    ? format(orderDate.toDate(), "MMdd")
+    : "";
 
   console.log("orderDate", orderDate);
 
