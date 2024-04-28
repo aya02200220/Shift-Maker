@@ -9,6 +9,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/Preview";
+import PreviewFullScreen from "../components/PreviewFullScreen";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -262,6 +263,10 @@ const OrderTea = () => {
         </Button>
 
         <Preview
+          previousOrder={previousOrder}
+          previousOrderDate={previousOrderDate}
+        />
+        <PreviewFullScreen
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}
         />

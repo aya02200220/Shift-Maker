@@ -39,7 +39,7 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex flex-col mt-4 items-center">
+      <div className="flex flex-col mt-4 justify-center items-center">
         <ToggleButtonGroup
           value={alignment}
           exclusive
