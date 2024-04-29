@@ -7,6 +7,7 @@ export async function POST(request) {
   // リクエストからJSONデータを抽出します
   const data = await request.json();
   const { orderDate, orderDetails } = data;
+  console.log("orderDate, orderDetails ", orderDate, orderDetails);
 
   if (!orderDate || !orderDetails || !Array.isArray(orderDetails)) {
     return NextResponse.json(

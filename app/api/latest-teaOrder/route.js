@@ -1,6 +1,6 @@
 // latest-teaOrder/route.js
 import { connectMongoDB } from "@/lib/mongodb";
-import { TeaOrder } from "@/models/teaOrder"; // 具名のエクスポートをインポートする
+import { TeaOrder } from "@/models/teaOrder";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
