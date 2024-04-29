@@ -1,9 +1,9 @@
+//PreviewFullScreen.js
 import React, { useState, useRef, createRef, useEffect } from "react";
+import dayjs from "dayjs";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
+import DatePickers from "./DatePickers";
 
 import { format } from "date-fns";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -27,10 +28,14 @@ export default function PreviewFullScreen({
   const [open, setOpen] = useState(false);
 
   const [orderDetail, setOrderDetail] = useState(previousOrder);
-  const [orderDate, setOrderDate] = useState(previousOrderDate);
+  const [orderDate, setOrderDate] = useState(null);
 
-  const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
-  const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
+  const formattedDate = orderDate
+    ? format(orderDate.toDate(), "MMMM d, yyyy")
+    : "";
+  const formattedDateForDl = orderDate
+    ? format(orderDate.toDate(), "MMdd")
+    : "";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,8 +50,88 @@ export default function PreviewFullScreen({
   }, [previousOrder]);
 
   useEffect(() => {
-    setOrderDate(previousOrderDate);
+    if (previousOrderDate) {
+      const parsedDate = dayjs(previousOrderDate);
+      if (parsedDate.isValid()) {
+        setOrderDate(parsedDate);
+      } else {
+        console.error("Invalid date format:", previousOrderDate);
+      }
+    } else {
+      console.error("Empty date:", previousOrderDate);
+    }
   }, [previousOrderDate]);
+
+  const handleDateChange = (date) => {
+    console.log("Selected date:", date);
+    setOrderDate(date);
+  };
+
+  useEffect(() => {
+    console.log("再選択されたDateでフェッチ", orderDate);
+    if (orderDate) {
+      const fetchDetails = async () => {
+        // 内部関数の名前を変更
+        // const isoDate = orderDate.toISOString();
+        const isoDate = orderDate.toDate().toISOString();
+        console.log("isoDate", isoDate);
+        const details = await fetchOrderDetails(orderDate); // 外部の fetchOrderDetails を呼び出し
+        console.log("details", details);
+        setOrderDetail(details);
+      };
+
+      fetchDetails().catch(console.error);
+    }
+  }, [orderDate]);
+
+  const fetchOrderDetails = async (date) => {
+    console.log("fetchOrderDetails", date);
+    try {
+      const response = await fetch(
+        `/api/order-find-by-date?date=${date.toISOString().slice(0, 10)}`
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "An error occurred while fetching order details"
+        );
+      }
+      const data = await response.json();
+      if (data.orders.length > 0) {
+        console.log(
+          "1---------------",
+          data.orders[data.orders.length - 1].orderDetails
+        );
+        return data.orders[data.orders.length - 1].orderDetails; // 最後の注文のorderDetailsを取得
+      } else {
+        console.log("2---------------", data.orders);
+        return [];
+      }
+    } catch (error) {
+      console.error("Failed to fetch order details:", error);
+      return [];
+    }
+  };
+
+  // const fetchOrderDetails = async (date) => {
+  //   console.log("fetchOrderDetails", date);
+  //   try {
+  //     const response = await fetch(
+  //       `/api/order-find-by-date?date=${date.toISOString().slice(0, 10)}`
+  //     );
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(
+  //         errorData.message || "An error occurred while fetching order details"
+  //       );
+  //     }
+  //     const data = await response.json();
+  //     return data.orders; // レスポンスから注文データを取得
+  //   } catch (error) {
+  //     console.error("Failed to fetch order details:", error);
+  //     return [];
+  //   }
+  // };
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -64,7 +149,7 @@ export default function PreviewFullScreen({
     a.click();
   };
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
-
+  console.log("orderDetail", orderDetail);
   return (
     <>
       <Button
@@ -97,7 +182,7 @@ export default function PreviewFullScreen({
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              Preview
             </Typography>
 
             <Button
@@ -111,9 +196,7 @@ export default function PreviewFullScreen({
           </Toolbar>
         </AppBar>
         <div>
-          <ListItemButton>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItemButton>
+          <DatePickers orderDate={orderDate} onDateChange={handleDateChange} />
           <Divider />
           <div ref={ref}></div>
 

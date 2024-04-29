@@ -5,7 +5,6 @@ import ConfirmationPopup from "../components/ConfirmationPopup";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/Preview";
@@ -16,6 +15,8 @@ const OrderTea = () => {
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  console.log("previousOrderDate", previousOrderDate);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
@@ -261,10 +262,10 @@ const OrderTea = () => {
           </Typography>
         </Button>
 
-        <Preview
+        {/* <Preview
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}
-        />
+        /> */}
         <PreviewFullScreen
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}
