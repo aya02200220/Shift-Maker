@@ -150,6 +150,13 @@ export default function PreviewFullScreen({
   };
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
   console.log("orderDetail", orderDetail);
+
+  // オーダーがあるかどうかをチェックする
+  const getOrderStyle = (detail) => {
+    const isOrder = detail.order > 0;
+    return isOrder ? "bg-green-100" : "";
+  };
+
   return (
     <>
       <Button
@@ -231,7 +238,8 @@ export default function PreviewFullScreen({
                       <ul>
                         {orderDetail.map((detail, index) => (
                           <li
-                            className="flex justify-between border-b-2 h-[18px] md:h-[30px] text-[14.5px] items-center px-2  pb-1"
+                            className={`flex justify-between border-b-2 h-[18px] md:h-[30px] text-[14.5px] items-center px-2  pb-1
+                            ${getOrderStyle(orderDetail[index])}`}
                             key={index}
                           >
                             <p className="w-[98px] md:w-[165px] mr-2 leading-[9px] text-[#333] text-[8px] md:text-[13px]">
