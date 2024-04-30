@@ -40,18 +40,20 @@
 
 /* //////////////////////////////////////////// */
 .tea-list-title {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #ffffff99;
+  height: 20px;
   display: flex;
   font-weight: 500;
   align-items: center;
   justify-content: center;
   gap: 0.25rem /* 4px */;
-  margin-bottom: 7px;
+  padding-bottom: 0.8rem;
+  padding-top: 0.8rem;
 }
-@media (min-width: 768px) {
-  .tea-list-title {
-    margin-bottom: 0.8rem;
-  }
-}
+
 .tea-list-title-space {
   width: 40%;
 }

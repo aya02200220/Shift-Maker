@@ -98,13 +98,8 @@ export default function PreviewFullScreen({
       }
       const data = await response.json();
       if (data.orders.length > 0) {
-        console.log(
-          "1---------------",
-          data.orders[data.orders.length - 1].orderDetails
-        );
         return data.orders[data.orders.length - 1].orderDetails; // 最後の注文のorderDetailsを取得
       } else {
-        console.log("2---------------", data.orders);
         return [];
       }
     } catch (error) {
@@ -112,26 +107,6 @@ export default function PreviewFullScreen({
       return [];
     }
   };
-
-  // const fetchOrderDetails = async (date) => {
-  //   console.log("fetchOrderDetails", date);
-  //   try {
-  //     const response = await fetch(
-  //       `/api/order-find-by-date?date=${date.toISOString().slice(0, 10)}`
-  //     );
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(
-  //         errorData.message || "An error occurred while fetching order details"
-  //       );
-  //     }
-  //     const data = await response.json();
-  //     return data.orders; // レスポンスから注文データを取得
-  //   } catch (error) {
-  //     console.error("Failed to fetch order details:", error);
-  //     return [];
-  //   }
-  // };
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -207,10 +182,13 @@ export default function PreviewFullScreen({
           <Divider />
           <div ref={ref}></div>
 
-          <div className="flex justify-center">
+          <div
+            className="flex justify-center
+          "
+          >
             <div
               ref={ref}
-              className="p-2 mt-2 border rounded-md shadow-md max-w-[470px]"
+              className="p-2 mt-2 border rounded-md shadow-md max-w-[470px] bg-[#fff]"
             >
               <div>
                 <h3 className="text-[16px] md:text-md font-semibold text-center md:text-left mb-2">
