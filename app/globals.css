@@ -42,8 +42,8 @@
 .tea-list-title {
   position: sticky;
   top: 0;
-  z-index: 1; /* 必要に応じて他の要素よりも手前に表示するためにz-indexを設定します */
-  background-color: #ffffff99; /* 背景色を設定します */
+  z-index: 1;
+  background-color: #ffffff99;
   height: 20px;
   display: flex;
   font-weight: 500;
@@ -53,12 +53,7 @@
   padding-bottom: 0.8rem;
   padding-top: 0.8rem;
 }
-/* @media (min-width: 768px) {
-  .tea-list-title {
-    padding-bottom: 0.8rem;
-    padding-top: 0.8rem;
-  }
-} */
+
 .tea-list-title-space {
   width: 40%;
 }

@@ -9,40 +9,37 @@ export async function GET(request) {
     const year = searchParams.get("year");
     const month = searchParams.get("month");
 
-    console.log("searchParams", searchParams);
-    console.log("orderDateStr", orderDateStr);
-
-    // if (!orderDateStr) {
-    //   return NextResponse.json(
-    //     { message: "Date parameter is missing" },
-    //     { status: 400 }
-    //   );
-    // }
+    // console.log("searchParams", searchParams);
+    // console.log("orderDateStr", orderDateStr);
 
     await connectMongoDB();
 
     if (orderDateStr) {
       // 日付が提供された場合
       const date = new Date(orderDateStr);
-      date.setDate(date.getDate() + 1); // 選択された日付の次の日に移動する
-      const startOfDay = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
-      const endOfDay = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        23,
-        59,
-        59,
-        999
-      );
+      const startOfDay = new Date(date.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+
+      // const date = new Date(orderDateStr);
+      // date.setDate(date.getDate() + 1); // 選択された日付の次の日に移動する
+      // const startOfDay = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth(),
+      //   date.getDate(),
+      //   0,
+      //   0,
+      //   0,
+      //   0
+      // );
+      // const endOfDay = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth(),
+      //   date.getDate(),
+      //   23,
+      //   59,
+      //   59,
+      //   999
+      // );
 
       const orders = await TeaOrder.find({
         orderDate: { $gte: startOfDay, $lt: endOfDay },
@@ -84,29 +81,3 @@ export async function GET(request) {
     );
   }
 }
-
-// 指定された日付の開始と終了を計算
-
-//     const date = new Date(orderDateStr);
-//     const startOfDay = new Date(date.setHours(0, 0, 0, 0));
-//     const endOfDay = new Date(date.setHours(23, 59, 59, 999));
-
-//     const orders = await TeaOrder.find({
-//       orderDate: { $gte: startOfDay, $lt: endOfDay },
-//     });
-
-//     if (!orders || orders.length === 0) {
-//       return NextResponse.json(
-//         { message: "No orders found for the specified date" },
-//         { status: 404 }
-//       );
-//     }
-
-//     return NextResponse.json({ orders }, { status: 200 });
-//   } catch (error) {
-//     return NextResponse.json(
-//       { message: "Failed to fetch orders by date", error: error.message },
-//       { status: 500 }
-//     );
-//   }
-// }
