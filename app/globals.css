@@ -57,18 +57,18 @@
 }
 
 .tea-list-title-childe {
-  font-size: 13px;
+  font-size: 10px;
   width: 15%;
   text-align: center;
   overflow-wrap: break-word;
   line-height: 0.75rem /* 12px */;
-  margin-right: 5px;
+  margin-left: 5px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 585px) {
   .tea-list-title-childe {
     font-size: 15px;
-    margin-right: 0px;
+    /* margin-right: 5px; */
   }
 }
 
