@@ -1,22 +1,42 @@
-// //SendEmail.js
-// // import { Button } from "@/components/ui/button";
-// import { compileWelcomeTemplate, sendMail } from "@/lib/mail";
-// // import { Button } from "../ui/button";
+import React from "react";
+import { Button } from "@mui/material";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
-// export default function SendEmail() {
-//   const send = async () => {
-//     await sendMail({
-//       to: "pyon220@gmail.com",
-//       name: "Aya",
-//       subject: "Test Mail",
-//       body: compileWelcomeTemplate("Aya", "youtube haha"),
-//     });
-//   };
-//   return (
-//     <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-4">
-//       <form>
-//         <button onClick={send}>test</button>
-//       </form>
-//     </main>
-//   );
-// }
+const SendEmail = ({ orderDate }) => {
+  const sendEmail = () => {
+    const formattedDate = new Date(orderDate).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+    });
+
+    const emailSubject = `Tea Order For Kits : ${formattedDate}`;
+    const emailBody = `\nHi Marke!\n\nHere is the tea order for this week.\n\nThank you,\nAya`;
+
+    const mailTo = `mailto:""?body=${emailSubject}${encodeURIComponent(
+      emailBody
+    )}`;
+
+    ("mailto:recipient@example.com?body=Hello%20%3Cstrong%3EWorld%3C/strong%3E");
+
+    window.location.href = mailTo;
+
+    // location.href = mailTo;
+  };
+
+  return (
+    <>
+      <div>
+        <Button
+          endIcon={<MailOutlineIcon />}
+          variant="contained"
+          className="text-[12px] bg-[#b2698b] hover:bg-[#b64f7f] "
+          onClick={sendEmail}
+        >
+          Mail
+        </Button>
+      </div>
+    </>
+  );
+};
+
+export default SendEmail;

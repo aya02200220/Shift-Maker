@@ -35,3 +35,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# component file
+app/components/mails/SendEmail.js
+app/components/mails/CreateEmail.js
