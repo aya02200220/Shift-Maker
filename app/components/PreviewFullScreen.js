@@ -1,7 +1,7 @@
 //PreviewFullScreen.js
 import React, { useState, useRef, createRef, useEffect } from "react";
 import dayjs from "dayjs";
-import CreateEmail from "./mails/CreateEmail";
+// import CreateEmail from "./mails/CreateEmail";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -169,7 +169,7 @@ export default function PreviewFullScreen({
             </Typography>
 
             <div className="flex gap-2">
-              <CreateEmail orderDate={orderDate} />
+              {/* <CreateEmail orderDate={orderDate} /> */}
 
               <Button
                 endIcon={<FileDownloadIcon />}
