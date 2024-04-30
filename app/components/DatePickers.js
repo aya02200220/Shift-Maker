@@ -105,19 +105,54 @@ export default function DatePickers({ orderDate, onDateChange }) {
     onDateChange(date);
   };
 
+  // const fetchHighlightedDays = (date) => {
+  //   const controller = new AbortController();
+  //   fakeFetch(date, {
+  //     signal: controller.signal,
+  //   })
+  //     .then(({ daysToHighlight }) => {
+  //       setHighlightedDays(daysToHighlight);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       // ignore the error if it's caused by `controller.abort`
+  //       if (error.name !== "AbortError") {
+  //         throw error;
+  //       }
+  //     });
+
+  //   requestAbortController.current = controller;
+  // };
+
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
-    fakeFetch(date, {
+    const year = date.year(); // 年を取得
+    const month = date.month() + 1; // 月を取得（dayjsは月を0から数えるため）
+
+    console.log("year", year, "month", month);
+
+    // サーバーからデータを取得するリクエストを送信
+    fetch(`/api/order-find-by-date?year=${year}&month=${month}`, {
       signal: controller.signal,
     })
-      .then(({ daysToHighlight }) => {
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        return response.json();
+      })
+      .then(({ orders }) => {
+        // ordersから日付を取得し、highlightedDaysを更新する
+        const daysToHighlight = orders.map((order) => {
+          const orderDate = dayjs(order.orderDate);
+          return orderDate.date(); // 日付部分のみ取得
+        });
         setHighlightedDays(daysToHighlight);
         setIsLoading(false);
       })
       .catch((error) => {
-        // ignore the error if it's caused by `controller.abort`
         if (error.name !== "AbortError") {
-          throw error;
+          console.error("Error fetching data:", error);
         }
       });
 
