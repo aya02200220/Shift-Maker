@@ -2,7 +2,7 @@
 import React, { useState, useRef, createRef, useEffect } from "react";
 import dayjs from "dayjs";
 // import CreateEmail from "./mails/CreateEmail";
-import SendEmail from "./mails/SendEmail";
+import SendEmail from "../mails/SendEmail";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
