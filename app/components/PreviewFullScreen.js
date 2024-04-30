@@ -1,6 +1,7 @@
 //PreviewFullScreen.js
 import React, { useState, useRef, createRef, useEffect } from "react";
 import dayjs from "dayjs";
+import CreateEmail from "./mails/CreateEmail";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -154,7 +155,7 @@ export default function PreviewFullScreen({
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+          <Toolbar className=" bg-[#d1a0b7]">
             <IconButton
               edge="start"
               color="inherit"
@@ -167,14 +168,18 @@ export default function PreviewFullScreen({
               Preview
             </Typography>
 
-            <Button
-              endIcon={<FileDownloadIcon />}
-              variant="contained"
-              style={{ fontSize: "12px" }}
-              onClick={downloadScreenshot}
-            >
-              Download
-            </Button>
+            <div className="flex gap-2">
+              <CreateEmail orderDate={orderDate} />
+
+              <Button
+                endIcon={<FileDownloadIcon />}
+                variant="contained"
+                className="text-[12px] bg-[#b2698b] hover:bg-[#b64f7f] "
+                onClick={downloadScreenshot}
+              >
+                Download
+              </Button>
+            </div>
           </Toolbar>
         </AppBar>
         <div>
