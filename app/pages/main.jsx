@@ -7,8 +7,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import OrderTea from "./OrderTea";
-import { OderTierneys } from "./OderTierneys";
-import { Schedule } from "./Schedule";
+import OderTierneys from "./OderTierneys";
+import Schedule from "./Schedule";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 
 export default function Main() {

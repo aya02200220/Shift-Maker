@@ -7,8 +7,8 @@ import { Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
-import Preview from "../components/Preview";
-import PreviewFullScreen from "../components/PreviewFullScreen";
+import Preview from "../components/tea/Preview";
+import PreviewFullScreen from "../components/tea/PreviewFullScreen";
 
 const OrderTea = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
