@@ -23,9 +23,6 @@ export async function GET(request) {
 
     if (orderDateStr) {
       // 日付が提供された場合
-      // const date = new Date(orderDateStr);
-      // const startOfDay = new Date(date.setHours(0, 0, 0, 0));
-      // const endOfDay = new Date(date.setHours(23, 59, 59, 999));
       const date = new Date(orderDateStr);
       date.setDate(date.getDate() + 1); // 選択された日付の次の日に移動する
       const startOfDay = new Date(
@@ -68,11 +65,9 @@ export async function GET(request) {
         orderDate: { $gte: startDate, $lte: endDate },
       });
 
-      if (!orders || orders.length === 0) {
-        return NextResponse.json(
-          { message: "No orders found for the specified month" },
-          { status: 404 }
-        );
+      if (!orders) {
+        // オーダーデータが存在しない場合、空の配列を返す
+        return NextResponse.json({ orders: [] }, { status: 200 });
       }
 
       return NextResponse.json({ orders }, { status: 200 });
