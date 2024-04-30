@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tea-name {
+  width: 30%;
+  margin-right: 0.5rem /* 8px */;
+  line-height: 0.75rem /* 12px */;
+  color: #333;
+  font-size: 13px;
+}
+
+@media (min-width: 500px) {
+  .tea-name {
+    font-size: 14px;
+  }
+}
+.tea-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  margin-left: 10px;
+}
+.tea-detail {
+  width: 40px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+
+.tea-input {
+  width: 100%;
+  max-width: 60px;
+  height: 26px;
+  text-align: right;
+  padding-left: 0.25rem /* 4px */;
+  padding-right: 0.25rem /* 4px */;
+}
+
+/* //////////////////////////////////////////// */
+.tea-list-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem /* 4px */;
+  margin-bottom: 7px;
+}
+@media (min-width: 768px) {
+  .tea-list-title {
+    margin-bottom: 0.8rem;
+  }
+}
+.tea-list-title-space {
+  width: 40%;
+}
+
+.tea-list-title-childe {
+  font-size: 13px;
+  width: 15%;
+  text-align: center;
+  overflow-wrap: break-word;
+  line-height: 0.75rem /* 12px */;
+  margin-right: 5px;
+}
+
+@media (min-width: 640px) {
+  .tea-list-title-childe {
+    font-size: 15px;
+    margin-right: 0px;
+  }
+}
+
+/* @media (min-width: 768px) {
+  .tea-list-title-childe {
+    width: 110px;
+  }
+} */

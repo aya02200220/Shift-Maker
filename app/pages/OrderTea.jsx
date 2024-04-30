@@ -141,41 +141,32 @@ const OrderTea = () => {
 
   return (
     // <div className="flex flex-col items-center">
-    <div className="w-[360px] md:w-[680px] max-w-[680px]">
+    <div className="w-full md:w-[680px] max-w-[680px]">
       <h3 className="text-[16px] md:text-xl font-medium text-center md:text-left">
         Previous Order :
         <span className=" font-semibold">【{formattedDate}】</span>
       </h3>
 
       {previousOrder && (
-        <div className="shadow-md  px-3 py-3 ">
-          <ul className="flex text-[14px] text-[#333] font-medium items-center justify-center gap-1 mb-0 md:mb-2">
-            <li className="w-[90px] md:w-[200px]"></li>
-            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
-              Unopened
-            </li>
-            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
-              Opened&nbsp;(%)
-            </li>
-            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
-              Tin&nbsp;(%)
-            </li>
-            <li className="text-[10px] md:text-[14px] w-[42px] md:w-[110px] text-center break-words leading-3">
-              Order
-            </li>
+        <div className="shadow-md px-1 sm:px-3 py-3 ">
+          <ul className="tea-list-title ">
+            <li className="tea-list-title-space "></li>
+            <li className="tea-list-title-childe ">Unopened</li>
+            <li className="tea-list-title-childe ">Opened&nbsp;(%)</li>
+            <li className="tea-list-title-childe ">Tin&nbsp;(%)</li>
+            <li className="tea-list-title-childe ">Order</li>
           </ul>
+
           <ul>
             {previousOrder.map((detail, index) => (
               <li
-                className={`flex border-b-2  h-[60px] md:h-[34px] text-[14.5px] items-center px-2
+                className={`flex border-b-2  h-[60px] sm:h-[42px] text-[14.5px] items-center px-2
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <p className="w-[80px] md:w-[190px] mr-2 leading-3 text-[#333] text-[12px] md:text-[14px]">
-                  {detail.teaName}
-                </p>
+                <p className="tea-name sm:w-[190px]">{detail.teaName}</p>
                 <button
                   onClick={() => handleCopy(index)}
                   className="mr-3 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
@@ -183,13 +174,13 @@ const OrderTea = () => {
                   <ContentCopyIcon className="text-[13px]" />
                 </button>
 
-                <div className="flex flex-col md:flex-row justify-center items-center">
-                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                <div className="tea-row flex-col sm:flex-row">
+                  <p className="tea-detail md:text-right md:mr-3">
                     {detail.unopened}
                   </p>
 
                   <input
-                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px]  shadow-sm border text-right px-1"
+                    className="tea-input md:h-[23px] md:w-[50px]  shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -200,12 +191,12 @@ const OrderTea = () => {
                   />
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                <div className="tea-row flex-col sm:flex-row">
+                  <p className="tea-detail md:text-right md:mr-3">
                     {detail.opened}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -216,12 +207,12 @@ const OrderTea = () => {
                   />
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                <div className="tea-row  flex-col sm:flex-row  w-[15%] ml-2">
+                  <p className="tea-detail w-[40px] md:text-right md:mr-3">
                     {detail.tin}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -230,12 +221,12 @@ const OrderTea = () => {
                   />
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-center items-center ml-2">
-                  <p className="w-[40px] text-center md:text-right text-[#999] text-[13px] md:mr-3">
+                <div className="tea-row flex-col sm:flex-row">
+                  <p className="tea-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
                   <input
-                    className="w-[43px] h-[26px] md:h-[23px] md:w-[50px] shadow-sm border text-right px-1"
+                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="5"

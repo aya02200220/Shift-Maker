@@ -39,8 +39,9 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex flex-col mt-4 justify-center items-center">
+      <div className="flex flex-col mt-4 w-[100%]">
         <ToggleButtonGroup
+          className="flex justify-center"
           value={alignment}
           exclusive
           onChange={handleAlignment}
@@ -75,7 +76,7 @@ export default function Main() {
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <div className="mt-5">
+        <div className="mt-5 w-[100%] flex justify-center items-center">
           {alignment === "OrderTea" && <OrderTea />}
           {alignment === "OderTierneys" && <OderTierneys />}
           {alignment === "Schedule" && <Schedule />}
