@@ -19,8 +19,6 @@ const teaOrderSchema = new Schema(
   { timestamps: true }
 );
 
-// Create the model if it does not exist
 const TeaOrder = models.TeaOrder || mongoose.model("TeaOrder", teaOrderSchema);
 
-// Exporting the model
 export { TeaOrder };
