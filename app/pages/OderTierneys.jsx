@@ -12,10 +12,11 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/tierney/Preview";
 
-import { RiDrinksLine } from "react-icons/ri";
+import { BiCoffeeTogo } from "react-icons/bi";
 import { FaDotCircle } from "react-icons/fa";
 
 import { RiDrinks2Fill } from "react-icons/ri";
+import { RiDrinks2Line } from "react-icons/ri";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
 
 const OderTierneys = () => {
@@ -202,15 +203,15 @@ const OderTierneys = () => {
                 `}
                 key={index}
               >
-                <div className="w-[20px] text-lg mr-1">
-                  {detail.displayName.includes("white cup") ? (
-                    <RiDrinksLine />
+                <div className="w-[45px] text-lg flex items-center justify-center">
+                  {detail.displayName.includes("hot cup") ? (
+                    <BiCoffeeTogo />
                   ) : detail.displayName.includes("lear cup") ? (
-                    <RiDrinks2Fill />
+                    <RiDrinks2Line />
                   ) : detail.displayName.includes("black lid") ? (
-                    <FaDotCircle className="text-[15px] mr-1" />
+                    <FaDotCircle size={15} />
                   ) : detail.displayName.includes("clear lid") ? (
-                    <MdOutlineExpandCircleDown className="text-[18px] mr-1" />
+                    <MdOutlineExpandCircleDown size={18} />
                   ) : (
                     <p></p>
                   )}
@@ -224,13 +225,13 @@ const OderTierneys = () => {
                   <ContentCopyIcon className="text-[13px]" />
                 </button>
 
-                <div className="tea-row flex-col sm:flex-row">
-                  <p className="tea-detail md:text-right md:mr-3">
+                <div className="cup-row flex-col sm:flex-row">
+                  <p className="cup-detail md:text-right md:mr-3">
                     {detail.codeRequired}
                   </p>
 
                   <input
-                    className="tea-input md:h-[23px] md:w-[50px]  shadow-sm border"
+                    className="cup-input md:h-[23px] md:w-[50px]  shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -241,12 +242,12 @@ const OderTierneys = () => {
                   />
                 </div>
 
-                <div className="tea-row flex-col sm:flex-row">
-                  <p className="tea-detail md:text-right md:mr-3">
+                <div className="cup-row flex-col sm:flex-row">
+                  <p className="cup-detail md:text-right md:mr-3">
                     {detail.opened}
                   </p>
                   <input
-                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
+                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -257,12 +258,12 @@ const OderTierneys = () => {
                   />
                 </div>
 
-                <div className="tea-row  flex-col sm:flex-row  w-[15%] ml-2">
-                  <p className="tea-detail w-[40px] md:text-right md:mr-3">
+                <div className="cup-row  flex-col sm:flex-row  w-[15%] ml-2">
+                  <p className="cup-detail w-[40px] md:text-right md:mr-3">
                     {detail.tin}
                   </p>
                   <input
-                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
+                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="100"
@@ -271,12 +272,12 @@ const OderTierneys = () => {
                   />
                 </div>
 
-                <div className="tea-row flex-col sm:flex-row">
-                  <p className="tea-detail md:text-right md:mr-3">
+                <div className="cup-row flex-col sm:flex-row">
+                  <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
                   <input
-                    className="tea-input md:h-[23px] md:w-[50px] shadow-sm border"
+                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
                     type="number"
                     min="0"
                     max="5"
