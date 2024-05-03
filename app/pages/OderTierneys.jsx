@@ -12,13 +12,19 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/tierney/Preview";
 
+import { RiDrinksLine } from "react-icons/ri";
+import { FaDotCircle } from "react-icons/fa";
+
+import { RiDrinks2Fill } from "react-icons/ri";
+import { MdOutlineExpandCircleDown } from "react-icons/md";
+
 const OderTierneys = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
-  console.log("previousOrderDate", previousOrderDate);
+  console.log("PreviousTierneysOrder", previousOrderDate);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
@@ -43,9 +49,16 @@ const OderTierneys = () => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index] = {
         ...updatedOrder[index],
-        unopened: prevDetail.unopened || "0",
-        opened: prevDetail.opened || "0",
-        tin: prevDetail.tin || "0",
+        displayName: prevDetail.displayName || "",
+        orderName: prevDetail.orderName || "",
+        itemName: prevDetail.itemName || "",
+        itemCode: prevDetail.itemCode || "",
+        codeRequired: prevDetail.codeRequired || false,
+        minimum: prevDetail.minimum || "",
+        stock: prevDetail.stock || 0,
+        shelfMinimum: prevDetail.shelfMinimum || 0,
+        shelf: prevDetail.shelf || 0,
+        price: prevDetail.price || 0,
         order: "",
       };
       return updatedOrder;
@@ -55,22 +68,30 @@ const OderTierneys = () => {
   useEffect(() => {
     async function fetchPreviousOrder() {
       try {
-        const response = await axios.get("/api/latest-teaOrder");
+        const response = await axios.get("/api/latest-cupOrder");
         // setPreviousOrder(response.data);
-        setPreviousOrderDate(response.data.latestTeaOrder.orderDate);
-        setPreviousOrder(response.data.latestTeaOrder.orderDetails);
+        setPreviousOrderDate(response.data.latestTierneysOrder.orderDate);
+        setPreviousOrder(response.data.latestTierneysOrder.orderDetails);
 
         const initialTodaysOrder =
-          response.data.latestTeaOrder.orderDetails.map((detail) => ({
+          response.data.latestTierneysOrder.orderDetails.map((detail) => ({
             ...detail,
-            unopened: "",
-            opened: "",
-            tin: "",
+            displayName: "",
+            orderName: "",
+            itemName: "",
+            itemCode: "",
+            codeRequired: false,
+            minimum: "",
+            stock: "",
+            shelfMinimum: "",
+            shelf: "",
+            price: "",
             order: "",
           }));
         setTodaysOrder(initialTodaysOrder);
+        console.log("latestTierneysOrder", latestTierneysOrder);
       } catch (error) {
-        console.error("Error fetching previous order:", error);
+        console.error("Error fetching previous cup order:", error);
       }
     }
 
@@ -89,21 +110,27 @@ const OderTierneys = () => {
   const handleOrderButtonClick = async () => {
     const orderDetails = todaysOrder.map((detail) => ({
       index: detail.index,
-      teaName: detail.teaName,
-      unopened: detail.unopened || 0,
-      opened: detail.opened || 0,
-      tin: detail.tin || 0,
-      order: detail.order || 0,
+      displayName: detail.displayName || "",
+      orderName: detail.orderName || "",
+      itemName: detail.itemName || "",
+      itemCode: detail.itemCode || "",
+      codeRequired: detail.codeRequired || false,
+      minimum: detail.minimum || "",
+      stock: detail.stock || 0,
+      shelfMinimum: detail.shelfMinimum || 0,
+      shelf: detail.shelf || 0,
+      price: detail.price || 0,
+      order: detail.price || 0,
     }));
 
     try {
-      const response = await axios.post("/api/order-tea", {
+      const response = await axios.post("/api/order-cup", {
         orderDate: new Date().toISOString(),
         orderDetails,
       });
-      console.log("Order success:", response.data);
+      console.log("Tierneys Order success:", response.data);
 
-      toast.success("Order Registered!", {
+      toast.success("Tierneys Order Registered!", {
         position: "bottom-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -114,25 +141,32 @@ const OderTierneys = () => {
         theme: "light",
       });
 
-      setPreviousOrderDate(response.data.newTeaOrder.orderDate);
-      setPreviousOrder(response.data.newTeaOrder.orderDetails);
+      setPreviousOrderDate(response.data.newTierneysOrder.orderDate);
+      setPreviousOrder(response.data.newTierneysOrder.orderDetails);
 
       const initialTodaysOrder = previousOrder.map((detail) => ({
         ...detail,
-        unopened: "",
-        opened: "",
-        tin: "",
+        displayName: "",
+        orderName: "",
+        itemName: "",
+        itemCode: "",
+        codeRequired: false,
+        minimum: "",
+        stock: "",
+        shelfMinimum: "",
+        shelf: "",
+        price: "",
         order: "",
       }));
       setTodaysOrder(initialTodaysOrder);
     } catch (error) {
-      console.error("Error ordering tea:", error);
+      console.error("Error ordering Tierneys:", error);
     }
   };
 
   // 空白かどうかをチェックする
   const getRowStyle = (detail) => {
-    const isEmpty = !detail.unopened || !detail.opened || !detail.tin;
+    const isEmpty = !detail.stock || !detail.shelf;
     return isEmpty ? "bg-red-100" : "";
   };
   // オーダーがあるかどうかをチェックする
@@ -168,7 +202,21 @@ const OderTierneys = () => {
                 `}
                 key={index}
               >
-                <p className="tea-name sm:w-[190px]">{detail.teaName}</p>
+                <div className="w-[20px] text-lg mr-1">
+                  {detail.displayName.includes("white cup") ? (
+                    <RiDrinksLine />
+                  ) : detail.displayName.includes("lear cup") ? (
+                    <RiDrinks2Fill />
+                  ) : detail.displayName.includes("black lid") ? (
+                    <FaDotCircle className="text-[15px] mr-1" />
+                  ) : detail.displayName.includes("clear lid") ? (
+                    <MdOutlineExpandCircleDown className="text-[18px] mr-1" />
+                  ) : (
+                    <p></p>
+                  )}
+                </div>
+
+                <p className="tea-name sm:w-[190px]">{detail.displayName}</p>
                 <button
                   onClick={() => handleCopy(index)}
                   className="mr-3 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
@@ -178,7 +226,7 @@ const OderTierneys = () => {
 
                 <div className="tea-row flex-col sm:flex-row">
                   <p className="tea-detail md:text-right md:mr-3">
-                    {detail.unopened}
+                    {detail.codeRequired}
                   </p>
 
                   <input
