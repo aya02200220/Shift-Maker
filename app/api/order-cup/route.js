@@ -2,6 +2,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import { CupOrder } from "@/models/tierneys";
 import { NextResponse } from "next/server";
+import { TierneysOrder } from "@/models/tierneysOrder";
 
 export async function POST(request) {
   // リクエストからJSONデータを抽出します
@@ -21,13 +22,13 @@ export async function POST(request) {
 
   // 新しいCupOrderを作成し、データベースに保存
   try {
-    const newCupOrder = await CupOrder.create({
+    const newTierneysOrder = await TierneysOrder.create({
       orderDate,
       orderDetails,
     });
     // 成功した場合は201ステータスとともにメッセージを返す
     return NextResponse.json(
-      { message: "Tea order saved successfully", newCupOrder },
+      { message: "Tierneys order saved successfully", newTierneysOrder },
       { status: 201 }
     );
   } catch (error) {
