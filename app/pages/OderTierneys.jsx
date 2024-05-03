@@ -256,10 +256,6 @@ const OderTierneys = () => {
           </Typography>
         </Button>
 
-        {/* <Preview
-          previousOrder={previousOrder}
-          previousOrderDate={previousOrderDate}
-        /> */}
         <Preview
           previousOrder={previousOrder}
           previousOrderDate={previousOrderDate}

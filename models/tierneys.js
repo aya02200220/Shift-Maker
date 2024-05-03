@@ -3,8 +3,11 @@ import mongoose, { Schema, models } from "mongoose";
 // Order Detail Schema
 const orderDetailSchema = new Schema({
   index: { type: Number, required: true },
+  displayName: { type: String, required: true },
+  orderName: { type: String, required: true },
   itemName: { type: String, required: true },
   itemCode: { type: String, required: true },
+  codeRequired: { type: Boolean, required: true },
   minimum: { type: String, required: true },
   stock: { type: Number, required: true },
   shelfMinimum: { type: Number, required: true },
