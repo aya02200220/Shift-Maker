@@ -12,6 +12,7 @@ const orderDetailSchema = new Schema({
   stock: { type: Number, required: true },
   shelfMinimum: { type: Number, required: true },
   shelf: { type: Number, required: true },
+  price: { type: Number, required: true },
   order: { type: Number, required: true },
 });
 

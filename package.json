@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^7.3.1",
+    "@react-icons/all-files": "^4.1.0",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
@@ -28,6 +29,7 @@
     "nodemailer": "^6.9.13",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.2.0",
     "react-toastify": "^10.0.5",
     "use-react-screenshot": "^4.0.0"
   },
