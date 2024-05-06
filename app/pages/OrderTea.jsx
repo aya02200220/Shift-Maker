@@ -54,7 +54,6 @@ const OrderTea = () => {
     async function fetchPreviousOrder() {
       try {
         const response = await axios.get("/api/latest-teaOrder");
-        // setPreviousOrder(response.data);
         setPreviousOrderDate(response.data.latestTeaOrder.orderDate);
         setPreviousOrder(response.data.latestTeaOrder.orderDetails);
 

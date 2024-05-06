@@ -13,6 +13,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Divider } from "@mui/material";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -25,8 +30,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function Preview({ previousOrder, previousOrderDate }) {
   const [open, setOpen] = useState(false);
-  const [orderDetail, setOrderDetail] = useState(previousOrder);
-  const [orderDate, setOrderDate] = useState(previousOrderDate);
+  const [orderDetail, setOrderDetail] = useState("");
+  const [orderDate, setOrderDate] = useState("");
+
+  const [dateToDisplay, setDateToDisplay] = useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   const formattedDate = orderDate ? format(orderDate, "MMMM d, yyyy") : "";
   const formattedDateForDl = orderDate ? format(orderDate, "MMdd") : "";
@@ -38,6 +49,8 @@ export default function Preview({ previousOrder, previousOrderDate }) {
   useEffect(() => {
     setOrderDate(previousOrderDate);
   }, [previousOrderDate]);
+
+  useEffect(() => {}, []);
 
   const ref = createRef(null);
   const [image, takeScreenShot] = useScreenshot({
@@ -83,9 +96,25 @@ export default function Preview({ previousOrder, previousOrderDate }) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle>
+        <div className="w-[180px] m-2 bg-[#a964a1] rounded-md">
+          <FormControl fullWidth>
+            <InputLabel id="date-to-display-label">
+              Display other date
+            </InputLabel>
+            <Select
+              labelId="date-to-display-label"
+              id="date-to-display"
+              value={dateToDisplay}
+              label="Date"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
         <IconButton
           aria-label="close"
           onClick={handleClose}

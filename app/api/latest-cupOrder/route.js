@@ -1,4 +1,5 @@
-// latest-teaOrder/route.js
+// latest-cupOrder/route.js
+
 import { connectMongoDB } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 import { TierneysOrder } from "@/models/tierneysOrder";
