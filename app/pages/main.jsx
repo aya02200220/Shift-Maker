@@ -19,9 +19,6 @@ export default function Main() {
   const handleAlignment = (event, newAlignment) => {
     if (newAlignment !== alignment) {
       setNextPage(newAlignment);
-      // setShowPopup(true);
-
-      ////////// ⇩ coment out later/////////////////
       setAlignment(nextPage);
     }
   };

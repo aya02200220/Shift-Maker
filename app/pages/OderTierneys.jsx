@@ -1,5 +1,4 @@
 //tierney/OrderTierneys.js
-
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -8,14 +7,17 @@ import ConfirmationPopup from "../components/ConfirmationPopup";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { RiBarcodeBoxLine } from "react-icons/ri";
+
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/tierney/Preview";
 
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaDotCircle } from "react-icons/fa";
-
-import { RiDrinks2Fill } from "react-icons/ri";
 import { RiDrinks2Line } from "react-icons/ri";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
 
@@ -24,6 +26,14 @@ const OderTierneys = () => {
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  const [alignment, setAlignment] = useState("Disp");
+
+  console.log("alignment", alignment);
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
 
   console.log("PreviousTierneysOrder", previousOrderDate);
 
@@ -186,8 +196,29 @@ const OderTierneys = () => {
 
       {previousOrder && (
         <div className="shadow-md px-1 sm:px-3 py-3 ">
-          <ul className="tea-list-title ">
-            <li className="tea-list-title-space "></li>
+          <ul className="cup-list-title ">
+            <li className="tea-list-title-space ">
+              <ToggleButtonGroup
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+              >
+                <ToggleButton className="cup-toggle" value="Disp">
+                  Disp
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Mail">
+                  Mail
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Item">
+                  Item
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Code">
+                  Code
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </li>
             <li className="tea-list-title-childe ">Unopened</li>
             <li className="tea-list-title-childe ">Opened&nbsp;(%)</li>
             <li className="tea-list-title-childe ">Tin&nbsp;(%)</li>
@@ -203,19 +234,28 @@ const OderTierneys = () => {
                 `}
                 key={index}
               >
-                <div className="flex items-center w-[22%]">
-                  {/* <div className="text-lg flex items-center justify-center "> */}
+                <div className="flex items-center w-[135px]">
+                  {detail.codeRequired && (
+                    <RiBarcodeBoxLine className="cup-icon-code" />
+                  )}
+
                   {detail.displayName.includes("hot cup") ? (
-                    <BiCoffeeTogo className="mr-1" />
+                    <BiCoffeeTogo className="cup-icon" />
                   ) : detail.displayName.includes("lear cup") ? (
-                    <RiDrinks2Line className="mr-1" />
+                    <RiDrinks2Line className="cup-icon" />
                   ) : detail.displayName.includes("black lid") ? (
-                    <FaDotCircle size={15} className="mr-1" />
+                    <FaDotCircle size={15} className="cup-icon" />
                   ) : detail.displayName.includes("clear lid") ? (
-                    <MdOutlineExpandCircleDown size={18} className="mr-1" />
+                    <MdOutlineExpandCircleDown size={18} className="cup-icon" />
                   ) : null}
-                  {/* </div> */}
-                  <p className="cup-name">{detail.displayName}</p>
+
+                  <p className="cup-name">
+                    {alignment === null && <p>{detail.displayName}</p>}
+                    {alignment === "Disp" && <p>{detail.displayName}</p>}
+                    {alignment === "Mail" && <p>{detail.orderName}</p>}
+                    {alignment === "Item" && <p>{detail.itemName}</p>}
+                    {alignment === "Code" && <p>{detail.itemCode}</p>}
+                  </p>
                 </div>
                 <button
                   onClick={() => handleCopy(index)}
@@ -224,51 +264,44 @@ const OderTierneys = () => {
                   <ContentCopyIcon className="text-[13px]" />
                 </button>
 
+                <p className="text-[12px] text-[#333] leading-3 w-[70px] mx-2">
+                  {detail.minimum}
+                </p>
+                {/* <input
+                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
+                    type="string"
+                    value={
+                      (todaysOrder[index] && todaysOrder[index].minimum) || ""
+                    }
+                    onChange={(e) => handleInputChange(e, index, "minimum")}
+                  /> */}
+
                 <div className="cup-row flex-col sm:flex-row">
                   <p className="cup-detail md:text-right md:mr-3">
-                    {detail.itemCode}
+                    {detail.stock}
                   </p>
-
                   <input
-                    className="cup-input md:h-[23px] md:w-[50px]  shadow-sm border"
-                    type="number"
-                    min="0"
-                    max="100"
+                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
+                    type="string"
                     value={
-                      (todaysOrder[index] && todaysOrder[index].unopened) || ""
+                      (todaysOrder[index] && todaysOrder[index].stock) || ""
                     }
-                    onChange={(e) => handleInputChange(e, index, "unopened")}
+                    onChange={(e) => handleInputChange(e, index, "stock")}
                   />
                 </div>
 
                 <div className="cup-row flex-col sm:flex-row">
-                  <p className="cup-detail md:text-right md:mr-3">
-                    {detail.opened}
-                  </p>
                   <input
-                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
+                    className="cup-input w-[40px] shadow-sm border border-r-0"
                     type="number"
-                    min="0"
-                    max="100"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].opened) || ""
+                    defaultValue={
+                      (todaysOrder[index] && todaysOrder[index].shelf) || ""
                     }
-                    onChange={(e) => handleInputChange(e, index, "opened")}
+                    onChange={(e) => handleInputChange(e, index, "shelf")}
                   />
-                </div>
-
-                <div className="cup-row  flex-col sm:flex-row  w-[15%] ml-2">
-                  <p className="cup-detail w-[40px] md:text-right md:mr-3">
-                    {detail.tin}
+                  <p className="flex items-center w-[25px] text-[#999] md:mr-3 bg-white h-[26px] text-[12px] border border-l-0">
+                    {detail.shelfMinimum > 0 && `/ ${detail.shelfMinimum}`}
                   </p>
-                  <input
-                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={(todaysOrder[index] && todaysOrder[index].tin) || ""}
-                    onChange={(e) => handleInputChange(e, index, "tin")}
-                  />
                 </div>
 
                 <div className="cup-row flex-col sm:flex-row">
@@ -276,10 +309,8 @@ const OderTierneys = () => {
                     {detail.order}
                   </p>
                   <input
-                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
-                    type="number"
-                    min="0"
-                    max="5"
+                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
+                    type="string"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""
                     }
