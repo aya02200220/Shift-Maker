@@ -83,16 +83,15 @@
 /* //////////////////////////////////////////////// */
 
 .cup-name {
-  width: 30%;
   margin-right: 0.5rem /* 8px */;
   line-height: 0.75rem /* 12px */;
   color: #333;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 @media (min-width: 500px) {
   .cup-name {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 .cup-row {
