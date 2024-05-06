@@ -203,31 +203,30 @@ const OderTierneys = () => {
                 `}
                 key={index}
               >
-                <div className="w-[45px] text-lg flex items-center justify-center">
+                <div className="flex items-center w-[22%]">
+                  {/* <div className="text-lg flex items-center justify-center "> */}
                   {detail.displayName.includes("hot cup") ? (
-                    <BiCoffeeTogo />
+                    <BiCoffeeTogo className="mr-1" />
                   ) : detail.displayName.includes("lear cup") ? (
-                    <RiDrinks2Line />
+                    <RiDrinks2Line className="mr-1" />
                   ) : detail.displayName.includes("black lid") ? (
-                    <FaDotCircle size={15} />
+                    <FaDotCircle size={15} className="mr-1" />
                   ) : detail.displayName.includes("clear lid") ? (
-                    <MdOutlineExpandCircleDown size={18} />
-                  ) : (
-                    <p></p>
-                  )}
+                    <MdOutlineExpandCircleDown size={18} className="mr-1" />
+                  ) : null}
+                  {/* </div> */}
+                  <p className="cup-name">{detail.displayName}</p>
                 </div>
-
-                <p className="tea-name sm:w-[190px]">{detail.displayName}</p>
                 <button
                   onClick={() => handleCopy(index)}
-                  className="mr-3 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
+                  className="mx-2 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
                 >
                   <ContentCopyIcon className="text-[13px]" />
                 </button>
 
                 <div className="cup-row flex-col sm:flex-row">
                   <p className="cup-detail md:text-right md:mr-3">
-                    {detail.codeRequired}
+                    {detail.itemCode}
                   </p>
 
                   <input
