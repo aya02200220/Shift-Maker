@@ -219,9 +219,9 @@ const OderTierneys = () => {
                 </ToggleButton>
               </ToggleButtonGroup>
             </li>
-            <li className="tea-list-title-childe ">Unopened</li>
-            <li className="tea-list-title-childe ">Opened&nbsp;(%)</li>
-            <li className="tea-list-title-childe ">Tin&nbsp;(%)</li>
+            <li className="tea-list-title-childe ">Minimum</li>
+            <li className="tea-list-title-childe ">Stock</li>
+            <li className="tea-list-title-childe ">Shelf</li>
             <li className="tea-list-title-childe ">Order</li>
           </ul>
 
@@ -290,9 +290,9 @@ const OderTierneys = () => {
                   />
                 </div>
 
-                <div className="cup-row flex-col sm:flex-row">
+                <div className="cup-row flex-row">
                   <input
-                    className="cup-input w-[40px] shadow-sm border border-r-0"
+                    className="w-[35px] h-[26px] shadow-sm border border-r-0"
                     type="number"
                     defaultValue={
                       (todaysOrder[index] && todaysOrder[index].shelf) || ""
