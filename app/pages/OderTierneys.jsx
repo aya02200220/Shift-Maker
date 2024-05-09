@@ -208,8 +208,8 @@ const OderTierneys = () => {
                 <ToggleButton className="cup-toggle" value="Disp">
                   Disp
                 </ToggleButton>
-                <ToggleButton className="cup-toggle" value="Mail">
-                  Mail
+                <ToggleButton className="cup-toggle" value="Order">
+                  Order
                 </ToggleButton>
                 <ToggleButton className="cup-toggle" value="Item">
                   Item
@@ -234,7 +234,7 @@ const OderTierneys = () => {
                 `}
                 key={index}
               >
-                <div className="flex items-center w-[135px]">
+                <div className="flex items-center w-[80px] max-w-[80px] sm:w-[135px]">
                   {detail.codeRequired && (
                     <RiBarcodeBoxLine className="cup-icon-code" />
                   )}
@@ -252,7 +252,7 @@ const OderTierneys = () => {
                   <p className="cup-name">
                     {alignment === null && <p>{detail.displayName}</p>}
                     {alignment === "Disp" && <p>{detail.displayName}</p>}
-                    {alignment === "Mail" && <p>{detail.orderName}</p>}
+                    {alignment === "Order" && <p>{detail.orderName}</p>}
                     {alignment === "Item" && <p>{detail.itemName}</p>}
                     {alignment === "Code" && <p>{detail.itemCode}</p>}
                   </p>
@@ -291,17 +291,21 @@ const OderTierneys = () => {
                 </div>
 
                 <div className="cup-row flex-row">
-                  <input
-                    className="w-[35px] h-[26px] shadow-sm border border-r-0"
-                    type="number"
-                    defaultValue={
-                      (todaysOrder[index] && todaysOrder[index].shelf) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "shelf")}
-                  />
-                  <p className="flex items-center w-[25px] text-[#999] md:mr-3 bg-white h-[26px] text-[12px] border border-l-0">
-                    {detail.shelfMinimum > 0 && `/ ${detail.shelfMinimum}`}
-                  </p>
+                  {detail.shelfMinimum > 0 && (
+                    <>
+                      <input
+                        className="w-[35px] h-[26px] shadow-sm border border-r-0"
+                        type="number"
+                        defaultValue={
+                          (todaysOrder[index] && todaysOrder[index].shelf) || ""
+                        }
+                        onChange={(e) => handleInputChange(e, index, "shelf")}
+                      />
+                      <p className="flex items-center w-[25px] text-[#999] md:mr-3 bg-white h-[26px] text-[12px] border border-l-0">
+                        / {detail.shelfMinimum}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 <div className="cup-row flex-col sm:flex-row">

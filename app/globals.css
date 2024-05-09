@@ -102,12 +102,13 @@
   line-height: 0.75rem /* 12px */;
   color: #333;
   font-size: 12px;
-  width: 110px;
+  /* width: 70px; */
 }
 
 @media (min-width: 500px) {
   .cup-name {
     font-size: 13px;
+    /* width: 110px; */
   }
 }
 .cup-row {
