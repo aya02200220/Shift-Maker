@@ -21,6 +21,12 @@ import { FaDotCircle } from "react-icons/fa";
 import { RiDrinks2Line } from "react-icons/ri";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 const OderTierneys = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
@@ -243,7 +249,7 @@ const OderTierneys = () => {
                     <BiCoffeeTogo className="cup-icon" />
                   ) : detail.displayName.includes("lear cup") ? (
                     <RiDrinks2Line className="cup-icon" />
-                  ) : detail.displayName.includes("black lid") ? (
+                  ) : detail.displayName.includes("hot lid") ? (
                     <FaDotCircle size={15} className="cup-icon" />
                   ) : detail.displayName.includes("clear lid") ? (
                     <MdOutlineExpandCircleDown size={18} className="cup-icon" />
@@ -275,6 +281,43 @@ const OderTierneys = () => {
                     }
                     onChange={(e) => handleInputChange(e, index, "minimum")}
                   /> */}
+
+                <FormControl>
+                  <RadioGroup
+                    row
+                    // aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="stockCheck"
+                  >
+                    <div className="text-[10px]">
+                      <FormControlLabel
+                        className="text-[10px]"
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 14,
+                          },
+                        }}
+                        value="enough"
+                        control={<Radio />}
+                        label="Enough"
+                      />
+                      Enough
+                    </div>
+                    {/* <FormControlLabel
+                      value="less"
+                      control={
+                        <Radio
+                        
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 10,
+                            },
+                          }}
+                        />
+                      }
+                      label="less"
+                    /> */}
+                  </RadioGroup>
+                </FormControl>
 
                 <div className="cup-row flex-col sm:flex-row">
                   <p className="cup-detail md:text-right md:mr-3">
