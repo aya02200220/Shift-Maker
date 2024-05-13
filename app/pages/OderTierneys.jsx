@@ -35,7 +35,10 @@ const OderTierneys = () => {
 
   const [alignment, setAlignment] = useState("Disp");
 
-  console.log("alignment", alignment);
+  // console.log("alignment", alignment);
+  console.log("todaysOrder@cup", todaysOrder);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -60,28 +63,6 @@ const OderTierneys = () => {
     setShowPopup(false);
   };
 
-  const handleCopy = (index) => {
-    const prevDetail = previousOrder[index];
-    setTodaysOrder((prevOrder) => {
-      const updatedOrder = [...prevOrder];
-      updatedOrder[index] = {
-        ...updatedOrder[index],
-        displayName: prevDetail.displayName || "",
-        orderName: prevDetail.orderName || "",
-        itemName: prevDetail.itemName || "",
-        itemCode: prevDetail.itemCode || "",
-        codeRequired: prevDetail.codeRequired || false,
-        minimum: prevDetail.minimum || "",
-        stock: prevDetail.stock || 0,
-        shelfMinimum: prevDetail.shelfMinimum || 0,
-        shelf: prevDetail.shelf || 0,
-        price: prevDetail.price || 0,
-        order: "",
-      };
-      return updatedOrder;
-    });
-  };
-
   useEffect(() => {
     async function fetchPreviousOrder() {
       try {
@@ -93,17 +74,17 @@ const OderTierneys = () => {
         const initialTodaysOrder =
           response.data.latestTierneysOrder.orderDetails.map((detail) => ({
             ...detail,
-            displayName: "",
-            orderName: "",
-            itemName: "",
-            itemCode: "",
-            codeRequired: false,
-            minimum: "",
-            stock: "",
-            shelfMinimum: "",
-            shelf: "",
-            price: "",
-            order: "",
+            displayName: detail.displayName,
+            orderName: detail.orderName,
+            itemName: detail.itemName,
+            itemCode: detail.itemCode,
+            codeRequired: detail.codeRequired,
+            minimum: detail.minimum,
+            stock: true,
+            shelfMinimum: detail.shelfMinimum,
+            shelf: 0,
+            price: detail.price,
+            order: 0,
           }));
         setTodaysOrder(initialTodaysOrder);
         console.log("latestTierneysOrder", latestTierneysOrder);
@@ -133,12 +114,14 @@ const OderTierneys = () => {
       itemCode: detail.itemCode || "",
       codeRequired: detail.codeRequired || false,
       minimum: detail.minimum || "",
-      stock: detail.stock || 0,
+      stock: detail.stock || true,
       shelfMinimum: detail.shelfMinimum || 0,
       shelf: detail.shelf || 0,
       price: detail.price || 0,
-      order: detail.price || 0,
+      order: detail.order || 0,
     }));
+
+    // console.log("Button clicked orderDetails:", orderDetails);
 
     try {
       const response = await axios.post("/api/order-cup", {
@@ -163,18 +146,19 @@ const OderTierneys = () => {
 
       const initialTodaysOrder = previousOrder.map((detail) => ({
         ...detail,
-        displayName: "",
-        orderName: "",
-        itemName: "",
-        itemCode: "",
-        codeRequired: false,
-        minimum: "",
-        stock: "",
-        shelfMinimum: "",
-        shelf: "",
-        price: "",
-        order: "",
+        displayName: detail.displayName,
+        orderName: detail.orderName,
+        itemName: detail.itemName,
+        itemCode: detail.itemCode,
+        codeRequired: detail.codeRequired,
+        minimum: detail.minimum,
+        stock: true,
+        shelfMinimum: detail.shelfMinimum,
+        shelf: 0,
+        price: detail.price,
+        order: 0,
       }));
+
       setTodaysOrder(initialTodaysOrder);
     } catch (error) {
       console.error("Error ordering Tierneys:", error);
@@ -280,7 +264,7 @@ const OderTierneys = () => {
                       <input
                         className="cup-input shadow-sm border border-r-0"
                         type="number"
-                        defaultValue={
+                        value={
                           (todaysOrder[index] && todaysOrder[index].shelf) || ""
                         }
                         onChange={(e) => handleInputChange(e, index, "shelf")}
@@ -298,7 +282,11 @@ const OderTierneys = () => {
 
                 <div className="w-[23%] border-r-[1px] border-[#dddddd] h-full flex items-center justify-center">
                   <FormControl>
-                    <RadioGroup row name="stockCheck">
+                    <RadioGroup
+                      row
+                      name="stockCheck"
+                      onChange={(e) => handleInputChange(e, index, "stock")}
+                    >
                       <FormControlLabel
                         sx={{
                           "& .MuiSvgIcon-root": {
@@ -309,7 +297,7 @@ const OderTierneys = () => {
                           },
                           height: 18,
                         }}
-                        value="Enough"
+                        value="true"
                         control={<Radio />}
                         label="Enough"
                       />
@@ -323,7 +311,7 @@ const OderTierneys = () => {
                           },
                           height: 18,
                         }}
-                        value="Less"
+                        value="false"
                         control={<Radio />}
                         label="Less"
                       />
