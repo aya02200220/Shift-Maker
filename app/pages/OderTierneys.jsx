@@ -21,6 +21,12 @@ import { FaDotCircle } from "react-icons/fa";
 import { RiDrinks2Line } from "react-icons/ri";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 const OderTierneys = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
@@ -29,7 +35,10 @@ const OderTierneys = () => {
 
   const [alignment, setAlignment] = useState("Disp");
 
-  console.log("alignment", alignment);
+  // console.log("alignment", alignment);
+  console.log("todaysOrder@cup", todaysOrder);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -54,28 +63,6 @@ const OderTierneys = () => {
     setShowPopup(false);
   };
 
-  const handleCopy = (index) => {
-    const prevDetail = previousOrder[index];
-    setTodaysOrder((prevOrder) => {
-      const updatedOrder = [...prevOrder];
-      updatedOrder[index] = {
-        ...updatedOrder[index],
-        displayName: prevDetail.displayName || "",
-        orderName: prevDetail.orderName || "",
-        itemName: prevDetail.itemName || "",
-        itemCode: prevDetail.itemCode || "",
-        codeRequired: prevDetail.codeRequired || false,
-        minimum: prevDetail.minimum || "",
-        stock: prevDetail.stock || 0,
-        shelfMinimum: prevDetail.shelfMinimum || 0,
-        shelf: prevDetail.shelf || 0,
-        price: prevDetail.price || 0,
-        order: "",
-      };
-      return updatedOrder;
-    });
-  };
-
   useEffect(() => {
     async function fetchPreviousOrder() {
       try {
@@ -87,17 +74,17 @@ const OderTierneys = () => {
         const initialTodaysOrder =
           response.data.latestTierneysOrder.orderDetails.map((detail) => ({
             ...detail,
-            displayName: "",
-            orderName: "",
-            itemName: "",
-            itemCode: "",
-            codeRequired: false,
-            minimum: "",
-            stock: "",
-            shelfMinimum: "",
-            shelf: "",
-            price: "",
-            order: "",
+            displayName: detail.displayName,
+            orderName: detail.orderName,
+            itemName: detail.itemName,
+            itemCode: detail.itemCode,
+            codeRequired: detail.codeRequired,
+            minimum: detail.minimum,
+            stock: true,
+            shelfMinimum: detail.shelfMinimum,
+            shelf: 0,
+            price: detail.price,
+            order: 0,
           }));
         setTodaysOrder(initialTodaysOrder);
         console.log("latestTierneysOrder", latestTierneysOrder);
@@ -127,12 +114,14 @@ const OderTierneys = () => {
       itemCode: detail.itemCode || "",
       codeRequired: detail.codeRequired || false,
       minimum: detail.minimum || "",
-      stock: detail.stock || 0,
+      stock: detail.stock || true,
       shelfMinimum: detail.shelfMinimum || 0,
       shelf: detail.shelf || 0,
       price: detail.price || 0,
-      order: detail.price || 0,
+      order: detail.order || 0,
     }));
+
+    // console.log("Button clicked orderDetails:", orderDetails);
 
     try {
       const response = await axios.post("/api/order-cup", {
@@ -157,18 +146,19 @@ const OderTierneys = () => {
 
       const initialTodaysOrder = previousOrder.map((detail) => ({
         ...detail,
-        displayName: "",
-        orderName: "",
-        itemName: "",
-        itemCode: "",
-        codeRequired: false,
-        minimum: "",
-        stock: "",
-        shelfMinimum: "",
-        shelf: "",
-        price: "",
-        order: "",
+        displayName: detail.displayName,
+        orderName: detail.orderName,
+        itemName: detail.itemName,
+        itemCode: detail.itemCode,
+        codeRequired: detail.codeRequired,
+        minimum: detail.minimum,
+        stock: true,
+        shelfMinimum: detail.shelfMinimum,
+        shelf: 0,
+        price: detail.price,
+        order: 0,
       }));
+
       setTodaysOrder(initialTodaysOrder);
     } catch (error) {
       console.error("Error ordering Tierneys:", error);
@@ -196,9 +186,11 @@ const OderTierneys = () => {
 
       {previousOrder && (
         <div className="shadow-md px-1 sm:px-3 py-3 ">
-          <ul className="cup-list-title ">
-            <li className="tea-list-title-space ">
+          {/* header bar ############################################# */}
+          <div className="cup-list-title">
+            <div className=" w-full flex justify-between">
               <ToggleButtonGroup
+                className="w-full"
                 color="primary"
                 value={alignment}
                 exclusive
@@ -208,8 +200,8 @@ const OderTierneys = () => {
                 <ToggleButton className="cup-toggle" value="Disp">
                   Disp
                 </ToggleButton>
-                <ToggleButton className="cup-toggle" value="Mail">
-                  Mail
+                <ToggleButton className="cup-toggle" value="Order">
+                  Order
                 </ToggleButton>
                 <ToggleButton className="cup-toggle" value="Item">
                   Item
@@ -218,23 +210,31 @@ const OderTierneys = () => {
                   Code
                 </ToggleButton>
               </ToggleButtonGroup>
-            </li>
-            <li className="tea-list-title-childe ">Unopened</li>
-            <li className="tea-list-title-childe ">Opened&nbsp;(%)</li>
-            <li className="tea-list-title-childe ">Tin&nbsp;(%)</li>
-            <li className="tea-list-title-childe ">Order</li>
-          </ul>
+              <div className="w-[170px] text-center border ">
+                <p className="bg-[#4f6bd2] text-[14px] text-[#e5e9ff] rounded-sm py-1">
+                  Total: $0.00
+                </p>
+              </div>
+            </div>
+            <ul className="flex w-full text-[11px] sm:text-[13px] gap-1 text-center text-[#333] leading-3 justify-center items-center">
+              <li className="cup-title w-[25%] "></li>
+              <li className="cup-title w-[13%] ">Add Shelf</li>
+              <li className="cup-title w-[25%] ">Minimum</li>
+              <li className="cup-title w-[23%] ">Stock</li>
+              <li className="cup-title w-[13%] ">Order</li>
+            </ul>
+          </div>
 
-          <ul>
+          <ul className="flex flex-col w-full text-[#333] ">
             {previousOrder.map((detail, index) => (
               <li
-                className={`flex border-b-2  h-[60px] sm:h-[42px] text-[14.5px] items-center px-2
+                className={`flex border-b-2 h-[60px] items-center px-2 gap-1 
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <div className="flex items-center w-[135px]">
+                <div className="flex items-center w-[25%] pr-1 border-r-[1px] border-[#dddddd] h-full">
                   {detail.codeRequired && (
                     <RiBarcodeBoxLine className="cup-icon-code" />
                   )}
@@ -243,73 +243,88 @@ const OderTierneys = () => {
                     <BiCoffeeTogo className="cup-icon" />
                   ) : detail.displayName.includes("lear cup") ? (
                     <RiDrinks2Line className="cup-icon" />
-                  ) : detail.displayName.includes("black lid") ? (
+                  ) : detail.displayName.includes("hot lid") ? (
                     <FaDotCircle size={15} className="cup-icon" />
                   ) : detail.displayName.includes("clear lid") ? (
                     <MdOutlineExpandCircleDown size={18} className="cup-icon" />
                   ) : null}
 
-                  <p className="cup-name">
+                  <p className="cup-name  ">
                     {alignment === null && <p>{detail.displayName}</p>}
                     {alignment === "Disp" && <p>{detail.displayName}</p>}
-                    {alignment === "Mail" && <p>{detail.orderName}</p>}
+                    {alignment === "Order" && <p>{detail.orderName}</p>}
                     {alignment === "Item" && <p>{detail.itemName}</p>}
                     {alignment === "Code" && <p>{detail.itemCode}</p>}
                   </p>
                 </div>
-                <button
-                  onClick={() => handleCopy(index)}
-                  className="mx-2 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
-                >
-                  <ContentCopyIcon className="text-[13px]" />
-                </button>
 
-                <p className="text-[12px] text-[#333] leading-3 w-[70px] mx-2">
+                <div className="w-[13%] px-1 flex flex-col sm:flex-row justify-center items-center mt-2 sm:mt-0 border-r-[1px] border-[#dddddd] h-full">
+                  {detail.shelfMinimum > 0 && (
+                    <>
+                      <input
+                        className="cup-input shadow-sm border border-r-0"
+                        type="number"
+                        value={
+                          (todaysOrder[index] && todaysOrder[index].shelf) || ""
+                        }
+                        onChange={(e) => handleInputChange(e, index, "shelf")}
+                      />
+                      <p className="flex items-center justify-center w-[40px]  text-[#999]  bg-none sm:bg-white sm:h-[26px] text-[11px] sm:border sm:border-l-0 ">
+                        / {detail.shelfMinimum}
+                      </p>
+                    </>
+                  )}
+                </div>
+
+                <p className="text-[12px] leading-3 w-[25%] px-1 border-r-[1px] border-[#dddddd] h-full flex items-center">
                   {detail.minimum}
                 </p>
-                {/* <input
-                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
-                    type="string"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].minimum) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "minimum")}
-                  /> */}
 
-                <div className="cup-row flex-col sm:flex-row">
-                  <p className="cup-detail md:text-right md:mr-3">
-                    {detail.stock}
-                  </p>
-                  <input
-                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
-                    type="string"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].stock) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "stock")}
-                  />
+                <div className="w-[23%] border-r-[1px] border-[#dddddd] h-full flex items-center justify-center">
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      name="stockCheck"
+                      onChange={(e) => handleInputChange(e, index, "stock")}
+                    >
+                      <FormControlLabel
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 16, // アイコンのフォントサイズ
+                          },
+                          "& .MuiFormControlLabel-label": {
+                            fontSize: 12, // ラベルのフォントサイズ
+                          },
+                          height: 18,
+                        }}
+                        value="true"
+                        control={<Radio />}
+                        label="Enough"
+                      />
+                      <FormControlLabel
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 16, // アイコンのフォントサイズ
+                          },
+                          "& .MuiFormControlLabel-label": {
+                            fontSize: 12, // ラベルのフォントサイズ
+                          },
+                          height: 18,
+                        }}
+                        value="false"
+                        control={<Radio />}
+                        label="Less"
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 </div>
 
-                <div className="cup-row flex-col sm:flex-row">
-                  <input
-                    className="cup-input w-[40px] shadow-sm border border-r-0"
-                    type="number"
-                    defaultValue={
-                      (todaysOrder[index] && todaysOrder[index].shelf) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "shelf")}
-                  />
-                  <p className="flex items-center w-[25px] text-[#999] md:mr-3 bg-white h-[26px] text-[12px] border border-l-0">
-                    {detail.shelfMinimum > 0 && `/ ${detail.shelfMinimum}`}
-                  </p>
-                </div>
-
-                <div className="cup-row flex-col sm:flex-row">
+                <div className="w-[13%] flex flex-col sm:flex-row justify-center items-center">
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
                   <input
-                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
+                    className="cup-input  shadow-sm border"
                     type="string"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""

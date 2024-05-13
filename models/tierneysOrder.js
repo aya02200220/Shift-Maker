@@ -9,7 +9,7 @@ const orderDetailSchema = new Schema({
   itemCode: { type: String, required: true },
   codeRequired: { type: Boolean, required: true },
   minimum: { type: String, required: true },
-  stock: { type: Number, required: true },
+  stock: { type: Boolean, required: true },
   shelfMinimum: { type: Number, required: true },
   shelf: { type: Number, required: true },
   price: { type: Number, required: true },

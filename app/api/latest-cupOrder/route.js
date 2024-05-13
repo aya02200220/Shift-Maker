@@ -3,6 +3,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 import { TierneysOrder } from "@/models/tierneysOrder";
+// import { CupOrder } from "@/models/tierneys";
 
 export async function GET(request) {
   try {
@@ -10,6 +11,7 @@ export async function GET(request) {
     await connectMongoDB();
 
     // 最新の teaOrder を取得
+    // const latestTierneysOrder = await TierneysOrder.findOne().sort({
     const latestTierneysOrder = await TierneysOrder.findOne().sort({
       createdAt: -1,
     });
