@@ -204,28 +204,35 @@ const OderTierneys = () => {
         <div className="shadow-md px-1 sm:px-3 py-3 ">
           {/* header bar ############################################# */}
           <div className="cup-list-title">
-            <ToggleButtonGroup
-              className="w-full"
-              color="primary"
-              value={alignment}
-              exclusive
-              onChange={handleChange}
-              aria-label="Platform"
-            >
-              <ToggleButton className="cup-toggle" value="Disp">
-                Disp
-              </ToggleButton>
-              <ToggleButton className="cup-toggle" value="Order">
-                Order
-              </ToggleButton>
-              <ToggleButton className="cup-toggle" value="Item">
-                Item
-              </ToggleButton>
-              <ToggleButton className="cup-toggle" value="Code">
-                Code
-              </ToggleButton>
-            </ToggleButtonGroup>
-            <ul className="flex w-full text-[11px] sm:text-[13px] gap-1 text-center text-[#333] leading-3">
+            <div className=" w-full flex justify-between">
+              <ToggleButtonGroup
+                className="w-full"
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+              >
+                <ToggleButton className="cup-toggle" value="Disp">
+                  Disp
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Order">
+                  Order
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Item">
+                  Item
+                </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Code">
+                  Code
+                </ToggleButton>
+              </ToggleButtonGroup>
+              <div className="w-[170px] text-center border ">
+                <p className="bg-[#4f6bd2] text-[14px] text-[#e5e9ff] rounded-sm py-1">
+                  Total: $0.00
+                </p>
+              </div>
+            </div>
+            <ul className="flex w-full text-[11px] sm:text-[13px] gap-1 text-center text-[#333] leading-3 justify-center items-center">
               <li className="cup-title w-[25%] "></li>
               <li className="cup-title w-[13%] ">Add Shelf</li>
               <li className="cup-title w-[25%] ">Minimum</li>
@@ -324,7 +331,7 @@ const OderTierneys = () => {
                   </FormControl>
                 </div>
 
-                <div className="w-[13%] flex flex-col-reverse sm:flex-row justify-center items-center mt-2 sm:mt-0">
+                <div className="w-[13%] flex flex-col sm:flex-row justify-center items-center">
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
