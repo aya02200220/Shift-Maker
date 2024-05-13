@@ -225,22 +225,22 @@ const OderTierneys = () => {
                 </ToggleButton>
               </ToggleButtonGroup>
             </li>
+            <li className="tea-list-title-childe ">Add Shelf</li>
             <li className="tea-list-title-childe ">Minimum</li>
             <li className="tea-list-title-childe ">Stock</li>
-            <li className="tea-list-title-childe ">Shelf</li>
             <li className="tea-list-title-childe ">Order</li>
           </ul>
 
-          <ul>
+          <ul className="flex flex-col w-full text-[#333] ">
             {previousOrder.map((detail, index) => (
               <li
-                className={`flex border-b-2  h-[60px] sm:h-[42px] text-[14.5px] items-center px-2
+                className={`flex border-b-2  h-[60px] items-center px-2 gap-1
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <div className="flex items-center w-[80px] max-w-[80px] sm:w-[135px]">
+                <div className="flex w-[25%] pr-1">
                   {detail.codeRequired && (
                     <RiBarcodeBoxLine className="cup-icon-code" />
                   )}
@@ -263,100 +263,68 @@ const OderTierneys = () => {
                     {alignment === "Code" && <p>{detail.itemCode}</p>}
                   </p>
                 </div>
-                <button
-                  onClick={() => handleCopy(index)}
-                  className="mx-2 md:mr-2 h-[27px] md:h-[20px] w-[30px] text-[10px] text-[#717171] hover:text-[#505050]  border rounded hover:bg-blue-100 bg-slate-100 transition-colors duration-600"
-                >
-                  <ContentCopyIcon className="text-[13px]" />
-                </button>
 
-                <p className="text-[12px] text-[#333] leading-3 w-[70px] mx-2">
-                  {detail.minimum}
-                </p>
-                {/* <input
-                    className="cup-input md:h-[23px] md:w-[50px] shadow-sm border"
-                    type="string"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].minimum) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "minimum")}
-                  /> */}
-
-                <FormControl>
-                  <RadioGroup
-                    row
-                    // aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="stockCheck"
-                  >
-                    <div className="text-[10px]">
-                      <FormControlLabel
-                        className="text-[10px]"
-                        sx={{
-                          "& .MuiSvgIcon-root": {
-                            fontSize: 14,
-                          },
-                        }}
-                        value="enough"
-                        control={<Radio />}
-                        label="Enough"
-                      />
-                      Enough
-                    </div>
-                    {/* <FormControlLabel
-                      value="less"
-                      control={
-                        <Radio
-                        
-                          sx={{
-                            "& .MuiSvgIcon-root": {
-                              fontSize: 10,
-                            },
-                          }}
-                        />
-                      }
-                      label="less"
-                    /> */}
-                  </RadioGroup>
-                </FormControl>
-
-                <div className="cup-row flex-col sm:flex-row">
-                  <p className="cup-detail md:text-right md:mr-3">
-                    {detail.stock}
-                  </p>
-                  <input
-                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
-                    type="string"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].stock) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "stock")}
-                  />
-                </div>
-
-                <div className="cup-row flex-row">
+                <div className="w-[13%] px-1 flex flex-col sm:flex-row justify-center items-center mt-2 sm:mt-0">
                   {detail.shelfMinimum > 0 && (
                     <>
                       <input
-                        className="w-[35px] h-[26px] shadow-sm border border-r-0"
+                        className="cup-input shadow-sm border border-r-0"
                         type="number"
                         defaultValue={
                           (todaysOrder[index] && todaysOrder[index].shelf) || ""
                         }
                         onChange={(e) => handleInputChange(e, index, "shelf")}
                       />
-                      <p className="flex items-center w-[25px] text-[#999] md:mr-3 bg-white h-[26px] text-[12px] border border-l-0">
+                      <p className="flex items-center justify-center w-[40px] sm:mr-2 text-[#999]  bg-none sm:bg-white sm:h-[26px] text-[11px] sm:border sm:border-l-0 ">
                         / {detail.shelfMinimum}
                       </p>
                     </>
                   )}
                 </div>
 
-                <div className="cup-row flex-col sm:flex-row">
+                <p className="text-[12px] leading-3 w-[25%] px-1">
+                  {detail.minimum}
+                </p>
+
+                <FormControl className="w-[23%]">
+                  <RadioGroup row name="stockCheck">
+                    <FormControlLabel
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 16, // アイコンのフォントサイズ
+                        },
+                        "& .MuiFormControlLabel-label": {
+                          fontSize: 12, // ラベルのフォントサイズ
+                        },
+                        height: 18,
+                      }}
+                      value="Enough"
+                      control={<Radio />}
+                      label="Enough"
+                    />
+                    <FormControlLabel
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 16, // アイコンのフォントサイズ
+                        },
+                        "& .MuiFormControlLabel-label": {
+                          fontSize: 12, // ラベルのフォントサイズ
+                        },
+                        height: 18,
+                      }}
+                      value="Less"
+                      control={<Radio />}
+                      label="Less"
+                    />
+                  </RadioGroup>
+                </FormControl>
+
+                <div className="w-[13%] flex flex-col-reverse sm:flex-row justify-center items-center mt-2 sm:mt-0">
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
                   <input
-                    className="cup-input md:h-[23px] md:w-[40px] shadow-sm border"
+                    className="cup-input  shadow-sm border"
                     type="string"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""
