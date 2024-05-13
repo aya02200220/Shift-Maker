@@ -86,15 +86,18 @@
   top: 0;
   z-index: 1;
   background-color: #ffffffcb;
-  height: 20px;
-  display: flex;
+  height: 60px;
   font-weight: 500;
   align-items: center;
-  justify-content: center;
-  gap: 0.25rem /* 4px */;
+  gap: 0.25rem 4px;
   padding-bottom: 1.2rem;
-  padding-top: 1.2rem;
-  margin-bottom: 10px;
+  padding-top: 0.5rem;
+  /* margin-bottom: 10px; */
+  display: flex;
+  flex-direction: column;
+}
+.cup-title {
+  color: #333;
 }
 
 .cup-name {
@@ -144,3 +147,16 @@
   width: 42px;
   font-size: 11px;
 }
+/* 
+.cup-list-title-space {
+  width: 25%;
+}
+
+.cup-list-title-childe {
+  font-size: 10px;
+  width: 15%;
+  text-align: center;
+  overflow-wrap: break-word;
+  line-height: 0.75rem;
+  margin-left: 5px;
+} */

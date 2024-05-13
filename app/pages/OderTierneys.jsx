@@ -202,45 +202,48 @@ const OderTierneys = () => {
 
       {previousOrder && (
         <div className="shadow-md px-1 sm:px-3 py-3 ">
-          <ul className="cup-list-title ">
-            <li className="tea-list-title-space ">
-              <ToggleButtonGroup
-                color="primary"
-                value={alignment}
-                exclusive
-                onChange={handleChange}
-                aria-label="Platform"
-              >
-                <ToggleButton className="cup-toggle" value="Disp">
-                  Disp
-                </ToggleButton>
-                <ToggleButton className="cup-toggle" value="Order">
-                  Order
-                </ToggleButton>
-                <ToggleButton className="cup-toggle" value="Item">
-                  Item
-                </ToggleButton>
-                <ToggleButton className="cup-toggle" value="Code">
-                  Code
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </li>
-            <li className="tea-list-title-childe ">Add Shelf</li>
-            <li className="tea-list-title-childe ">Minimum</li>
-            <li className="tea-list-title-childe ">Stock</li>
-            <li className="tea-list-title-childe ">Order</li>
-          </ul>
+          {/* header bar ############################################# */}
+          <div className="cup-list-title">
+            <ToggleButtonGroup
+              className="w-full"
+              color="primary"
+              value={alignment}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+            >
+              <ToggleButton className="cup-toggle" value="Disp">
+                Disp
+              </ToggleButton>
+              <ToggleButton className="cup-toggle" value="Order">
+                Order
+              </ToggleButton>
+              <ToggleButton className="cup-toggle" value="Item">
+                Item
+              </ToggleButton>
+              <ToggleButton className="cup-toggle" value="Code">
+                Code
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <ul className="flex w-full text-[11px] sm:text-[13px] gap-1 text-center text-[#333] leading-3">
+              <li className="cup-title w-[25%] "></li>
+              <li className="cup-title w-[13%] ">Add Shelf</li>
+              <li className="cup-title w-[25%] ">Minimum</li>
+              <li className="cup-title w-[23%] ">Stock</li>
+              <li className="cup-title w-[13%] ">Order</li>
+            </ul>
+          </div>
 
           <ul className="flex flex-col w-full text-[#333] ">
             {previousOrder.map((detail, index) => (
               <li
-                className={`flex border-b-2  h-[60px] items-center px-2 gap-1
+                className={`flex border-b-2 h-[60px] items-center px-2 gap-1 
                 ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
               >
-                <div className="flex w-[25%] pr-1">
+                <div className="flex items-center w-[25%] pr-1 border-r-[1px] border-[#dddddd] h-full">
                   {detail.codeRequired && (
                     <RiBarcodeBoxLine className="cup-icon-code" />
                   )}
@@ -255,7 +258,7 @@ const OderTierneys = () => {
                     <MdOutlineExpandCircleDown size={18} className="cup-icon" />
                   ) : null}
 
-                  <p className="cup-name">
+                  <p className="cup-name  ">
                     {alignment === null && <p>{detail.displayName}</p>}
                     {alignment === "Disp" && <p>{detail.displayName}</p>}
                     {alignment === "Order" && <p>{detail.orderName}</p>}
@@ -264,7 +267,7 @@ const OderTierneys = () => {
                   </p>
                 </div>
 
-                <div className="w-[13%] px-1 flex flex-col sm:flex-row justify-center items-center mt-2 sm:mt-0">
+                <div className="w-[13%] px-1 flex flex-col sm:flex-row justify-center items-center mt-2 sm:mt-0 border-r-[1px] border-[#dddddd] h-full">
                   {detail.shelfMinimum > 0 && (
                     <>
                       <input
@@ -275,49 +278,51 @@ const OderTierneys = () => {
                         }
                         onChange={(e) => handleInputChange(e, index, "shelf")}
                       />
-                      <p className="flex items-center justify-center w-[40px] sm:mr-2 text-[#999]  bg-none sm:bg-white sm:h-[26px] text-[11px] sm:border sm:border-l-0 ">
+                      <p className="flex items-center justify-center w-[40px]  text-[#999]  bg-none sm:bg-white sm:h-[26px] text-[11px] sm:border sm:border-l-0 ">
                         / {detail.shelfMinimum}
                       </p>
                     </>
                   )}
                 </div>
 
-                <p className="text-[12px] leading-3 w-[25%] px-1">
+                <p className="text-[12px] leading-3 w-[25%] px-1 border-r-[1px] border-[#dddddd] h-full flex items-center">
                   {detail.minimum}
                 </p>
 
-                <FormControl className="w-[23%]">
-                  <RadioGroup row name="stockCheck">
-                    <FormControlLabel
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 16, // アイコンのフォントサイズ
-                        },
-                        "& .MuiFormControlLabel-label": {
-                          fontSize: 12, // ラベルのフォントサイズ
-                        },
-                        height: 18,
-                      }}
-                      value="Enough"
-                      control={<Radio />}
-                      label="Enough"
-                    />
-                    <FormControlLabel
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 16, // アイコンのフォントサイズ
-                        },
-                        "& .MuiFormControlLabel-label": {
-                          fontSize: 12, // ラベルのフォントサイズ
-                        },
-                        height: 18,
-                      }}
-                      value="Less"
-                      control={<Radio />}
-                      label="Less"
-                    />
-                  </RadioGroup>
-                </FormControl>
+                <div className="w-[23%] border-r-[1px] border-[#dddddd] h-full flex items-center justify-center">
+                  <FormControl>
+                    <RadioGroup row name="stockCheck">
+                      <FormControlLabel
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 16, // アイコンのフォントサイズ
+                          },
+                          "& .MuiFormControlLabel-label": {
+                            fontSize: 12, // ラベルのフォントサイズ
+                          },
+                          height: 18,
+                        }}
+                        value="Enough"
+                        control={<Radio />}
+                        label="Enough"
+                      />
+                      <FormControlLabel
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 16, // アイコンのフォントサイズ
+                          },
+                          "& .MuiFormControlLabel-label": {
+                            fontSize: 12, // ラベルのフォントサイズ
+                          },
+                          height: 18,
+                        }}
+                        value="Less"
+                        control={<Radio />}
+                        label="Less"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
 
                 <div className="w-[13%] flex flex-col-reverse sm:flex-row justify-center items-center mt-2 sm:mt-0">
                   <p className="cup-detail md:text-right md:mr-3">
