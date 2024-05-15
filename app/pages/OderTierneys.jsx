@@ -36,9 +36,9 @@ const OderTierneys = () => {
   const [alignment, setAlignment] = useState("Disp");
 
   // console.log("alignment", alignment);
-  console.log("todaysOrder@cup", todaysOrder);
-  console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
-  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
+  // console.log("todaysOrder@cup", todaysOrder);
+  // console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
+  // console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -209,6 +209,9 @@ const OderTierneys = () => {
                 <ToggleButton className="cup-toggle" value="Code">
                   Code
                 </ToggleButton>
+                <ToggleButton className="cup-toggle" value="Price">
+                  Price
+                </ToggleButton>
               </ToggleButtonGroup>
               <div className="w-[170px] text-center border ">
                 <p className="bg-[#4f6bd2] text-[14px] text-[#e5e9ff] rounded-sm py-1">
@@ -255,6 +258,7 @@ const OderTierneys = () => {
                     {alignment === "Order" && <p>{detail.orderName}</p>}
                     {alignment === "Item" && <p>{detail.itemName}</p>}
                     {alignment === "Code" && <p>{detail.itemCode}</p>}
+                    {alignment === "Price" && <p>${detail.price.toFixed(2)}</p>}
                   </p>
                 </div>
 
