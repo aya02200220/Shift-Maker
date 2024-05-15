@@ -32,6 +32,7 @@ const OderTierneys = () => {
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [total, setTotal] = useState(false);
 
   const [alignment, setAlignment] = useState("Disp");
 
@@ -103,6 +104,11 @@ const OderTierneys = () => {
       updatedOrder[index][field] = value;
       return updatedOrder;
     });
+
+    // オーダーが変更されたときに合計金額を再計算する
+    const total = calculateTotalPrice();
+    // Totalステートを更新
+    setTotal(total);
   };
 
   const handleOrderButtonClick = async () => {
@@ -176,6 +182,14 @@ const OderTierneys = () => {
     return isOrder ? "bg-green-100" : "";
   };
 
+  const calculateTotalPrice = () => {
+    return todaysOrder
+      .reduce((total, detail) => {
+        return total + detail.price * detail.order;
+      }, 0)
+      .toFixed(2);
+  };
+
   return (
     // <div className="flex flex-col items-center">
     <div className="w-full md:w-[680px] max-w-[680px]">
@@ -215,7 +229,7 @@ const OderTierneys = () => {
               </ToggleButtonGroup>
               <div className="w-[170px] text-center border ">
                 <p className="bg-[#4f6bd2] text-[14px] text-[#e5e9ff] rounded-sm py-1">
-                  Total: $0.00
+                  Total: ${total}
                 </p>
               </div>
             </div>
