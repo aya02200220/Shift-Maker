@@ -32,7 +32,7 @@ const OderTierneys = () => {
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [total, setTotal] = useState(false);
+  const [total, setTotal] = useState(0.0);
 
   const [alignment, setAlignment] = useState("Disp");
 
@@ -98,16 +98,18 @@ const OderTierneys = () => {
   }, []);
 
   const handleInputChange = (e, index, field) => {
-    const value = e.target.value;
+    const value =
+      field === "stock" ? e.target.value === "true" : e.target.value;
     setTodaysOrder((prevOrder) => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index][field] = value;
       return updatedOrder;
     });
+  };
 
-    // オーダーが変更されたときに合計金額を再計算する
+  const handleOrderBlur = (index) => {
+    // Recalculate the total price when the order field loses focus
     const total = calculateTotalPrice();
-    // Totalステートを更新
     setTotal(total);
   };
 
@@ -341,13 +343,22 @@ const OderTierneys = () => {
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
-                  <input
+                  {/* <input
                     className="cup-input  shadow-sm border"
                     type="string"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""
                     }
                     onChange={(e) => handleInputChange(e, index, "order")}
+                  /> */}
+                  <input
+                    className="cup-input shadow-sm border"
+                    type="number"
+                    value={
+                      (todaysOrder[index] && todaysOrder[index].order) || ""
+                    }
+                    onChange={(e) => handleInputChange(e, index, "order")}
+                    onBlur={() => handleOrderBlur(index)}
                   />
                 </div>
               </li>
