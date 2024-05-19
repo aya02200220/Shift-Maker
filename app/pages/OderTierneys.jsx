@@ -81,7 +81,7 @@ const OderTierneys = () => {
             itemCode: detail.itemCode,
             codeRequired: detail.codeRequired,
             minimum: detail.minimum,
-            stock: true,
+            stock: null,
             shelfMinimum: detail.shelfMinimum,
             shelf: 0,
             price: detail.price,
@@ -98,13 +98,28 @@ const OderTierneys = () => {
   }, []);
 
   const handleInputChange = (e, index, field) => {
-    const value =
-      field === "stock" ? e.target.value === "true" : e.target.value;
+    let value;
+    if (field === "stock") {
+      value =
+        e.target.value === "true"
+          ? true
+          : e.target.value === "false"
+          ? false
+          : null;
+    } else {
+      value = e.target.value;
+    }
+
     setTodaysOrder((prevOrder) => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index][field] = value;
       return updatedOrder;
     });
+
+    if (field === "order") {
+      const total = calculateTotalPrice();
+      setTotal(total);
+    }
   };
 
   const handleOrderBlur = (index) => {
@@ -173,11 +188,15 @@ const OderTierneys = () => {
     }
   };
 
-  // 空白かどうかをチェックする
   const getRowStyle = (detail) => {
-    const isEmpty = !detail.stock || !detail.shelf;
+    const isEmpty =
+      detail.stock === null ||
+      detail.stock === undefined ||
+      detail.stock === "" ||
+      detail.shelf === "";
     return isEmpty ? "bg-red-100" : "";
   };
+
   // オーダーがあるかどうかをチェックする
   const getOrderStyle = (detail) => {
     const isOrder = detail.order > 0;
@@ -284,6 +303,7 @@ const OderTierneys = () => {
                       <input
                         className="cup-input shadow-sm border border-r-0"
                         type="number"
+                        min="0"
                         value={
                           (todaysOrder[index] && todaysOrder[index].shelf) || ""
                         }
@@ -304,7 +324,13 @@ const OderTierneys = () => {
                   <FormControl>
                     <RadioGroup
                       row
-                      name="stockCheck"
+                      name={`stockCheck-${index}`} // 各行に一意の名前を設定
+                      value={
+                        todaysOrder[index].stock !== null &&
+                        todaysOrder[index].stock !== undefined
+                          ? todaysOrder[index].stock.toString()
+                          : ""
+                      }
                       onChange={(e) => handleInputChange(e, index, "stock")}
                     >
                       <FormControlLabel
@@ -343,17 +369,11 @@ const OderTierneys = () => {
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
-                  {/* <input
-                    className="cup-input  shadow-sm border"
-                    type="string"
-                    value={
-                      (todaysOrder[index] && todaysOrder[index].order) || ""
-                    }
-                    onChange={(e) => handleInputChange(e, index, "order")}
-                  /> */}
+
                   <input
                     className="cup-input shadow-sm border"
                     type="number"
+                    min="0"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""
                     }
