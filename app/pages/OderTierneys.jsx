@@ -39,7 +39,7 @@ const OderTierneys = () => {
   // console.log("alignment", alignment);
   // console.log("todaysOrder@cup", todaysOrder);
   // console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
-  // console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -97,6 +97,35 @@ const OderTierneys = () => {
     fetchPreviousOrder();
   }, []);
 
+  // const handleInputChange = (e, index, field) => {
+  //   let value;
+  //   if (field === "stock") {
+  //     value =
+  //       e.target.value === "true"
+  //         ? true
+  //         : e.target.value === "false"
+  //         ? false
+  //         : null;
+  //   } else {
+  //     value = e.target.value;
+  //   }
+
+  //   setTodaysOrder((prevOrder) => {
+  //     const updatedOrder = [...prevOrder];
+  //     updatedOrder[index][field] = value;
+  //     // stockがfalseに設定された場合、orderを1に設定
+  //     if (field === "stock" && value === false) {
+  //       updatedOrder[index].order = 1;
+  //     }
+  //     return updatedOrder;
+  //   });
+
+  //   if (field === "order") {
+  //     const total = calculateTotalPrice();
+  //     setTotal(total);
+  //   }
+  // };
+
   const handleInputChange = (e, index, field) => {
     let value;
     if (field === "stock") {
@@ -113,12 +142,16 @@ const OderTierneys = () => {
     setTodaysOrder((prevOrder) => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index][field] = value;
+      // If stock is set to false, set order to 1
+      if (field === "stock" && value === false) {
+        updatedOrder[index].order = 1;
+      }
       return updatedOrder;
     });
 
     if (field === "order") {
-      const total = calculateTotalPrice();
-      setTotal(total);
+      const newTotal = calculateTotalPrice();
+      setTotal(newTotal);
     }
   };
 
@@ -189,12 +222,20 @@ const OderTierneys = () => {
   };
 
   const getRowStyle = (detail) => {
-    const isEmpty =
+    console.log("detail---------", detail);
+    console.log("detail.stock", detail.stock);
+    console.log("detail.order", detail.order);
+    if (detail.stock === false && detail.order === 0) {
+      return "bg-red-100"; // Background color for the condition
+    }
+    if (
       detail.stock === null ||
       detail.stock === undefined ||
-      detail.stock === "" ||
-      detail.shelf === "";
-    return isEmpty ? "bg-red-100" : "";
+      detail.stock === ""
+    ) {
+      return "bg-blue-100"; // Default background color for empty stock
+    }
+    return "";
   };
 
   // オーダーがあるかどうかをチェックする
