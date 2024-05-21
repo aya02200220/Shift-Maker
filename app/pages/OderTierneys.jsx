@@ -32,14 +32,14 @@ const OderTierneys = () => {
   const [previousOrderDate, setPreviousOrderDate] = useState(null);
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [total, setTotal] = useState(false);
+  const [total, setTotal] = useState(0.0);
 
   const [alignment, setAlignment] = useState("Disp");
 
   // console.log("alignment", alignment);
   // console.log("todaysOrder@cup", todaysOrder);
   // console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
-  // console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
+  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -81,7 +81,7 @@ const OderTierneys = () => {
             itemCode: detail.itemCode,
             codeRequired: detail.codeRequired,
             minimum: detail.minimum,
-            stock: true,
+            stock: null,
             shelfMinimum: detail.shelfMinimum,
             shelf: 0,
             price: detail.price,
@@ -97,17 +97,67 @@ const OderTierneys = () => {
     fetchPreviousOrder();
   }, []);
 
+  // const handleInputChange = (e, index, field) => {
+  //   let value;
+  //   if (field === "stock") {
+  //     value =
+  //       e.target.value === "true"
+  //         ? true
+  //         : e.target.value === "false"
+  //         ? false
+  //         : null;
+  //   } else {
+  //     value = e.target.value;
+  //   }
+
+  //   setTodaysOrder((prevOrder) => {
+  //     const updatedOrder = [...prevOrder];
+  //     updatedOrder[index][field] = value;
+  //     // stockがfalseに設定された場合、orderを1に設定
+  //     if (field === "stock" && value === false) {
+  //       updatedOrder[index].order = 1;
+  //     }
+  //     return updatedOrder;
+  //   });
+
+  //   if (field === "order") {
+  //     const total = calculateTotalPrice();
+  //     setTotal(total);
+  //   }
+  // };
+
   const handleInputChange = (e, index, field) => {
-    const value = e.target.value;
+    let value;
+    if (field === "stock") {
+      value =
+        e.target.value === "true"
+          ? true
+          : e.target.value === "false"
+          ? false
+          : null;
+    } else {
+      value = e.target.value;
+    }
+
     setTodaysOrder((prevOrder) => {
       const updatedOrder = [...prevOrder];
       updatedOrder[index][field] = value;
+      // If stock is set to false, set order to 1
+      if (field === "stock" && value === false) {
+        updatedOrder[index].order = 1;
+      }
       return updatedOrder;
     });
 
-    // オーダーが変更されたときに合計金額を再計算する
+    if (field === "order") {
+      const newTotal = calculateTotalPrice();
+      setTotal(newTotal);
+    }
+  };
+
+  const handleOrderBlur = (index) => {
+    // Recalculate the total price when the order field loses focus
     const total = calculateTotalPrice();
-    // Totalステートを更新
     setTotal(total);
   };
 
@@ -171,11 +221,23 @@ const OderTierneys = () => {
     }
   };
 
-  // 空白かどうかをチェックする
   const getRowStyle = (detail) => {
-    const isEmpty = !detail.stock || !detail.shelf;
-    return isEmpty ? "bg-red-100" : "";
+    console.log("detail---------", detail);
+    console.log("detail.stock", detail.stock);
+    console.log("detail.order", detail.order);
+    if (detail.stock === false && detail.order === 0) {
+      return "bg-red-100"; // Background color for the condition
+    }
+    if (
+      detail.stock === null ||
+      detail.stock === undefined ||
+      detail.stock === ""
+    ) {
+      return "bg-blue-100"; // Default background color for empty stock
+    }
+    return "";
   };
+
   // オーダーがあるかどうかをチェックする
   const getOrderStyle = (detail) => {
     const isOrder = detail.order > 0;
@@ -282,6 +344,7 @@ const OderTierneys = () => {
                       <input
                         className="cup-input shadow-sm border border-r-0"
                         type="number"
+                        min="0"
                         value={
                           (todaysOrder[index] && todaysOrder[index].shelf) || ""
                         }
@@ -302,7 +365,13 @@ const OderTierneys = () => {
                   <FormControl>
                     <RadioGroup
                       row
-                      name="stockCheck"
+                      name={`stockCheck-${index}`} // 各行に一意の名前を設定
+                      value={
+                        todaysOrder[index].stock !== null &&
+                        todaysOrder[index].stock !== undefined
+                          ? todaysOrder[index].stock.toString()
+                          : ""
+                      }
                       onChange={(e) => handleInputChange(e, index, "stock")}
                     >
                       <FormControlLabel
@@ -341,13 +410,16 @@ const OderTierneys = () => {
                   <p className="cup-detail md:text-right md:mr-3">
                     {detail.order}
                   </p>
+
                   <input
-                    className="cup-input  shadow-sm border"
-                    type="string"
+                    className="cup-input shadow-sm border"
+                    type="number"
+                    min="0"
                     value={
                       (todaysOrder[index] && todaysOrder[index].order) || ""
                     }
                     onChange={(e) => handleInputChange(e, index, "order")}
+                    onBlur={() => handleOrderBlur(index)}
                   />
                 </div>
               </li>

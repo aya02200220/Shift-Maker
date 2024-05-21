@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/lib/mongodb";
-import { TeaOrder } from "@/models/teaOrder";
+// import { TeaOrder } from "@/models/teaOrder";
 import { NextResponse } from "next/server";
+import { TierneysOrder } from "@/models/tierneysOrder";
 
 export async function GET(request) {
   try {
@@ -10,7 +11,7 @@ export async function GET(request) {
     const month = searchParams.get("month");
 
     // console.log("searchParams", searchParams);
-    console.log("orderDateStr", orderDateStr);
+    // console.log("orderDateStr", orderDateStr);
 
     await connectMongoDB();
 
@@ -41,7 +42,7 @@ export async function GET(request) {
       //   999
       // );
 
-      const orders = await TeaOrder.find({
+      const orders = await TierneysOrder.find({
         orderDate: { $gte: startOfDay, $lt: endOfDay },
       });
 
@@ -58,7 +59,7 @@ export async function GET(request) {
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 0);
 
-      const orders = await TeaOrder.find({
+      const orders = await TierneysOrder.find({
         orderDate: { $gte: startDate, $lte: endDate },
       });
 
