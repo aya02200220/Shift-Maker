@@ -115,7 +115,7 @@ export default function PreviewFullScreen({
 
   const download = (
     image,
-    { name = `TeaOrder-${formattedDateForDl}`, extension = "jpg" } = {}
+    { name = `TierneysOrder-${formattedDateForDl}`, extension = "jpg" } = {}
   ) => {
     const a = document.createElement("a");
     a.href = image;
@@ -165,7 +165,11 @@ export default function PreviewFullScreen({
             </Typography>
 
             <div className="flex gap-2">
-              <SendEmail orderDate={orderDate} />
+              <SendEmail
+                orderDate={orderDate}
+                index={"cup"}
+                orderDetail={orderDetail}
+              />
               <Button
                 endIcon={<FileDownloadIcon />}
                 variant="contained"
@@ -195,9 +199,9 @@ export default function PreviewFullScreen({
                 <div>
                   {orderDetail && (
                     <div className="flex flex-col justify-center">
-                      <ul className="flex text-[14px] text-[#333] font-medium items-center justify-between mr-2 sm:nr-0 sm:justify-center gap-0 sm:gap-2 mb-0 sm:mb-2 leading-3 mt-1 sm:mt-2">
+                      <ul className="flex text-[14px] text-[#333] font-bold items-center justify-between mr-2 sm:nr-0 sm:justify-center gap-0 sm:gap-2 mb-0 sm:mb-2 leading-3 mt-1 sm:mt-2">
                         <li className="text-[8px] sm:text-[11px] w-[140px] sm:w-[165px] text-center break-words">
-                          Item
+                          Item Name
                         </li>
                         <li className="text-[8px] sm:text-[11px] w-[50px] break-words ml-3 text-right">
                           Price
@@ -207,6 +211,7 @@ export default function PreviewFullScreen({
                           Order
                         </li>
                       </ul>
+                      <Divider />
                       <ul>
                         {orderDetail.map((detail, index) => (
                           <li
