@@ -29,7 +29,7 @@ export default function PreviewFullScreen({
   const [orderDetail, setOrderDetail] = useState(previousOrder);
   const [orderDate, setOrderDate] = useState(null);
 
-  console.log("cup-orderDate", orderDate);
+  // console.log("cup-orderDate", orderDate);
 
   const formattedDate = orderDate
     ? format(orderDate.toDate(), "MMMM d, yyyy")

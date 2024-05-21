@@ -39,13 +39,13 @@ const OderTierneys = () => {
   // console.log("alignment", alignment);
   // console.log("todaysOrder@cup", todaysOrder);
   // console.log("-------------", todaysOrder[0] && todaysOrder[0].shelf);
-  console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
+  // console.log("-------------", todaysOrder[0] && todaysOrder[0].order);
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
 
-  console.log("PreviousTierneysOrder", previousOrderDate);
+  // console.log("PreviousTierneysOrder", previousOrderDate);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
@@ -88,9 +88,9 @@ const OderTierneys = () => {
             order: 0,
           }));
         setTodaysOrder(initialTodaysOrder);
-        console.log("latestTierneysOrder", latestTierneysOrder);
+        // console.log("latestTierneysOrder", latestTierneysOrder);
       } catch (error) {
-        console.error("Error fetching previous cup order:", error);
+        // console.error("Error fetching previous cup order:", error);
       }
     }
 
@@ -184,7 +184,7 @@ const OderTierneys = () => {
         orderDate: new Date().toISOString(),
         orderDetails,
       });
-      console.log("Tierneys Order success:", response.data);
+      // console.log("Tierneys Order success:", response.data);
 
       toast.success("Tierneys Order Registered!", {
         position: "bottom-right",
@@ -217,15 +217,37 @@ const OderTierneys = () => {
 
       setTodaysOrder(initialTodaysOrder);
     } catch (error) {
-      console.error("Error ordering Tierneys:", error);
+      // console.error("Error ordering Tierneys:", error);
     }
   };
+
+  // const getRowStyle = (detail) => {
+  //   console.log("detail---------", detail);
+  //   console.log("detail.stock", detail.stock);
+  //   console.log("detail.order", detail.order);
+  //   if (detail.stock === false && detail.order === 0) {
+  //     return "bg-red-100"; // Background color for the condition
+  //   }
+  //   if (
+  //     detail.stock === null ||
+  //     detail.stock === undefined ||
+  //     detail.stock === ""
+  //   ) {
+  //     return "bg-blue-100"; // Default background color for empty stock
+  //   }
+  //   return "";
+  // };
 
   const getRowStyle = (detail) => {
     console.log("detail---------", detail);
     console.log("detail.stock", detail.stock);
     console.log("detail.order", detail.order);
-    if (detail.stock === false && detail.order === 0) {
+
+    // 条件に応じた背景色のクラスを返す
+    if (
+      (detail.stock === false && detail.order === "0") ||
+      (detail.stock === false && detail.order === "")
+    ) {
       return "bg-red-100"; // Background color for the condition
     }
     if (
@@ -235,13 +257,10 @@ const OderTierneys = () => {
     ) {
       return "bg-blue-100"; // Default background color for empty stock
     }
+    if (detail.order > 0) {
+      return "bg-green-100"; // Background color for order > 0
+    }
     return "";
-  };
-
-  // オーダーがあるかどうかをチェックする
-  const getOrderStyle = (detail) => {
-    const isOrder = detail.order > 0;
-    return isOrder ? "bg-green-100" : "";
   };
 
   const calculateTotalPrice = () => {
@@ -308,7 +327,6 @@ const OderTierneys = () => {
             {previousOrder.map((detail, index) => (
               <li
                 className={`flex border-b-2 h-[60px] items-center px-2 gap-1 
-                ${getOrderStyle(todaysOrder[index])}
                 ${getRowStyle(todaysOrder[index])}
                 `}
                 key={index}
