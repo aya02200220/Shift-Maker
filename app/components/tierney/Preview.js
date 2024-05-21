@@ -1,9 +1,8 @@
 //tierney/Preview.js
+
 import React, { useState, useRef, createRef, useEffect } from "react";
 import dayjs from "dayjs";
-// import CreateEmail from "./mails/CreateEmail";
 import SendEmail from "../mails/SendEmail";
-
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
@@ -14,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import DatePickers from "./DatePickers";
-
 import { format } from "date-fns";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { useScreenshot, createFileName } from "use-react-screenshot";
@@ -23,11 +21,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Preview({ previousOrder, previousOrderDate }) {
+export default function PreviewFullScreen({
+  previousOrder,
+  previousOrderDate,
+}) {
   const [open, setOpen] = useState(false);
-
   const [orderDetail, setOrderDetail] = useState(previousOrder);
   const [orderDate, setOrderDate] = useState(null);
+
+  console.log("cup-orderDate", orderDate);
 
   const formattedDate = orderDate
     ? format(orderDate.toDate(), "MMMM d, yyyy")
@@ -67,14 +69,11 @@ export default function Preview({ previousOrder, previousOrderDate }) {
   };
 
   useEffect(() => {
-    console.log("再選択されたDateでフェッチ", orderDate);
+    console.log("再選択されたDateでフェッチ-cup", orderDate);
     if (orderDate) {
       const fetchDetails = async () => {
-        // 内部関数の名前を変更
-        // const isoDate = orderDate.toISOString();
         const isoDate = orderDate.toDate().toISOString();
-        console.log("isoDate", isoDate);
-        const details = await fetchOrderDetails(orderDate); // 外部の fetchOrderDetails を呼び出し
+        const details = await fetchOrderDetails(isoDate);
         console.log("details", details);
         setOrderDetail(details);
       };
@@ -84,10 +83,11 @@ export default function Preview({ previousOrder, previousOrderDate }) {
   }, [orderDate]);
 
   const fetchOrderDetails = async (date) => {
-    console.log("fetchOrderDetails", date);
     try {
       const response = await fetch(
-        `/api/cup-order-find-by-date?date=${date.toISOString().slice(0, 10)}`
+        `/api/cup-order-find-by-date?date=${new Date(date)
+          .toISOString()
+          .slice(0, 10)}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -97,7 +97,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
       }
       const data = await response.json();
       if (data.orders.length > 0) {
-        return data.orders[data.orders.length - 1].orderDetails; // 最後の注文のorderDetailsを取得
+        return data.orders[data.orders.length - 1].orderDetails;
       } else {
         return [];
       }
@@ -123,9 +123,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
     a.click();
   };
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
-  console.log("orderDetail", orderDetail);
 
-  // オーダーがあるかどうかをチェックする
   const getOrderStyle = (detail) => {
     const isOrder = detail.order > 0;
     return isOrder ? "bg-green-100" : "";
@@ -167,9 +165,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
             </Typography>
 
             <div className="flex gap-2">
-              {/* <CreateEmail orderDate={orderDate} /> */}
               <SendEmail orderDate={orderDate} />
-
               <Button
                 endIcon={<FileDownloadIcon />}
                 variant="contained"
@@ -186,10 +182,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
           <Divider />
           <div ref={ref}></div>
 
-          <div
-            className="flex justify-center
-          "
-          >
+          <div className="flex justify-center">
             <div
               ref={ref}
               className="p-2 mt-2 border rounded-md shadow-md max-w-[470px] bg-[#fff]"
@@ -220,27 +213,28 @@ export default function Preview({ previousOrder, previousOrderDate }) {
                       <ul>
                         {orderDetail.map((detail, index) => (
                           <li
-                            className={`flex justify-between border-b-2 h-[18px] md:h-[30px] text-[14.5px] items-center px-2  pb-1
-                            ${getOrderStyle(orderDetail[index])}`}
+                            className={`flex justify-between border-b-2 h-[18px] md:h-[30px] text-[14.5px] items-center px-2 pb-1 ${getOrderStyle(
+                              detail
+                            )}`}
                             key={index}
                           >
                             <p className="w-[98px] md:w-[165px] mr-2 leading-[9px] text-[#333] text-[8px] md:text-[13px]">
                               {detail.teaName}
                             </p>
 
-                            <p className="w-[43px] text-center  text-[#999] text-[8px] md:text-[13px] md:ml-3">
+                            <p className="w-[43px] text-center text-[#999] text-[8px] md:text-[13px] md:ml-3">
                               {detail.unopened}
                             </p>
 
-                            <p className="w-[43px] text-center  text-[#999] text-[8px] md:text-[13px] md:ml-3">
+                            <p className="w-[43px] text-center text-[#999] text-[8px] md:text-[13px] md:ml-3">
                               {detail.opened}
                             </p>
 
-                            <p className="w-[43px] text-center  text-[#999] text-[8px] md:text-[13px] md:ml-3">
+                            <p className="w-[43px] text-center text-[#999] text-[8px] md:text-[13px] md:ml-3">
                               {detail.tin}
                             </p>
 
-                            <p className="w-[43px] text-center  text-[#999] text-[8px] md:text-[13px] md:ml-3">
+                            <p className="w-[43px] text-center text-[#999] text-[8px] md:text-[13px] md:ml-3">
                               {detail.order}
                             </p>
                           </li>

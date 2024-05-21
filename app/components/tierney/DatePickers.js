@@ -10,32 +10,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 
-function getRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
-
-/**
- * Mimic fetch with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
- * ⚠️ No IE11 support
- */
-// function fakeFetch(date, { signal }) {
-//   return new Promise((resolve, reject) => {
-//     const timeout = setTimeout(() => {
-//       const daysInMonth = date.daysInMonth();
-//       const daysToHighlight = [1, 2, 3].map(() =>
-//         getRandomNumber(1, daysInMonth)
-//       );
-
-//       resolve({ daysToHighlight });
-//     }, 500);
-
-//     signal.onabort = () => {
-//       clearTimeout(timeout);
-//       reject(new DOMException("aborted", "AbortError"));
-//     };
-//   });
-// }
-
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
@@ -47,7 +21,7 @@ function ServerDay(props) {
     <Badge
       key={props.day.toString()}
       overlap="circular"
-      badgeContent={isSelected ? "🍵" : undefined}
+      badgeContent={isSelected ? "🔥" : undefined}
     >
       <PickersDay
         {...other}
@@ -69,12 +43,7 @@ export default function DatePickers({ orderDate, onDateChange }) {
     orderDate ? dayjs(orderDate) : dayjs()
   );
 
-  console.log("^^^^^^^^^^^^^^^^^");
-  console.log("orderDate", orderDate);
-  console.log("dayjs(orderDate)", dayjs(orderDate));
-
   const handleDateChange = (date) => {
-    console.log("Selected date:", date);
     setSelectedDate(date);
     // 親コンポーネントに日付を渡す
     onDateChange(date);
@@ -88,7 +57,7 @@ export default function DatePickers({ orderDate, onDateChange }) {
     console.log("year", year, "month", month);
 
     // サーバーからデータを取得するリクエストを送信
-    fetch(`/api/order-find-by-date?year=${year}&month=${month}`, {
+    fetch(`/api/cup-order-find-by-date?year=${year}&month=${month}`, {
       signal: controller.signal,
     })
       .then((response) => {
