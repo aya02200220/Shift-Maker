@@ -32,6 +32,8 @@ export default function PreviewFullScreen({
   const [orderDetail, setOrderDetail] = useState(previousOrder);
   const [orderDate, setOrderDate] = useState(null);
 
+  console.log("tea-orderDate", orderDate);
+
   const formattedDate = orderDate
     ? format(orderDate.toDate(), "MMMM d, yyyy")
     : "";
@@ -76,7 +78,7 @@ export default function PreviewFullScreen({
         // 内部関数の名前を変更
         // const isoDate = orderDate.toISOString();
         const isoDate = orderDate.toDate().toISOString();
-        console.log("isoDate", isoDate);
+        // console.log("isoDate", isoDate);
         const details = await fetchOrderDetails(orderDate); // 外部の fetchOrderDetails を呼び出し
         console.log("details", details);
         setOrderDetail(details);
@@ -87,7 +89,7 @@ export default function PreviewFullScreen({
   }, [orderDate]);
 
   const fetchOrderDetails = async (date) => {
-    console.log("fetchOrderDetails", date);
+    // console.log("fetchOrderDetails", date);
     try {
       const response = await fetch(
         `/api/order-find-by-date?date=${date.toISOString().slice(0, 10)}`
@@ -126,7 +128,7 @@ export default function PreviewFullScreen({
     a.click();
   };
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
-  console.log("orderDetail", orderDetail);
+  // console.log("orderDetail", orderDetail);
 
   // オーダーがあるかどうかをチェックする
   const getOrderStyle = (detail) => {

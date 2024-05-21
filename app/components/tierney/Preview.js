@@ -87,7 +87,7 @@ export default function Preview({ previousOrder, previousOrderDate }) {
     console.log("fetchOrderDetails", date);
     try {
       const response = await fetch(
-        `/api/order-find-by-date?date=${date.toISOString().slice(0, 10)}`
+        `/api/cup-order-find-by-date?date=${date.toISOString().slice(0, 10)}`
       );
       if (!response.ok) {
         const errorData = await response.json();

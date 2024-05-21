@@ -18,23 +18,23 @@ function getRandomNumber(min, max) {
  * Mimic fetch with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
  * ⚠️ No IE11 support
  */
-function fakeFetch(date, { signal }) {
-  return new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [1, 2, 3].map(() =>
-        getRandomNumber(1, daysInMonth)
-      );
+// function fakeFetch(date, { signal }) {
+//   return new Promise((resolve, reject) => {
+//     const timeout = setTimeout(() => {
+//       const daysInMonth = date.daysInMonth();
+//       const daysToHighlight = [1, 2, 3].map(() =>
+//         getRandomNumber(1, daysInMonth)
+//       );
 
-      resolve({ daysToHighlight });
-    }, 500);
+//       resolve({ daysToHighlight });
+//     }, 500);
 
-    signal.onabort = () => {
-      clearTimeout(timeout);
-      reject(new DOMException("aborted", "AbortError"));
-    };
-  });
-}
+//     signal.onabort = () => {
+//       clearTimeout(timeout);
+//       reject(new DOMException("aborted", "AbortError"));
+//     };
+//   });
+// }
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -68,6 +68,10 @@ export default function DatePickers({ orderDate, onDateChange }) {
   const [selectedDate, setSelectedDate] = useState(
     orderDate ? dayjs(orderDate) : dayjs()
   );
+
+  console.log("^^^^^^^^^^^^^^^^^");
+  console.log("orderDate", orderDate);
+  console.log("dayjs(orderDate)", dayjs(orderDate));
 
   const handleDateChange = (date) => {
     console.log("Selected date:", date);

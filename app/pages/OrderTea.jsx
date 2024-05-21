@@ -16,7 +16,7 @@ const OrderTea = () => {
   const [todaysOrder, setTodaysOrder] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
-  console.log("previousOrderDate", previousOrderDate);
+  // console.log("previousOrderDate", previousOrderDate);
 
   const formattedDate = previousOrderDate
     ? format(previousOrderDate, "MMMM d (h:mm a)")
