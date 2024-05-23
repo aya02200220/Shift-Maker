@@ -149,10 +149,13 @@ const OderTierneys = () => {
       return updatedOrder;
     });
 
-    if (field === "order") {
-      const newTotal = calculateTotalPrice();
-      setTotal(newTotal);
-    }
+    const newTotal = calculateTotalPrice();
+    setTotal(newTotal);
+
+    // if (field === "order") {
+    //   const newTotal = calculateTotalPrice();
+    //   setTotal(newTotal);
+    // }
   };
 
   const handleOrderBlur = (index) => {
