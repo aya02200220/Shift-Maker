@@ -10,18 +10,19 @@ export async function GET(request) {
     // MongoDB に接続
     await connectMongoDB();
 
-    // 最新の teaOrder を取得
-    // const latestTierneysOrder = await TierneysOrder.findOne().sort({
     const latestTierneysOrder = await TierneysOrder.findOne().sort({
       createdAt: -1,
     });
     if (!latestTierneysOrder) {
       // 最新の teaOrder が見つからない場合はエラーレスポンスを返す
       return NextResponse.json(
-        { message: "Latest latestTierneys order not found" },
+        { message: "Latest latest Tierneys order not found" },
         { status: 404 }
       );
     }
+
+    // createdAt フィールドを UTC に変換
+    latestTeaOrder.createdAt = new Date(latestTeaOrder.createdAt).toISOString();
 
     // 最新の teaOrder をレスポンスとして返す
     return NextResponse.json({ latestTierneysOrder }, { status: 200 });
