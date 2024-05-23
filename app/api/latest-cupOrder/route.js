@@ -22,7 +22,9 @@ export async function GET(request) {
     }
 
     // createdAt フィールドを UTC に変換
-    latestTeaOrder.createdAt = new Date(latestTeaOrder.createdAt).toISOString();
+    latestTierneysOrder.createdAt = new Date(
+      latestTierneysOrder.createdAt
+    ).toISOString();
 
     // 最新の teaOrder をレスポンスとして返す
     return NextResponse.json({ latestTierneysOrder }, { status: 200 });
