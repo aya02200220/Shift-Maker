@@ -1,31 +1,29 @@
 //tierney/OrderTierneys.js
 "use client";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import ConfirmationPopup from "../components/ConfirmationPopup";
-import { Button } from "@mui/material";
-import { Typography } from "@mui/material";
+import {
+  Button,
+  Typography,
+  ToggleButton,
+  ToggleButtonGroup,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { RiBarcodeBoxLine } from "react-icons/ri";
-
+import { RiBarcodeBoxLine, RiDrinks2Line } from "react-icons/ri";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import Preview from "../components/tierney/Preview";
-
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
 import { BiCoffeeTogo } from "react-icons/bi";
 import { FaDotCircle } from "react-icons/fa";
-import { RiDrinks2Line } from "react-icons/ri";
 import { MdOutlineExpandCircleDown } from "react-icons/md";
-
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 const OderTierneys = () => {
   const [previousOrder, setPreviousOrder] = useState(null);
@@ -98,6 +96,7 @@ const OderTierneys = () => {
   }, []);
 
   const handleInputChange = (e, index, field) => {
+    console.log("input-----------");
     let value;
     if (field === "stock") {
       value =
@@ -120,14 +119,15 @@ const OderTierneys = () => {
       return updatedOrder;
     });
 
-    const newTotal = calculateTotalPrice();
-    setTotal(newTotal);
+    // const newTotal = calculateTotalPrice();
+    // setTotal(newTotal);
   };
 
-  const handleOrderBlur = (index) => {
-    const total = calculateTotalPrice();
-    setTotal(total);
-  };
+  useEffect(() => {
+    const newTotal = calculateTotalPrice();
+
+    setTotal(newTotal);
+  }, [todaysOrder]);
 
   const handleOrderButtonClick = async () => {
     const orderDetails = todaysOrder.map((detail) => ({
@@ -388,7 +388,7 @@ const OderTierneys = () => {
                       (todaysOrder[index] && todaysOrder[index].order) || ""
                     }
                     onChange={(e) => handleInputChange(e, index, "order")}
-                    onBlur={() => handleOrderBlur(index)}
+                    // onBlur={() => handleOrderBlur(index)}
                   />
                 </div>
               </li>

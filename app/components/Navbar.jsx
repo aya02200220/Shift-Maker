@@ -28,6 +28,7 @@ export default function Navbar() {
             src={session?.user?.image}
             width={30}
             height={30}
+            alt="user-icon"
           />
           <div className="mr-2">
             <div>
