@@ -28,6 +28,7 @@ export default function PreviewFullScreen({
   const [open, setOpen] = useState(false);
   const [orderDetail, setOrderDetail] = useState(previousOrder);
   const [orderDate, setOrderDate] = useState(null);
+  const [total, setTotal] = useState(0.0);
 
   // console.log("cup-orderDate", orderDate);
 
@@ -59,28 +60,45 @@ export default function PreviewFullScreen({
         console.error("Invalid date format:", previousOrderDate);
       }
     } else {
-      console.error("Empty date:", previousOrderDate);
+      // console.error("Empty date:", previousOrderDate);
     }
+
+    const newTotal = calculateTotalPrice();
+    setTotal(newTotal);
   }, [previousOrderDate]);
 
   const handleDateChange = (date) => {
-    console.log("Selected date:", date);
+    // console.log("Selected date:", date);
     setOrderDate(date);
   };
 
   useEffect(() => {
-    console.log("再選択されたDateでフェッチ-cup", orderDate);
+    // console.log("再選択されたDateでフェッチ-cup", orderDate);
     if (orderDate) {
       const fetchDetails = async () => {
         const isoDate = orderDate.toDate().toISOString();
         const details = await fetchOrderDetails(isoDate);
-        console.log("details", details);
+        // console.log("details", details);
         setOrderDetail(details);
       };
-
       fetchDetails().catch(console.error);
     }
   }, [orderDate]);
+
+  useEffect(() => {
+    const newTotal = calculateTotalPrice();
+    setTotal(newTotal);
+  }, [orderDetail]);
+
+  const calculateTotalPrice = () => {
+    if (orderDetail) {
+      return orderDetail
+        .reduce((total, detail) => {
+          return total + detail.price * detail.order;
+        }, 0)
+        .toFixed(2);
+    }
+  };
 
   const fetchOrderDetails = async (date) => {
     try {
@@ -195,6 +213,11 @@ export default function PreviewFullScreen({
                 <h3 className="text-[16px] sm:text-md font-semibold text-center sm:text-left mb-2">
                   Order Date: {formattedDate}
                 </h3>
+                <div className="flex justify-end mb-2">
+                  <p className="text-center text-[13px] bg-[#d24f7d] text-[#e5e9ff] rounded-sm py-1 w-[110px]">
+                    Total:<span className="pl-1 font-semibold ">${total}</span>
+                  </p>
+                </div>
                 <Divider />
                 <div>
                   {orderDetail && (

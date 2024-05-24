@@ -97,35 +97,6 @@ const OderTierneys = () => {
     fetchPreviousOrder();
   }, []);
 
-  // const handleInputChange = (e, index, field) => {
-  //   let value;
-  //   if (field === "stock") {
-  //     value =
-  //       e.target.value === "true"
-  //         ? true
-  //         : e.target.value === "false"
-  //         ? false
-  //         : null;
-  //   } else {
-  //     value = e.target.value;
-  //   }
-
-  //   setTodaysOrder((prevOrder) => {
-  //     const updatedOrder = [...prevOrder];
-  //     updatedOrder[index][field] = value;
-  //     // stockがfalseに設定された場合、orderを1に設定
-  //     if (field === "stock" && value === false) {
-  //       updatedOrder[index].order = 1;
-  //     }
-  //     return updatedOrder;
-  //   });
-
-  //   if (field === "order") {
-  //     const total = calculateTotalPrice();
-  //     setTotal(total);
-  //   }
-  // };
-
   const handleInputChange = (e, index, field) => {
     let value;
     if (field === "stock") {
@@ -151,15 +122,9 @@ const OderTierneys = () => {
 
     const newTotal = calculateTotalPrice();
     setTotal(newTotal);
-
-    // if (field === "order") {
-    //   const newTotal = calculateTotalPrice();
-    //   setTotal(newTotal);
-    // }
   };
 
   const handleOrderBlur = (index) => {
-    // Recalculate the total price when the order field loses focus
     const total = calculateTotalPrice();
     setTotal(total);
   };
@@ -224,27 +189,10 @@ const OderTierneys = () => {
     }
   };
 
-  // const getRowStyle = (detail) => {
-  //   console.log("detail---------", detail);
-  //   console.log("detail.stock", detail.stock);
-  //   console.log("detail.order", detail.order);
-  //   if (detail.stock === false && detail.order === 0) {
-  //     return "bg-red-100"; // Background color for the condition
-  //   }
-  //   if (
-  //     detail.stock === null ||
-  //     detail.stock === undefined ||
-  //     detail.stock === ""
-  //   ) {
-  //     return "bg-blue-100"; // Default background color for empty stock
-  //   }
-  //   return "";
-  // };
-
   const getRowStyle = (detail) => {
-    console.log("detail---------", detail);
-    console.log("detail.stock", detail.stock);
-    console.log("detail.order", detail.order);
+    // console.log("detail---------", detail);
+    // console.log("detail.stock", detail.stock);
+    // console.log("detail.order", detail.order);
 
     // 条件に応じた背景色のクラスを返す
     if (
@@ -349,14 +297,14 @@ const OderTierneys = () => {
                     <MdOutlineExpandCircleDown size={18} className="cup-icon" />
                   ) : null}
 
-                  <p className="cup-name  ">
+                  <div className="cup-name  ">
                     {alignment === null && <p>{detail.displayName}</p>}
                     {alignment === "Disp" && <p>{detail.displayName}</p>}
                     {alignment === "Order" && <p>{detail.orderName}</p>}
                     {alignment === "Item" && <p>{detail.itemName}</p>}
                     {alignment === "Code" && <p>{detail.itemCode}</p>}
                     {alignment === "Price" && <p>${detail.price.toFixed(2)}</p>}
-                  </p>
+                  </div>
                 </div>
 
                 <div className="w-[13%] px-1 flex flex-col sm:flex-row justify-center items-center mt-2 sm:mt-0 border-r-[1px] border-[#dddddd] h-full">

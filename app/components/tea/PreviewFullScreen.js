@@ -29,7 +29,7 @@ export default function PreviewFullScreen({
   const [orderDetail, setOrderDetail] = useState(previousOrder);
   const [orderDate, setOrderDate] = useState(null);
 
-  console.log("tea-orderDate", orderDate);
+  // console.log("tea-orderDate", orderDate);
 
   const formattedDate = orderDate
     ? format(orderDate.toDate(), "MMMM d, yyyy")
@@ -59,22 +59,22 @@ export default function PreviewFullScreen({
         console.error("Invalid date format:", previousOrderDate);
       }
     } else {
-      console.error("Empty date:", previousOrderDate);
+      // console.error("Empty date:", previousOrderDate);
     }
   }, [previousOrderDate]);
 
   const handleDateChange = (date) => {
-    console.log("Selected date:", date);
+    // console.log("Selected date:", date);
     setOrderDate(date);
   };
 
   useEffect(() => {
-    console.log("再選択されたDateでフェッチ", orderDate);
+    // console.log("再選択されたDateでフェッチ", orderDate);
     if (orderDate) {
       const fetchDetails = async () => {
         const isoDate = orderDate.toDate().toISOString();
         const details = await fetchOrderDetails(isoDate);
-        console.log("details", details);
+        // console.log("details", details);
         setOrderDetail(details);
       };
 
