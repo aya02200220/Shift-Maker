@@ -96,7 +96,6 @@ const OderTierneys = () => {
   }, []);
 
   const handleInputChange = (e, index, field) => {
-    console.log("input-----------");
     let value;
     if (field === "stock") {
       value =

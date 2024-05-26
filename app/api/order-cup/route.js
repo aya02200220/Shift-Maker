@@ -1,6 +1,6 @@
 // order-cup/route.js
 import { connectMongoDB } from "@/lib/mongodb";
-import { CupOrder } from "@/models/tierneys";
+// import { CupOrder } from "@/models/tierneys";
 import { NextResponse } from "next/server";
 import { TierneysOrder } from "@/models/tierneysOrder";
 
@@ -8,7 +8,7 @@ export async function POST(request) {
   // リクエストからJSONデータを抽出します
   const data = await request.json();
   const { orderDate, orderDetails } = data;
-  console.log("orderDate, orderDetails ", orderDate, orderDetails);
+  // console.log("orderDate, orderDetails ", orderDate, orderDetails);
 
   if (!orderDate || !orderDetails || !Array.isArray(orderDetails)) {
     return NextResponse.json(

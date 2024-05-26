@@ -10,6 +10,22 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    key: {
+      type: String,
+      required: true,
+    },
+    open: {
+      type: String,
+      required: true,
+    },
+    close: {
+      type: String,
+      required: true,
+    },
+    timeOff: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
