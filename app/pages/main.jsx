@@ -9,6 +9,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import OrderTea from "./OrderTea";
 import OderTierneys from "./OderTierneys";
 import { Schedule } from "./Schedule";
+import { User } from "./User";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 
 export default function Main() {
@@ -71,12 +72,22 @@ export default function Main() {
           >
             Schedule
           </ToggleButton>
+          <ToggleButton
+            className="w-[100px] h-[30px]"
+            value="User"
+            disabled={alignment === "User"}
+            aria-label="right aligned"
+            size="small"
+          >
+            User
+          </ToggleButton>
         </ToggleButtonGroup>
 
         <div className="mt-5 w-[100%] flex justify-center items-center">
           {alignment === "OrderTea" && <OrderTea />}
           {alignment === "OderTierneys" && <OderTierneys />}
           {alignment === "Schedule" && <Schedule />}
+          {alignment === "User" && <User />}
         </div>
       </div>
 
