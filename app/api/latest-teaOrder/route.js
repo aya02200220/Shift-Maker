@@ -20,6 +20,9 @@ export async function GET(request) {
       );
     }
 
+    // デバッグ用に日付をログに出力
+    console.log("Retrieved order date:", latestTeaOrder.createdAt);
+
     // createdAt フィールドを UTC に変換
     latestTeaOrder.createdAt = new Date(latestTeaOrder.createdAt).toISOString();
 

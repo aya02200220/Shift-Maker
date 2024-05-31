@@ -19,6 +19,8 @@ const teaOrderSchema = new Schema(
   { timestamps: true }
 );
 
+teaOrderSchema.index({ createdAt: -1 });
+
 const TeaOrder = models.TeaOrder || mongoose.model("TeaOrder", teaOrderSchema);
 
 export { TeaOrder };
