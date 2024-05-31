@@ -16,7 +16,7 @@ const SendEmail = ({ orderDate, index, orderDetail }) => {
         .join("\n");
 
       const emailSubject = `Tierey's Order For Platform7 Kits : ${formattedDate}`;
-      const emailBody = `\nHi Brair!\n\nHere is the order for this week.\n\n${orderDetailText}\n\nThank you,\nPlatform7 Kits Aya`;
+      const emailBody = `\nHello Blair,\n\nHere is Platform 7 Kits order for the week.\n\n${orderDetailText}\n\nThank you,\nPlatform7 Kits Kozue`;
 
       const mailTo = `mailto:""?body=${emailSubject}${encodeURIComponent(
         emailBody
