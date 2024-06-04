@@ -1,8 +1,11 @@
 "use client";
 import { log } from "handlebars";
 import { useState, useEffect } from "react";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export const User = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,6 +44,7 @@ export const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
       const response = await fetch("/api/user", {
@@ -55,14 +59,14 @@ export const User = () => {
         throw new Error(data.message || "Failed to register user");
       }
 
-      alert("User registered successfully!");
+      // alert("User registered successfully!");
+
       setUsers([...users, data.newUser]); // 新しいユーザーをリストに追加
     } catch (err) {
       setError(err.message);
     }
+    setLoading(false);
   };
-
-  console.log(users);
 
   return (
     <div>
@@ -121,6 +125,16 @@ export const User = () => {
         {/* Add fields for timeOff as needed */}
         <button type="submit">Register</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        <LoadingButton
+          className="bg-[#ce7a8b] hover:bg-[#d35d77] "
+          onClick={handleSubmit}
+          loading={loading}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="contained"
+        >
+          <span>Register</span>
+        </LoadingButton>
       </form>
 
       <div>
