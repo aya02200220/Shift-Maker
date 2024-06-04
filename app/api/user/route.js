@@ -2,6 +2,21 @@ import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
+export async function GET(request) {
+  await connectMongoDB();
+
+  try {
+    const users = await User.find(); // 全ユーザーを取得
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return NextResponse.json(
+      { message: "Failed to fetch users", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request) {
   const { name, email, key, openTill, closeTill, openBar, closeBar, timeOff } =
     await request.json();
