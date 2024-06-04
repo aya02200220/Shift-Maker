@@ -198,14 +198,14 @@ const OderTierneys = () => {
       (detail.stock === false && detail.order === "0") ||
       (detail.stock === false && detail.order === "")
     ) {
-      return "bg-red-100"; // Background color for the condition
+      return "bg-yellow-100"; // Background color for the condition
     }
     if (
       detail.stock === null ||
       detail.stock === undefined ||
       detail.stock === ""
     ) {
-      return "bg-blue-100"; // Default background color for empty stock
+      return "bg-red-100"; // Default background color for empty stock
     }
     if (detail.order > 0) {
       return "bg-green-100"; // Background color for order > 0
