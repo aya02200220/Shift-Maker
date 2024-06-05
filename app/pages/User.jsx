@@ -3,8 +3,14 @@ import { log } from "handlebars";
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
+import TextField from "@mui/material/TextField";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -48,7 +54,7 @@ export const User = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    // setError(null);
     setLoading(true);
 
     try {
@@ -77,6 +83,17 @@ export const User = () => {
       });
 
       setUsers([...users, data.newUser]); // 新しいユーザーをリストに追加
+
+      setFormData({
+        name: "",
+        email: "",
+        key: false,
+        openTill: false,
+        closeTill: false,
+        openBar: false,
+        closeBar: false,
+        timeOff: [],
+      });
     } catch (err) {
       toast.error(err.message, {
         position: "bottom-right",
@@ -88,79 +105,91 @@ export const User = () => {
         progress: undefined,
         theme: "light",
       });
-      setError(err.message);
+      // setError(err.message);
     }
     setLoading(false);
   };
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Name"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="checkbox"
-          name="key"
-          checked={formData.key}
-          onChange={handleChange}
-        />
-        <label>Key</label>
-        <input
-          type="checkbox"
-          name="openTill"
-          checked={formData.openTill}
-          onChange={handleChange}
-        />
-        <label>Open Till</label>
-        <input
-          type="checkbox"
-          name="closeTill"
-          checked={formData.closeTill}
-          onChange={handleChange}
-        />
-        <label>Close Till</label>
-        <input
-          type="checkbox"
-          name="openBar"
-          checked={formData.openBar}
-          onChange={handleChange}
-        />
-        <label>Open Bar</label>
-        <input
-          type="checkbox"
-          name="closeBar"
-          checked={formData.closeBar}
-          onChange={handleChange}
-        />
-        <label>Close Bar</label>
-        {/* Add fields for timeOff as needed */}
-        <button type="submit">Register</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <LoadingButton
-          className="bg-[#ce7a8b] hover:bg-[#d35d77] "
-          onClick={handleSubmit}
-          loading={loading}
-          loadingPosition="start"
-          startIcon={<SaveIcon />}
-          variant="contained"
+      <Accordion className="w-[320px] bg-[#ffecf1]">
+        <AccordionSummary
+          expandIcon={<ArrowDropDownIcon />}
+          aria-controls="panel2-content"
+          id="panel2-header"
         >
-          <span>Register</span>
-        </LoadingButton>
-      </div>
+          <Typography>Add New Staff</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <FormGroup className="flex flex-col gap-2">
+            <TextField
+              label="Name"
+              name="name"
+              variant="outlined"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              label="Email"
+              name="email"
+              variant="outlined"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Key"
+              name="key"
+              checked={formData.key}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Open Till"
+              name="openTill"
+              checked={formData.openTill}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Close Till"
+              name="closeTill"
+              checked={formData.closeTill}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Open Bar"
+              name="openBar"
+              checked={formData.openBar}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Close Bar"
+              name="closeBar"
+              checked={formData.closeBar}
+              onChange={handleChange}
+            />
+
+            {/* Add fields for timeOff as needed */}
+
+            <LoadingButton
+              className="bg-[#ce7a8b] hover:bg-[#d35d77] "
+              onClick={handleSubmit}
+              loading={loading}
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+              variant="contained"
+            >
+              <span>Register</span>
+            </LoadingButton>
+          </FormGroup>
+        </AccordionDetails>
+      </Accordion>
 
       <div>
         <h2>Registered Users:</h2>
