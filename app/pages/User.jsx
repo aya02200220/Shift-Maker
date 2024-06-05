@@ -3,6 +3,11 @@ import { log } from "handlebars";
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { toast, ToastContainer } from "react-toastify";
+
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 export const User = () => {
   const [loading, setLoading] = useState(false);
@@ -60,17 +65,37 @@ export const User = () => {
       }
 
       // alert("User registered successfully!");
+      toast.success("User Registered!", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
 
       setUsers([...users, data.newUser]); // 新しいユーザーをリストに追加
     } catch (err) {
+      toast.error(err.message, {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setError(err.message);
     }
     setLoading(false);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col">
+      <div className="flex flex-col">
         <input
           type="text"
           name="name"
@@ -135,7 +160,7 @@ export const User = () => {
         >
           <span>Register</span>
         </LoadingButton>
-      </form>
+      </div>
 
       <div>
         <h2>Registered Users:</h2>

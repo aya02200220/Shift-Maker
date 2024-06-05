@@ -12,6 +12,8 @@ import { Schedule } from "./Schedule";
 import { User } from "./User";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 
+import { ToastContainer } from "react-toastify";
+
 export default function Main() {
   const [showPopup, setShowPopup] = useState(false);
   const [nextPage, setNextPage] = useState("");
