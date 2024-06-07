@@ -1,4 +1,5 @@
 "use client";
+
 import { log } from "handlebars";
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
@@ -14,9 +15,12 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const User = () => {
   const [loading, setLoading] = useState(false);
+  const [fetchingUsers, setFetchingUsers] = useState(true); // ユーザーのFetch状態
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,7 +31,6 @@ export const User = () => {
     closeBar: false,
     timeOff: [],
   });
-  const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -38,6 +41,8 @@ export const User = () => {
         setUsers(data);
       } catch (err) {
         console.error("Error fetching users:", err);
+      } finally {
+        setFetchingUsers(false);
       }
     }
 
@@ -193,27 +198,32 @@ export const User = () => {
 
       <div>
         <h2>Registered Users:</h2>
-        {users?.map((user) => (
-          <div key={user._id}>
-            <h3>{user.name}</h3>
-            <p>Email: {user.email}</p>
-            <p>Key: {user.key ? "Yes" : "No"}</p>
-            <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
-            <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
-            <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
-            <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
-            <div>
-              <h4>Time Off:</h4>
-              {user.timeOff.map((timeOff, index) => (
-                <div key={index}>
-                  <p>Day of Week: {timeOff.dayOfWeek}</p>
-                  <p>Start Time: {timeOff.startTime}</p>
-                  <p>End Time: {timeOff.endTime}</p>
-                </div>
-              ))}
+
+        {fetchingUsers ? (
+          <CircularProgress />
+        ) : (
+          users?.map((user) => (
+            <div key={user._id}>
+              <h3>{user.name}</h3>
+              <p>Email: {user.email}</p>
+              <p>Key: {user.key ? "Yes" : "No"}</p>
+              <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
+              <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
+              <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
+              <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
+              <div>
+                <h4>Time Off:</h4>
+                {user.timeOff.map((timeOff, index) => (
+                  <div key={index}>
+                    <p>Day of Week: {timeOff.dayOfWeek}</p>
+                    <p>Start Time: {timeOff.startTime}</p>
+                    <p>End Time: {timeOff.endTime}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
