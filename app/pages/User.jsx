@@ -200,7 +200,10 @@ export const User = () => {
         <h2>Registered Users:</h2>
 
         {fetchingUsers ? (
-          <CircularProgress />
+          <div className="flex justify-center">
+            {" "}
+            <CircularProgress />
+          </div>
         ) : (
           users?.map((user) => (
             <div key={user._id}>
