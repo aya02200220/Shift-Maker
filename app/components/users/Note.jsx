@@ -3,7 +3,22 @@
 import { Divider } from "@mui/material";
 import React, { useState } from "react";
 
-const Note = ({ note }) => {
+const formatTime = (time) => {
+  const [hours, minutes] = time.split(":");
+  return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
+};
+
+const dayAbbreviations = {
+  Sunday: "Sun",
+  Monday: "Mon",
+  Tuesday: "Tue",
+  Wednesday: "Wed",
+  Thursday: "Thu",
+  Friday: "Fri",
+  Saturday: "Sat",
+};
+
+const Note = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -21,7 +36,13 @@ const Note = ({ note }) => {
             aria-expanded={isOpen}
             aria-controls="collapseOne"
           >
-            <p className="mb-0 text-[13px]">Note</p>
+            <p className="mb-0 text-[13px]">
+              {user.note && user.timeOff.length > 0
+                ? "Time Off / Note"
+                : user.timeOff.length > 0
+                ? "Time Off"
+                : "Note"}
+            </p>
 
             <span
               className={`-me-1 ms-auto h-5 w-5 shrink-0 transition-transform duration-200 ease-in-out ${
@@ -48,7 +69,25 @@ const Note = ({ note }) => {
         <div className={`${isOpen ? "block" : "hidden"} `}>
           <Divider />
           <div className="px-1 py-1 leading-4  break-words overflow-y-auto max-h-[122px] text-[13px] ">
-            <p>{note}</p>
+            <p>
+              {user.timeOff.map((timeOff, index) => (
+                <div key={index} className="flex justify-center">
+                  <p className="w-[30px]">
+                    {dayAbbreviations[timeOff.dayOfWeek]}
+                  </p>
+                  <div>
+                    <p>
+                      : {formatTime(timeOff.startTime)} ~{" "}
+                      {formatTime(timeOff.endTime)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </p>
+          </div>
+          <Divider />
+          <div className="px-1 py-1 leading-4  break-words overflow-y-auto max-h-[122px] text-[13px] ">
+            <p>{user.note}</p>
           </div>
         </div>
       </div>

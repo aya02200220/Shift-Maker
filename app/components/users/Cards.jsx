@@ -8,12 +8,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Note from "./Note";
 
 const Cards = ({ user }) => {
-  console.log("Card user", user);
+  // console.log("Card user", user);
   return (
     <>
       <div
-        // data-aos="fade-up"
-        // data-aos-duration="700"
         key={user._id}
         className="relative w-[280px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center "
       >
@@ -91,9 +89,10 @@ const Cards = ({ user }) => {
                 </IconButton>
               </Tooltip>
             </div>
-            {user.note && (
+            {(user.note || user.timeOff.length > 0) && (
               <>
-                <Note note={user.note} />
+                <Note user={user} />
+                {/* user.timeOff がある場合の処理を追加 */}
               </>
             )}
           </div>
