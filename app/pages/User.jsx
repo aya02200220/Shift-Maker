@@ -1,6 +1,7 @@
 "use client";
 
-import { log } from "handlebars";
+import Cards from "../components/users/Cards";
+
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -16,10 +17,12 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Divider, TextareaAutosize } from "@mui/material";
 
 export const User = () => {
   const [loading, setLoading] = useState(false);
-  const [fetchingUsers, setFetchingUsers] = useState(true); // ユーザーのFetch状態
+  const [fetchingUsers, setFetchingUsers] = useState(true);
+  const [category, setCategory] = useState("All");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,23 +32,25 @@ export const User = () => {
     closeTill: false,
     openBar: false,
     closeBar: false,
+    note: "",
     timeOff: [],
   });
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await fetch("/api/user");
-        const data = await response.json();
-        setUsers(data);
-      } catch (err) {
-        console.error("Error fetching users:", err);
-      } finally {
-        setFetchingUsers(false);
-      }
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("/api/user");
+      const data = await response.json();
+      setUsers(data);
+      handleData("All", data);
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    } finally {
+      setFetchingUsers(false);
     }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -97,8 +102,12 @@ export const User = () => {
         closeTill: false,
         openBar: false,
         closeBar: false,
+        note: "",
         timeOff: [],
       });
+
+      // ユーザーを再度フェッチして表示内容を更新
+      await fetchUsers();
     } catch (err) {
       toast.error(err.message, {
         position: "bottom-right",
@@ -110,26 +119,57 @@ export const User = () => {
         progress: undefined,
         theme: "light",
       });
-      // setError(err.message);
     }
     setLoading(false);
   };
 
+  const handleSearch = (text) => {
+    setCategory(text);
+    handleData(text, users);
+  };
+  useEffect(() => {
+    setCategory("All");
+    handleData("All");
+  }, []);
+
+  const [data, setData] = useState(users);
+
+  // filter
+  const handleData = (text, userList) => {
+    if (text === "All") {
+      setData(userList);
+    } else if (text === "key") {
+      setData(userList.filter((user) => user.key));
+    } else if (text === "openTill") {
+      setData(userList.filter((user) => user.openTill));
+    } else if (text === "closeTill") {
+      setData(userList.filter((user) => user.closeTill));
+    } else if (text === "openBar") {
+      setData(userList.filter((user) => user.openBar));
+    } else if (text === "closeBar") {
+      setData(userList.filter((user) => user.closeBar));
+    }
+  };
+
   return (
-    <div className="flex flex-col">
-      <Accordion className="w-[320px] bg-[#ffecf1]">
+    <div className="flex flex-col w-full mx-5 md:w-[680px] max-w-[680px] items-end">
+      <Accordion className="w-[320px] bg-[#f7f7f7] ">
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography>Add New Staff</Typography>
+          <Typography className=" font-mono text-[14px]">
+            Add New Staff
+          </Typography>
         </AccordionSummary>
+        <Divider />
         <AccordionDetails>
           <FormGroup className="flex flex-col gap-2">
             <TextField
-              label="Name"
+              label="Display Name"
               name="name"
+              className="bg-[#ffffff] rounded-sm"
               variant="outlined"
               value={formData.name}
               onChange={handleChange}
@@ -139,6 +179,7 @@ export const User = () => {
               label="Email"
               name="email"
               variant="outlined"
+              className="bg-[#ffffff] rounded-sm"
               value={formData.email}
               onChange={handleChange}
               required
@@ -179,6 +220,14 @@ export const User = () => {
               checked={formData.closeBar}
               onChange={handleChange}
             />
+            <textarea
+              placeholder="Note"
+              label="Note"
+              name="note"
+              className="bg-[#ffffff] rounded-sm min-h-16 max-h-32 leading-5"
+              value={formData.note}
+              onChange={handleChange}
+            />
 
             {/* Add fields for timeOff as needed */}
 
@@ -196,33 +245,111 @@ export const User = () => {
         </AccordionDetails>
       </Accordion>
 
-      <div>
-        <h2>Registered Users:</h2>
+      <div className="mt-5 w-full">
+        <Divider />
+        <h2 className="text-[20px] text-[#3d3d3d] mb-2 text-center font-mono font-semibold">
+          Registered Users
+        </h2>
 
         {fetchingUsers ? (
-          <CircularProgress />
+          <div className="flex justify-center">
+            <CircularProgress />
+          </div>
         ) : (
-          users?.map((user) => (
-            <div key={user._id}>
-              <h3>{user.name}</h3>
-              <p>Email: {user.email}</p>
-              <p>Key: {user.key ? "Yes" : "No"}</p>
-              <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
-              <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
-              <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
-              <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
-              <div>
-                <h4>Time Off:</h4>
-                {user.timeOff.map((timeOff, index) => (
-                  <div key={index}>
-                    <p>Day of Week: {timeOff.dayOfWeek}</p>
-                    <p>Start Time: {timeOff.startTime}</p>
-                    <p>End Time: {timeOff.endTime}</p>
-                  </div>
-                ))}
-              </div>
+          <div className="flex flex-col items-center">
+            <div className="inline-flex rounded-md shadow-sm mb-4" role="group">
+              {/* <ul className="mt-[0px] flex w-full justify-start md:justify-end flex-wrap font-medium pb-6"> */}
+              <button
+                className={`userBtn rounded-s-lg border border-gray-900 ${
+                  category === "All"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("All")}
+              >
+                All
+              </button>
+
+              <button
+                className={`userBtn   ${
+                  category === "key"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("key")}
+              >
+                Key
+              </button>
+              <button
+                className={`userBtn   ${
+                  category === "openTill"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("openTill")}
+              >
+                Open Till
+              </button>
+              <button
+                className={`userBtn   ${
+                  category === "closeTill"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("closeTill")}
+              >
+                Close Till
+              </button>
+              <button
+                className={`userBtn   ${
+                  category === "openBar"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("openBar")}
+              >
+                Open Bar
+              </button>
+              <button
+                type="button"
+                className={`userBtn rounded-e-lg ${
+                  category === "closeBar"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
+                onClick={() => handleSearch("closeBar")}
+              >
+                Close Bar
+              </button>
             </div>
-          ))
+            {/* </ul> */}
+            <div className="flex flex-wrap justify-center gap-2">
+              {data?.map((user) => (
+                <>
+                  <Cards user={user} />
+                  {/* <div key={user._id}>
+                  <h3>{user.name}</h3>
+                  <p>Email: {user.email}</p>
+                  <p>Key: {user.key ? "Yes" : "No"}</p>
+                  <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
+                  <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
+                  <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
+                  <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
+                  <div>
+                    <h4>Time Off:</h4>
+                    {user.timeOff.map((timeOff, index) => (
+                      <div key={index}>
+                        <p>Day of Week: {timeOff.dayOfWeek}</p>
+                        <p>Start Time: {timeOff.startTime}</p>
+                        <p>End Time: {timeOff.endTime}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div> */}
+                </>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </div>

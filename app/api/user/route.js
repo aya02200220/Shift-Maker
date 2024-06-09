@@ -18,8 +18,17 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const { name, email, key, openTill, closeTill, openBar, closeBar, timeOff } =
-    await request.json();
+  const {
+    name,
+    email,
+    key,
+    openTill,
+    closeTill,
+    openBar,
+    closeBar,
+    note,
+    timeOff,
+  } = await request.json();
 
   // Ensure the required fields are provided
   if (
@@ -57,6 +66,7 @@ export async function POST(request) {
       closeTill,
       openBar,
       closeBar,
+      note,
       timeOff,
     });
 
