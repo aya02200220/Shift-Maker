@@ -1,5 +1,7 @@
 "use client";
 
+import Cards from "../components/users/Cards";
+
 import { log } from "handlebars";
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
@@ -249,9 +251,10 @@ export const User = () => {
               >
                 All
               </li>
+
               <li
                 className={`${
-                  category === "Key" ? "text-[#d54b87]" : "filter-btn"
+                  category === "key" ? "text-[#d54b87]" : "filter-btn"
                 } mr-4 md:mx-4`}
                 onClick={() => handleSearch("key")}
               >
@@ -293,25 +296,28 @@ export const User = () => {
               </li>
             </ul>
             {data?.map((user) => (
-              <div key={user._id}>
-                <h3>{user.name}</h3>
-                <p>Email: {user.email}</p>
-                <p>Key: {user.key ? "Yes" : "No"}</p>
-                <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
-                <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
-                <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
-                <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
-                <div>
-                  <h4>Time Off:</h4>
-                  {user.timeOff.map((timeOff, index) => (
-                    <div key={index}>
-                      <p>Day of Week: {timeOff.dayOfWeek}</p>
-                      <p>Start Time: {timeOff.startTime}</p>
-                      <p>End Time: {timeOff.endTime}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <>
+                <Cards user={user} />
+                {/* <div key={user._id}>
+                  <h3>{user.name}</h3>
+                  <p>Email: {user.email}</p>
+                  <p>Key: {user.key ? "Yes" : "No"}</p>
+                  <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
+                  <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
+                  <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
+                  <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
+                  <div>
+                    <h4>Time Off:</h4>
+                    {user.timeOff.map((timeOff, index) => (
+                      <div key={index}>
+                        <p>Day of Week: {timeOff.dayOfWeek}</p>
+                        <p>Start Time: {timeOff.startTime}</p>
+                        <p>End Time: {timeOff.endTime}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div> */}
+              </>
             ))}
           </>
         )}
