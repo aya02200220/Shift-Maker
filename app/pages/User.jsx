@@ -245,7 +245,7 @@ export const User = () => {
         </AccordionDetails>
       </Accordion>
 
-      <div className="mt-5 w-full">
+      <div className="mt-5 w-full mb-10">
         <Divider />
         <h2 className="text-[20px] text-[#3d3d3d] mb-2 text-center font-mono font-semibold">
           Registered Users
