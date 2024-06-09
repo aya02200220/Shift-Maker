@@ -23,6 +23,7 @@ import { Divider } from "@mui/material";
 export const User = () => {
   const [loading, setLoading] = useState(false);
   const [fetchingUsers, setFetchingUsers] = useState(true);
+  const [category, setCategory] = useState("All");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -42,6 +43,7 @@ export const User = () => {
         const response = await fetch("/api/user");
         const data = await response.json();
         setUsers(data);
+        handleData("All", data);
       } catch (err) {
         console.error("Error fetching users:", err);
       } finally {
@@ -117,11 +119,9 @@ export const User = () => {
     setLoading(false);
   };
 
-  const [category, setCategory] = useState("All");
-
   const handleSearch = (text) => {
-    handleData(text);
     setCategory(text);
+    handleData(text, users);
   };
   useEffect(() => {
     setCategory("All");
@@ -131,38 +131,41 @@ export const User = () => {
   const [data, setData] = useState(users);
 
   // filter
-  const handleData = (text) => {
+  const handleData = (text, userList) => {
     if (text === "All") {
-      setData(users);
+      setData(userList);
     } else if (text === "key") {
-      setData(users.filter((user) => user.key));
+      setData(userList.filter((user) => user.key));
     } else if (text === "openTill") {
-      setData(users.filter((user) => user.openTill));
+      setData(userList.filter((user) => user.openTill));
     } else if (text === "closeTill") {
-      setData(users.filter((user) => user.closeTill));
+      setData(userList.filter((user) => user.closeTill));
     } else if (text === "openBar") {
-      setData(users.filter((user) => user.openBar));
+      setData(userList.filter((user) => user.openBar));
     } else if (text === "closeBar") {
-      setData(users.filter((user) => user.closeBar));
+      setData(userList.filter((user) => user.closeBar));
     }
   };
 
   return (
     <div className="flex flex-col w-full mx-5 md:w-[680px] max-w-[680px] items-end">
-      <Accordion className="w-[320px] bg-[#ffecf1] ">
+      <Accordion className="w-[320px] bg-[#f7f7f7] ">
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography>Add New Staff</Typography>
+          <Typography className=" font-mono text-[14px]">
+            Add New Staff
+          </Typography>
         </AccordionSummary>
+        <Divider />
         <AccordionDetails>
           <FormGroup className="flex flex-col gap-2">
             <TextField
               label="Display Name"
               name="name"
-              className="bg-[#fffbff] rounded-sm"
+              className="bg-[#ffffff] rounded-sm"
               variant="outlined"
               value={formData.name}
               onChange={handleChange}
@@ -172,7 +175,7 @@ export const User = () => {
               label="Email"
               name="email"
               variant="outlined"
-              className="bg-[#fffbff] rounded-sm"
+              className="bg-[#ffffff] rounded-sm"
               value={formData.email}
               onChange={handleChange}
               required
@@ -241,60 +244,73 @@ export const User = () => {
             <CircularProgress />
           </div>
         ) : (
-          <>
-            <ul className="mt-[0px] flex w-full justify-start md:justify-end flex-wrap font-medium pb-6">
-              <li
-                className={`${
-                  category === "All" ? "text-[#d54b87]" : "filter-btn "
-                } mr-4 md:mx-4`}
+          <div className="flex flex-col items-center">
+            <div className="inline-flex rounded-md shadow-sm mb-4" role="group">
+              {/* <ul className="mt-[0px] flex w-full justify-start md:justify-end flex-wrap font-medium pb-6"> */}
+              <button
+                className={`userBtn rounded-s-lg border border-gray-900 ${
+                  category === "All"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("All")}
               >
                 All
-              </li>
+              </button>
 
-              <li
-                className={`${
-                  category === "key" ? "text-[#d54b87]" : "filter-btn"
-                } mr-4 md:mx-4`}
+              <button
+                className={`userBtn   ${
+                  category === "key"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("key")}
               >
                 Key
-              </li>
-              <li
-                className={`${
-                  category === "openTill" ? "text-[#d54b87]" : "filter-btn"
-                } mr-4 md:mx-4`}
+              </button>
+              <button
+                className={`userBtn   ${
+                  category === "openTill"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("openTill")}
               >
                 Open Till
-              </li>
-              <li
-                className={`${
+              </button>
+              <button
+                className={`userBtn   ${
                   category === "closeTill"
-                    ? "text-[#d54b87]"
-                    : "filter-btn ml-0"
-                } mr-4 md:mx-4`}
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("closeTill")}
               >
                 Close Till
-              </li>
-              <li
-                className={`${
-                  category === "openBar" ? "text-[#d54b87]" : "filter-btn ml-0"
-                } mr-4 md:mx-4`}
+              </button>
+              <button
+                className={`userBtn   ${
+                  category === "openBar"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("openBar")}
               >
                 Open Bar
-              </li>
-              <li
-                className={`${
-                  category === "closeBar" ? "text-[#d54b87]" : "filter-btn ml-0"
-                } mr-4 md:mx-4`}
+              </button>
+              <button
+                type="button"
+                className={`userBtn rounded-e-lg ${
+                  category === "closeBar"
+                    ? "text-[#fff] bg-[#d54b87]"
+                    : "bg-[#f6e4eb]"
+                } `}
                 onClick={() => handleSearch("closeBar")}
               >
                 Close Bar
-              </li>
-            </ul>
+              </button>
+            </div>
+            {/* </ul> */}
             {data?.map((user) => (
               <>
                 <Cards user={user} />
@@ -319,7 +335,7 @@ export const User = () => {
                 </div> */}
               </>
             ))}
-          </>
+          </div>
         )}
       </div>
     </div>

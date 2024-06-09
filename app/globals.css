@@ -147,16 +147,21 @@
   width: 45px;
   font-size: 11px;
 }
-/* 
-.cup-list-title-space {
-  width: 25%;
-}
 
-.cup-list-title-childe {
-  font-size: 10px;
-  width: 15%;
-  text-align: center;
-  overflow-wrap: break-word;
-  line-height: 0.75rem;
-  margin-left: 5px;
-} */
+/* ////////////////////////////////////////////////////////// */
+.userBtn {
+  font-size: 12px;
+  width: 70px;
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 500;
+  border-top: 1px solid #1f2937;
+  border-bottom: 1px solid #1f2937;
+  border-right: 1px solid #1f2937;
+}
+.userBtn:hover {
+  color: #fff;
+  background-color: #e46da1;
+}
