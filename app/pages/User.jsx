@@ -2,7 +2,6 @@
 
 import Cards from "../components/users/Cards";
 
-import { log } from "handlebars";
 import { useState, useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -18,7 +17,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Divider } from "@mui/material";
+import { Divider, TextareaAutosize } from "@mui/material";
 
 export const User = () => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +32,7 @@ export const User = () => {
     closeTill: false,
     openBar: false,
     closeBar: false,
+    note: "",
     timeOff: [],
   });
   const [users, setUsers] = useState([]);
@@ -102,6 +102,7 @@ export const User = () => {
         closeTill: false,
         openBar: false,
         closeBar: false,
+        note: "",
         timeOff: [],
       });
 
@@ -217,6 +218,14 @@ export const User = () => {
               label="Close Bar"
               name="closeBar"
               checked={formData.closeBar}
+              onChange={handleChange}
+            />
+            <textarea
+              placeholder="Note"
+              label="Note"
+              name="note"
+              className="bg-[#ffffff] rounded-sm min-h-16 max-h-32 leading-5"
+              value={formData.note}
               onChange={handleChange}
             />
 

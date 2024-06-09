@@ -15,6 +15,7 @@ const userSchema = new Schema(
     closeTill: { type: Boolean, required: true },
     openBar: { type: Boolean, required: true },
     closeBar: { type: Boolean, required: true },
+    note: { type: String, required: false },
     timeOff: [timeOffSchema],
   },
   { timestamps: true }

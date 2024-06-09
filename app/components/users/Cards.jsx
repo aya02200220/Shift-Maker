@@ -1,5 +1,11 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { BsThreeDots } from "react-icons/bs";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Note from "./Note";
 
 const Cards = ({ user }) => {
   console.log("Card user", user);
@@ -9,11 +15,11 @@ const Cards = ({ user }) => {
         // data-aos="fade-up"
         // data-aos-duration="700"
         key={user._id}
-        className="w-[300px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center items-center "
+        className="relative w-[280px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center "
       >
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col justify-center items-center w-1/4">
-            <h5 className="mb-1 text-xl font-medium text-gray-900 text-center ">
+            <h5 className="mb-2 text-xl font-medium text-[#333] text-center ">
               {user.name}
             </h5>
             {user.key ? (
@@ -35,7 +41,7 @@ const Cards = ({ user }) => {
             )}
           </div>
           <div className="flex flex-col justify-center items-center w-3/4">
-            <div className="flex flex-row justify-around w-3/4 text-center">
+            <div className="flex flex-row justify-around w-full text-center px-8">
               <div>
                 <p className="text-sm text-gray-500 ">Till</p>
                 <p
@@ -78,10 +84,26 @@ const Cards = ({ user }) => {
                   Close
                 </p>
               </div>
-            </div>
 
-            <p className="text-sm text-gray-500 "></p>
-            <div className="flex mt-4 md:mt-6">
+              <Tooltip title="Edit">
+                <IconButton className="text-[17px] absolute top-2 right-3 rounded-full transition text-[#a3a4b1] p-1 hover:text-[#fff] hover:bg-[#e9afc5]">
+                  <BsThreeDots />
+                </IconButton>
+              </Tooltip>
+            </div>
+            {user.note && (
+              <>
+                <Note note={user.note} />
+                <p>test</p>
+              </>
+
+              // <div className="mt-2 p-1 w-[90%] h-[50px] scroll-m-0 border border-[#a3a4b1] text-[11px] rounded-sm">
+
+              //   <p>{user.note}</p>
+              // </div>
+            )}
+
+            {/* <div className="flex mt-4 md:mt-6">
               <a
                 href="#"
                 className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -94,27 +116,7 @@ const Cards = ({ user }) => {
               >
                 Message
               </a>
-
-              {/* <div key={user._id}>
-                  <h3>{user.name}</h3>
-                  <p>Email: {user.email}</p>
-                  <p>Key: {user.key ? "Yes" : "No"}</p>
-                  <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
-                  <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
-                  <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
-                  <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
-                  <div>
-                    <h4>Time Off:</h4>
-                    {user.timeOff.map((timeOff, index) => (
-                      <div key={index}>
-                        <p>Day of Week: {timeOff.dayOfWeek}</p>
-                        <p>Start Time: {timeOff.startTime}</p>
-                        <p>End Time: {timeOff.endTime}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div> */}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
