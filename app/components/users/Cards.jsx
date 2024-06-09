@@ -42,16 +42,16 @@ const Cards = ({ user }) => {
                   className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
                     user.openTill
                       ? "text-[#fff] bg-[#89cb90]"
-                      : "text-slate-950"
+                      : "text-[#333] bg-[#fff] line-through"
                   }`}
                 >
                   Open
                 </p>
                 <p
                   className={`text-sm p-1 rounded-sm w-[50px] text-center ${
-                    user.openTill
+                    user.closeTill
                       ? "text-[#fff] bg-[#89cb90]"
-                      : "text-slate-950"
+                      : "text-[#333] bg-[#fff] line-through"
                   }`}
                 >
                   Close
@@ -61,18 +61,18 @@ const Cards = ({ user }) => {
                 <p className="text-sm text-gray-500 ">Bar</p>
                 <p
                   className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
-                    user.openTill
+                    user.openBar
                       ? "text-[#fff] bg-[#89cb90]"
-                      : "text-slate-950"
+                      : "text-[#333] bg-[#fff] line-through"
                   }`}
                 >
                   Open
                 </p>
                 <p
                   className={`text-sm p-1 rounded-sm w-[50px] text-center ${
-                    user.openTill
+                    user.closeBar
                       ? "text-[#fff] bg-[#89cb90]"
-                      : "text-slate-950"
+                      : "text-[#333] bg-[#fff] line-through"
                   }`}
                 >
                   Close

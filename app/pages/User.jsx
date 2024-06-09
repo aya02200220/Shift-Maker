@@ -37,20 +37,20 @@ export const User = () => {
   });
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await fetch("/api/user");
-        const data = await response.json();
-        setUsers(data);
-        handleData("All", data);
-      } catch (err) {
-        console.error("Error fetching users:", err);
-      } finally {
-        setFetchingUsers(false);
-      }
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("/api/user");
+      const data = await response.json();
+      setUsers(data);
+      handleData("All", data);
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    } finally {
+      setFetchingUsers(false);
     }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -104,6 +104,9 @@ export const User = () => {
         closeBar: false,
         timeOff: [],
       });
+
+      // ユーザーを再度フェッチして表示内容を更新
+      await fetchUsers();
     } catch (err) {
       toast.error(err.message, {
         position: "bottom-right",
