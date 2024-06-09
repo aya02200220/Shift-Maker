@@ -6,89 +6,115 @@ const Cards = ({ user }) => {
   return (
     <>
       <div
-        data-aos="fade-up"
-        data-aos-duration="700"
-        class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        // data-aos="fade-up"
+        // data-aos-duration="700"
+        key={user._id}
+        className="w-[300px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center items-center "
       >
-        <div class="flex justify-end px-4 pt-4">
-          <button
-            id="dropdownButton"
-            data-dropdown-toggle="dropdown"
-            class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-            type="button"
-          >
-            <span class="sr-only">Open dropdown</span>
-            <svg
-              class="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 16 3"
-            >
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-            </svg>
-          </button>
-          {/* <!-- Dropdown menu --> */}
-          <div
-            id="dropdown"
-            class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-          >
-            <ul class="py-2" aria-labelledby="dropdownButton">
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Edit
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Export Data
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Delete
-                </a>
-              </li>
-            </ul>
+        <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-col justify-center items-center w-1/4">
+            <h5 className="mb-1 text-xl font-medium text-gray-900 text-center ">
+              {user.name}
+            </h5>
+            {user.key ? (
+              <Image
+                className="w-15 h-15 rounded-full shadow-lg border "
+                src="/cat-key.png"
+                width={100}
+                height={100}
+                alt="cat-key"
+              />
+            ) : (
+              <Image
+                className="w-15 h-15 rounded-full shadow-lg border "
+                src="/cat-no-key.png"
+                width={100}
+                height={100}
+                alt="cat-key"
+              />
+            )}
           </div>
-        </div>
-        <div class="flex flex-col items-center pb-10">
-          <Image
-            className="w-24 h-24 mb-3 rounded-full shadow-lg"
-            src="/Cat-Cool-icon.png"
-            width={100}
-            height={100}
-            alt="Cat-Avatar"
-          />
+          <div className="flex flex-col justify-center items-center w-3/4">
+            <div className="flex flex-row justify-around w-3/4 text-center">
+              <div>
+                <p className="text-sm text-gray-500 ">Till</p>
+                <p
+                  className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
+                    user.openTill
+                      ? "text-[#fff] bg-[#89cb90]"
+                      : "text-slate-950"
+                  }`}
+                >
+                  Open
+                </p>
+                <p
+                  className={`text-sm p-1 rounded-sm w-[50px] text-center ${
+                    user.openTill
+                      ? "text-[#fff] bg-[#89cb90]"
+                      : "text-slate-950"
+                  }`}
+                >
+                  Close
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 ">Bar</p>
+                <p
+                  className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
+                    user.openTill
+                      ? "text-[#fff] bg-[#89cb90]"
+                      : "text-slate-950"
+                  }`}
+                >
+                  Open
+                </p>
+                <p
+                  className={`text-sm p-1 rounded-sm w-[50px] text-center ${
+                    user.openTill
+                      ? "text-[#fff] bg-[#89cb90]"
+                      : "text-slate-950"
+                  }`}
+                >
+                  Close
+                </p>
+              </div>
+            </div>
 
-          <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {user.name}
-          </h5>
-          <span class="text-sm text-gray-500 dark:text-gray-400">
-            Visual Designer
-          </span>
-          <div class="flex mt-4 md:mt-6">
-            <a
-              href="#"
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Add friend
-            </a>
-            <a
-              href="#"
-              class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              Message
-            </a>
+            <p className="text-sm text-gray-500 "></p>
+            <div className="flex mt-4 md:mt-6">
+              <a
+                href="#"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              >
+                Add friend
+              </a>
+              <a
+                href="#"
+                className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+              >
+                Message
+              </a>
+
+              {/* <div key={user._id}>
+                  <h3>{user.name}</h3>
+                  <p>Email: {user.email}</p>
+                  <p>Key: {user.key ? "Yes" : "No"}</p>
+                  <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
+                  <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
+                  <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
+                  <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
+                  <div>
+                    <h4>Time Off:</h4>
+                    {user.timeOff.map((timeOff, index) => (
+                      <div key={index}>
+                        <p>Day of Week: {timeOff.dayOfWeek}</p>
+                        <p>Start Time: {timeOff.startTime}</p>
+                        <p>End Time: {timeOff.endTime}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div> */}
+            </div>
           </div>
         </div>
       </div>

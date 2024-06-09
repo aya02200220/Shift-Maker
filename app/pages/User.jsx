@@ -235,7 +235,7 @@ export const User = () => {
 
       <div className="mt-5 w-full">
         <Divider />
-        <h2 className="text-[20px] mb-2 text-center font-mono font-semibold">
+        <h2 className="text-[20px] text-[#3d3d3d] mb-2 text-center font-mono font-semibold">
           Registered Users
         </h2>
 
@@ -311,10 +311,11 @@ export const User = () => {
               </button>
             </div>
             {/* </ul> */}
-            {data?.map((user) => (
-              <>
-                <Cards user={user} />
-                {/* <div key={user._id}>
+            <div className="flex flex-wrap justify-center gap-2">
+              {data?.map((user) => (
+                <>
+                  <Cards user={user} />
+                  {/* <div key={user._id}>
                   <h3>{user.name}</h3>
                   <p>Email: {user.email}</p>
                   <p>Key: {user.key ? "Yes" : "No"}</p>
@@ -333,8 +334,9 @@ export const User = () => {
                     ))}
                   </div>
                 </div> */}
-              </>
-            ))}
+                </>
+              ))}
+            </div>
           </div>
         )}
       </div>
