@@ -8,12 +8,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Note from "./Note";
 
 const Cards = ({ user }) => {
-  console.log("Card user", user);
+  // console.log("Card user", user);
   return (
     <>
       <div
-        // data-aos="fade-up"
-        // data-aos-duration="700"
         key={user._id}
         className="relative w-[280px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center "
       >
@@ -91,32 +89,12 @@ const Cards = ({ user }) => {
                 </IconButton>
               </Tooltip>
             </div>
-            {user.note && (
+            {(user.note || user.timeOff.length > 0) && (
               <>
-                <Note note={user.note} />
-                <p>test</p>
+                <Note user={user} />
+                {/* user.timeOff がある場合の処理を追加 */}
               </>
-
-              // <div className="mt-2 p-1 w-[90%] h-[50px] scroll-m-0 border border-[#a3a4b1] text-[11px] rounded-sm">
-
-              //   <p>{user.note}</p>
-              // </div>
             )}
-
-            {/* <div className="flex mt-4 md:mt-6">
-              <a
-                href="#"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Add friend
-              </a>
-              <a
-                href="#"
-                className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-              >
-                Message
-              </a>
-            </div> */}
           </div>
         </div>
       </div>
