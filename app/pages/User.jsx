@@ -17,7 +17,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Divider, TextareaAutosize } from "@mui/material";
+import { Divider } from "@mui/material";
 
 export const User = () => {
   const [loading, setLoading] = useState(false);
