@@ -1,6 +1,7 @@
 export async function DELETE(request, { params }) {
   const { id } = params;
   console.log("Deleting user with ID:", id); // ログを追加
+  console.log("Params:", params); // ログを追加
 
   await connectMongoDB();
 

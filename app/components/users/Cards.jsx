@@ -116,8 +116,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Note from "./Note";
+import { toast } from "react-toastify";
 
-const Cards = ({ user }) => {
+const Cards = ({ user, fetchUsers }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editData, setEditData] = useState(user);
 
@@ -135,10 +136,8 @@ const Cards = ({ user }) => {
   };
 
   const handleFormSubmit = async () => {
-    // Implement the logic to update the user information
-    // Example: make a PUT request to your backend API
     try {
-      const response = await fetch(`/api/users/${user._id}`, {
+      const response = await fetch(`/api/user/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,14 +146,42 @@ const Cards = ({ user }) => {
       });
 
       if (response.ok) {
-        // Handle successful update
+        toast.success("User updated successfully", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         setIsEditModalOpen(false);
+        fetchUsers();
       } else {
-        // Handle update error
-        console.error("Failed to update user");
+        toast.error("Failed to update user", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error("Error updating user:", error);
+      toast.error("Error updating user", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -165,15 +192,42 @@ const Cards = ({ user }) => {
       });
 
       if (response.ok) {
-        alert("User deleted successfully");
-        // ユーザーを削除後のアクションを追加（例：リストから削除）
+        toast.success("User deleted successfully", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        fetchUsers();
       } else {
         const data = await response.json();
-        alert(`Failed to delete user: ${data.message}`);
+        toast.error(`Failed to delete user: ${data.message}`, {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("Error deleting user");
+      toast.error("Error deleting user", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -181,35 +235,25 @@ const Cards = ({ user }) => {
     <>
       <div
         key={user._id}
-        className="relative w-[280px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center "
+        className="relative w-[280px] h-[150px] max-w-sm bg-white border border-gray-200 rounded-lg shadow p-3 flex flex-col justify-center"
       >
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col justify-center items-center w-1/4">
-            <h5 className="mb-2 text-xl font-medium text-[#333] text-center ">
+            <h5 className="mb-2 text-xl font-medium text-[#333] text-center">
               {user.name}
             </h5>
-            {user.key ? (
-              <Image
-                className="w-15 h-15 rounded-full shadow-lg border "
-                src="/cat-key.png"
-                width={100}
-                height={100}
-                alt="cat-key"
-              />
-            ) : (
-              <Image
-                className="w-15 h-15 rounded-full shadow-lg border "
-                src="/cat-no-key.png"
-                width={100}
-                height={100}
-                alt="cat-key"
-              />
-            )}
+            <Image
+              className="w-15 h-15 rounded-full shadow-lg border"
+              src={user.key ? "/cat-key.png" : "/cat-no-key.png"}
+              width={100}
+              height={100}
+              alt="cat-key"
+            />
           </div>
           <div className="flex flex-col justify-center items-center w-3/4">
             <div className="flex flex-row justify-around w-full text-center px-8">
               <div>
-                <p className="text-sm text-gray-500 ">Till</p>
+                <p className="text-sm text-gray-500">Till</p>
                 <p
                   className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
                     user.openTill
@@ -230,7 +274,7 @@ const Cards = ({ user }) => {
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-500 ">Bar</p>
+                <p className="text-sm text-gray-500">Bar</p>
                 <p
                   className={`text-sm p-1 rounded-sm w-[50px] text-center mb-1 ${
                     user.openBar
@@ -250,7 +294,6 @@ const Cards = ({ user }) => {
                   Close
                 </p>
               </div>
-
               <Tooltip title="Edit">
                 <IconButton
                   onClick={handleEditClick}
@@ -260,11 +303,7 @@ const Cards = ({ user }) => {
                 </IconButton>
               </Tooltip>
             </div>
-            {(user.note || user.timeOff.length > 0) && (
-              <>
-                <Note user={user} />
-              </>
-            )}
+            {(user.note || user.timeOff.length > 0) && <Note user={user} />}
           </div>
         </div>
       </div>
@@ -291,7 +330,6 @@ const Cards = ({ user }) => {
             value={editData.note}
             onChange={handleInputChange}
           />
-          {/* Add other fields as needed */}
           <div className="flex justify-end mt-4">
             <Button onClick={handleModalClose} color="secondary">
               Cancel
