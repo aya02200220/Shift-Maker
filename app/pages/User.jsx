@@ -258,7 +258,6 @@ export const User = () => {
         ) : (
           <div className="flex flex-col items-center">
             <div className="inline-flex rounded-md shadow-sm mb-4" role="group">
-              {/* <ul className="mt-[0px] flex w-full justify-start md:justify-end flex-wrap font-medium pb-6"> */}
               <button
                 className={`userBtn rounded-s-lg border border-gray-900 ${
                   category === "All"
@@ -322,30 +321,11 @@ export const User = () => {
                 Close Bar
               </button>
             </div>
-            {/* </ul> */}
+
             <div className="flex flex-wrap justify-center gap-2">
               {data?.map((user) => (
                 <>
                   <Cards user={user} />
-                  {/* <div key={user._id}>
-                  <h3>{user.name}</h3>
-                  <p>Email: {user.email}</p>
-                  <p>Key: {user.key ? "Yes" : "No"}</p>
-                  <p>Open Till: {user.openTill ? "Yes" : "No"}</p>
-                  <p>Close Till: {user.closeTill ? "Yes" : "No"}</p>
-                  <p>Open Bar: {user.openBar ? "Yes" : "No"}</p>
-                  <p>Close Bar: {user.closeBar ? "Yes" : "No"}</p>
-                  <div>
-                    <h4>Time Off:</h4>
-                    {user.timeOff.map((timeOff, index) => (
-                      <div key={index}>
-                        <p>Day of Week: {timeOff.dayOfWeek}</p>
-                        <p>Start Time: {timeOff.startTime}</p>
-                        <p>End Time: {timeOff.endTime}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div> */}
                 </>
               ))}
             </div>

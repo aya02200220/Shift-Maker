@@ -54,7 +54,7 @@ export async function POST(request) {
     if (existingUser) {
       return NextResponse.json(
         { message: "Email already in use" },
-        { status: 409 } // 409 Conflict
+        { status: 409 }
       );
     }
 
@@ -78,6 +78,47 @@ export async function POST(request) {
     console.error("Error saving user:", error);
     return NextResponse.json(
       { message: "Failed to save user", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request) {
+  let id;
+  try {
+    const body = await request.json();
+    id = body.id;
+  } catch (error) {
+    console.error("Error parsing request body:", error);
+    return NextResponse.json(
+      { message: "Invalid request body", error: error.message },
+      { status: 400 }
+    );
+  }
+
+  if (!id) {
+    return NextResponse.json({ message: "ID is required" }, { status: 400 });
+  }
+
+  await connectMongoDB();
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    await User.deleteOne({ _id: id });
+
+    return NextResponse.json(
+      { message: "User deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return NextResponse.json(
+      { message: "Failed to delete user", error: error.message },
       { status: 500 }
     );
   }
