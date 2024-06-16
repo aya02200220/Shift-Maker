@@ -118,7 +118,7 @@ import Button from "@mui/material/Button";
 import Note from "./Note";
 import { toast } from "react-toastify";
 
-const Cards = ({ user }) => {
+const Cards = ({ user, fetchUsers }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editData, setEditData] = useState(user);
 
