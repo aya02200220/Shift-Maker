@@ -123,3 +123,54 @@ export async function DELETE(request) {
     );
   }
 }
+
+export async function PUT(request) {
+  let id;
+  let updateData;
+
+  try {
+    const body = await request.json();
+    console.log("body-------", body);
+    id = body._id;
+    updateData = body;
+  } catch (error) {
+    console.error("PUT リクエストボディの解析エラー:", error);
+    return NextResponse.json(
+      { message: "無効なリクエストボディ", error: error.message },
+      { status: 400 }
+    );
+  }
+
+  if (!id || !updateData) {
+    return NextResponse.json(
+      { message: "ID と更新データは必須です @ PUT" },
+      { status: 400 }
+    );
+  }
+
+  await connectMongoDB();
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "ユーザーが見つかりません" },
+        { status: 404 }
+      );
+    }
+
+    await User.updateOne({ _id: id }, updateData);
+
+    return NextResponse.json(
+      { message: "ユーザーの更新に成功しました" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("ユーザーの更新エラー:", error);
+    return NextResponse.json(
+      { message: "ユーザーの更新に失敗しました", error: error.message },
+      { status: 500 }
+    );
+  }
+}

@@ -136,8 +136,24 @@ const Cards = ({ user, fetchUsers }) => {
   };
 
   const handleFormSubmit = async () => {
+    // console.log("editData", editData);
+    if (!editData.name) {
+      toast.error("Fill all required form", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    console.log("editData,--------", editData);
     try {
-      const response = await fetch(`/api/user/${user._id}`, {
+      const response = await fetch(`/api/user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -146,14 +162,57 @@ const Cards = ({ user, fetchUsers }) => {
       });
 
       if (response.ok) {
-        // Handle successful update
-        setIsEditModalOpen(false);
+        toast.success("User updated successfully", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        handleModalClose();
+        fetchUsers();
       } else {
-        // Handle update error
-        console.error("Failed to update user");
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const data = await response.json();
+          toast.error(`Failed to update user: ${data.message}`, {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          toast.error("Failed to update user", {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       }
     } catch (error) {
       console.error("Error updating user:", error);
+      toast.error("Error deleting user", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -322,6 +381,7 @@ const Cards = ({ user, fetchUsers }) => {
           <h2>Edit User</h2>
           <TextField
             fullWidth
+            required
             margin="normal"
             label="Name"
             name="name"
