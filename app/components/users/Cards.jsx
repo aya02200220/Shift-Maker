@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Note from "./Note";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const Cards = ({ user, fetchUsers }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -26,8 +28,12 @@ const Cards = ({ user, fetchUsers }) => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    console.log(" name, value, type, checked", name, value, type, checked);
+    setEditData({
+      ...editData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleFormSubmit = async () => {
@@ -203,10 +209,55 @@ const Cards = ({ user, fetchUsers }) => {
             onChange={handleInputChange}
           />
           <TextField
-            fullWidth
-            margin="normal"
+            label="Email"
+            name="email"
+            variant="outlined"
+            className="bg-[#ffffff] rounded-sm"
+            value={editData.email}
+            onChange={handleInputChange}
+            required
+          />
+
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Key"
+            name="key"
+            checked={editData.key}
+            onChange={handleInputChange}
+          />
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Open Till"
+            name="openTill"
+            checked={editData.openTill}
+            onChange={handleInputChange}
+          />
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Close Till"
+            name="closeTill"
+            checked={editData.closeTill}
+            onChange={handleInputChange}
+          />
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Open Bar"
+            name="openBar"
+            checked={editData.openBar}
+            onChange={handleInputChange}
+          />
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Close Bar"
+            name="closeBar"
+            checked={editData.closeBar}
+            onChange={handleInputChange}
+          />
+          <textarea
+            placeholder="Note"
             label="Note"
             name="note"
+            className="bg-[#ffffff] rounded-sm min-h-16 max-h-32 leading-5"
             value={editData.note}
             onChange={handleInputChange}
           />
