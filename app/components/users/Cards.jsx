@@ -199,68 +199,79 @@ const Cards = ({ user, fetchUsers }) => {
           sx={{ width: 400 }}
         >
           <h2>Edit User</h2>
-          <TextField
-            fullWidth
-            required
-            margin="normal"
-            label="Name"
-            name="name"
-            value={editData.name}
-            onChange={handleInputChange}
-          />
-          <TextField
-            label="Email"
-            name="email"
-            variant="outlined"
-            className="bg-[#ffffff] rounded-sm"
-            value={editData.email}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="flex flex-col m-3">
+            <TextField
+              fullWidth
+              required
+              margin="normal"
+              label="Name"
+              name="name"
+              value={editData.name}
+              onChange={handleInputChange}
+            />
+            <TextField
+              label="Email"
+              name="email"
+              variant="outlined"
+              className="bg-[#ffffff] rounded-sm"
+              value={editData.email}
+              onChange={handleInputChange}
+              required
+            />
+            <div className="flex flex-col justify-center items-center pt-2">
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Key"
+                name="key"
+                checked={editData.key}
+                onChange={handleInputChange}
+              />
+              <div className="flex flex-row">
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Open Till"
+                  name="openTill"
+                  checked={editData.openTill}
+                  onChange={handleInputChange}
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Close Till"
+                  name="closeTill"
+                  checked={editData.closeTill}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex flex-row">
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Open Bar"
+                  name="openBar"
+                  checked={editData.openBar}
+                  onChange={handleInputChange}
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Close Bar"
+                  name="closeBar"
+                  checked={editData.closeBar}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Key"
-            name="key"
-            checked={editData.key}
-            onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Open Till"
-            name="openTill"
-            checked={editData.openTill}
-            onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Close Till"
-            name="closeTill"
-            checked={editData.closeTill}
-            onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Open Bar"
-            name="openBar"
-            checked={editData.openBar}
-            onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Close Bar"
-            name="closeBar"
-            checked={editData.closeBar}
-            onChange={handleInputChange}
-          />
-          <textarea
-            placeholder="Note"
-            label="Note"
-            name="note"
-            className="bg-[#ffffff] rounded-sm min-h-16 max-h-32 leading-5"
-            value={editData.note}
-            onChange={handleInputChange}
-          />
+              <div className="mt-3 w-full">
+                <p>Note:</p>{" "}
+                <textarea
+                  placeholder="Note"
+                  label="Note"
+                  name="note"
+                  className="bg-[#ffffff] rounded-sm min-h-16 max-h-32 leading-5 border p-1  w-full"
+                  value={editData.note}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+          </div>
           {/* Add other fields as needed */}
           <div className="flex justify-end mt-4">
             <Button onClick={handleModalClose} color="secondary">
