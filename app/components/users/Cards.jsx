@@ -18,6 +18,7 @@ import Checkbox from "@mui/material/Checkbox";
 const Cards = ({ user, fetchUsers }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editData, setEditData] = useState(user);
+  const [open, setOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
@@ -70,6 +71,10 @@ const Cards = ({ user, fetchUsers }) => {
       console.error("Error updating user:", error);
       Notify("Error deleting user", "error");
     }
+  };
+
+  const handleDeleteCheck = () => {
+    <AlertDialog open={open} />;
   };
 
   const handleDelete = async () => {
@@ -286,7 +291,8 @@ const Cards = ({ user, fetchUsers }) => {
               Save
             </Button>
             <Button
-              onClick={handleDelete}
+              // onClick={handleDelete}
+              onClick={handleDeleteCheck}
               color="error"
               variant="contained"
               sx={{ ml: 2 }}
@@ -301,3 +307,51 @@ const Cards = ({ user, fetchUsers }) => {
 };
 
 export default Cards;
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+function AlertDialog({ open }) {
+  // const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
