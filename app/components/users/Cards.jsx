@@ -15,10 +15,16 @@ import Note from "./Note";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 const Cards = ({ user, fetchUsers }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editData, setEditData] = useState(user);
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
@@ -73,8 +79,12 @@ const Cards = ({ user, fetchUsers }) => {
     }
   };
 
-  const handleDeleteCheck = () => {
-    <AlertDialog open={open} />;
+  const handleDeleteClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
   };
 
   const handleDelete = async () => {
@@ -104,6 +114,7 @@ const Cards = ({ user, fetchUsers }) => {
       console.error("Error deleting user:", error);
       Notify("Error deleting user", "error");
     }
+    handleDialogClose(); // ダイアログを閉じる
   };
 
   return (
@@ -292,7 +303,7 @@ const Cards = ({ user, fetchUsers }) => {
             </Button>
             <Button
               // onClick={handleDelete}
-              onClick={handleDeleteCheck}
+              onClick={handleDeleteClick}
               color="error"
               variant="contained"
               sx={{ ml: 2 }}
@@ -302,56 +313,29 @@ const Cards = ({ user, fetchUsers }) => {
           </div>
         </Box>
       </Modal>
-    </>
-  );
-};
 
-export default Cards;
-
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-
-function AlertDialog({ open }) {
-  // const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={dialogOpen}
+        onClose={handleDialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delete User?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            Are you sure you want to delete this user? This action cannot be
+            undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button onClick={handleDelete} color="error" autoFocus>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
     </>
   );
-}
+};
+
+export default Cards;
