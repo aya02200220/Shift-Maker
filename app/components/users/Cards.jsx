@@ -294,14 +294,6 @@ const Cards = ({ user, fetchUsers }) => {
               Cancel
             </Button>
             <Button
-              onClick={handleFormSubmit}
-              color="primary"
-              variant="contained"
-              sx={{ ml: 2 }}
-            >
-              Save
-            </Button>
-            <Button
               // onClick={handleDelete}
               onClick={handleDeleteClick}
               color="error"
@@ -309,6 +301,14 @@ const Cards = ({ user, fetchUsers }) => {
               sx={{ ml: 2 }}
             >
               Delete
+            </Button>
+            <Button
+              onClick={handleFormSubmit}
+              color="primary"
+              variant="contained"
+              sx={{ ml: 2 }}
+            >
+              Save
             </Button>
           </div>
         </Box>
